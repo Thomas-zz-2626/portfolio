@@ -1,0 +1,137 @@
+.hero {
+  height: 100vh;
+  min-height: 700px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 38%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(0,0,0,0.015));
+  pointer-events: none;
+}
+
+.hero__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 80px;
+  width: 100%;
+}
+
+.hero__kicker {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.hero__line {
+  display: block;
+  width: 48px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.5;
+}
+
+.hero__label {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.hero__title {
+  font-family: var(--font);
+  font-size: clamp(56px, 7vw, 140px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: 36px;
+}
+
+.hero__subtitle {
+  font-size: clamp(16px, 1.5vw, 22px);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 480px;
+}
+
+.hero__scroll {
+  position: absolute;
+  bottom: 48px;
+  left: 80px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero__scroll-text {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.hero__scroll-bar {
+  display: block;
+  width: 1px;
+  height: 48px;
+  background: var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero__scroll-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 16px;
+  background: var(--text-muted);
+  animation: scrollHint 2s ease-in-out infinite;
+}
+
+@keyframes scrollHint {
+  0%, 100% { transform: translateY(0); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(32px); opacity: 0; }
+}
+
+@media (max-width: 1024px) {
+  .hero__inner {
+    padding: 0 40px;
+  }
+  .hero__scroll {
+    left: 40px;
+    bottom: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero__inner {
+    padding: 0 24px;
+  }
+  .hero__scroll {
+    left: 24px;
+    bottom: 24px;
+  }
+  .hero::before {
+    width: 100%;
+    height: 30%;
+    top: auto;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.02), transparent);
+  }
+}
