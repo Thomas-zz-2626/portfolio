@@ -4,11 +4,13 @@ function Navbar({ scrolled }) {
   return (
     <nav className={`navbar${scrolled ? ' navbar--scrolled' : ''}`}>
       <div className="navbar__inner">
-        <a href="#hero" className="navbar__logo">CHEN WEI</a>
+        <a href="#hero" className="navbar__logo">
+          PORTFOL<span className="navbar__logo-dot">i</span>O
+        </a>
         <ul className="navbar__links">
-          <li><a href="#projects">工作</a></li>
-          <li><a href="#about">关于</a></li>
-          <li><a href="#contact">接触</a></li>
+          <li><a href="#about">介绍</a></li>
+          <li><a href="#projects">作品</a></li>
+          <li><a href="#contact">联系</a></li>
         </ul>
       </div>
     </nav>

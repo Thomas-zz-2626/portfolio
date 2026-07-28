@@ -3,8 +3,11 @@
   min-height: 700px;
   display: flex;
   align-items: center;
+  justify-content: center;
   position: relative;
-  background: var(--surface);
+  background:
+    radial-gradient(ellipse 600px 400px at 50% 0%, rgba(0,0,0,0.04), transparent),
+    var(--surface);
   overflow: hidden;
 }
 
@@ -21,14 +24,16 @@
 
 .hero__inner {
   max-width: var(--max-width);
-  margin: 0 auto;
+  margin: -4vh auto 0;
   padding: 0 80px;
   width: 100%;
+  text-align: center;
 }
 
 .hero__kicker {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 16px;
   margin-bottom: 48px;
 }
@@ -53,27 +58,80 @@
   font-family: var(--font);
   font-size: clamp(56px, 7vw, 140px);
   font-weight: 600;
-  line-height: 1.05;
+  line-height: 1.2;
   letter-spacing: -0.03em;
   color: var(--text-primary);
-  margin-bottom: 36px;
+  margin-bottom: 20px;
+  overflow: visible;
+}
+
+.hero__title-text {
+  display: block;
+  overflow: visible;
+}
+
+.hero__title-word {
+  display: inline-block;
+  will-change: transform;
+}
+
+.hero__title-word--sm {
+  font-size: 0.6em;
+}
+
+.hero__title-word--lg {
+  font-size: 1.08em;
+}
+
+.hero__title-word--outline {
+  -webkit-text-stroke: 2px var(--accent);
+  color: transparent;
+  paint-order: stroke fill;
+  transition: color 0.4s ease, -webkit-text-stroke 0.4s ease;
+}
+
+.hero__title-word--fill {
+  -webkit-text-stroke: 0;
+  color: var(--accent);
+}
+
+/* Initial animation states — prevent FOUC */
+.hero__inner {
+  opacity: 0;
+}
+.hero__kicker {
+  opacity: 0;
+}
+.hero__label {
+  opacity: 0;
+}
+.hero__title-text {
+  opacity: 0;
+}
+.hero__subtitle {
+  opacity: 0;
+}
+.hero__scroll {
+  opacity: 0;
 }
 
 .hero__subtitle {
-  font-size: clamp(16px, 1.5vw, 22px);
+  font-size: clamp(14px, 1.2vw, 18px);
   font-weight: 400;
   line-height: 1.6;
-  color: var(--text-secondary);
-  max-width: 480px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
 }
 
 .hero__scroll {
   position: absolute;
   bottom: 48px;
-  left: 80px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .hero__scroll-text {
@@ -113,10 +171,6 @@
   .hero__inner {
     padding: 0 40px;
   }
-  .hero__scroll {
-    left: 40px;
-    bottom: 32px;
-  }
 }
 
 @media (max-width: 640px) {
@@ -124,8 +178,10 @@
     padding: 0 24px;
   }
   .hero__scroll {
-    left: 24px;
     bottom: 24px;
+  }
+  .hero__title-word--outline {
+    -webkit-text-stroke: 1.2px var(--accent);
   }
   .hero::before {
     width: 100%;

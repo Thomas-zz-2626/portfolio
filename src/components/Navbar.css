@@ -4,27 +4,24 @@
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 28px 0;
-  /* 半透明纯白底色，底部渐变消失——无缝融入下方内容 */
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.5) 0%,
-    rgba(255, 255, 255, 0.4) 60%,
-    rgba(255, 255, 255, 0.08) 95%,
-    transparent 100%
-  );
-  /* 无毛玻璃、无边框、无阴影 */
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  padding: 24px 0;
+  /* 全透明——导航栏颜色完全来自背景折射，不加任何白色底色 */
+  background: rgba(255, 255, 255, 0);
+  /* 液态玻璃折射：模糊营造透镜感，背景色透过模糊自然呈现 */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   border-bottom: none;
   box-shadow: none;
-  transition: background 0.45s ease, box-shadow 0.45s ease, padding 0.45s ease;
+  /* mask 从顶部开始渐变，越往下越透，底部完全透明 */
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  transition: background 0.45s ease, backdrop-filter 0.45s ease, box-shadow 0.45s ease, padding 0.45s ease;
 }
 
-/* 滚动后：不透明纯白 + 极柔和阴影 */
 .navbar--scrolled {
-  background: rgba(255, 255, 255, 1);
-  box-shadow: 0 1px 24px rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
   padding: 16px 0;
 }
 
@@ -46,6 +43,10 @@
 }
 
 .navbar__logo:hover {
+  color: var(--text-secondary);
+}
+
+.navbar__logo-dot {
   color: var(--accent);
 }
 

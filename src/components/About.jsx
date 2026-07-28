@@ -1,24 +1,21 @@
 import { useState } from 'react'
+import { useGsapContext } from '../hooks/useGsapContext'
+import { createAboutReveal } from '../animations'
 import './About.css'
 
 const STATS = [
-  { number: '8+', label: 'Years Experience' },
-  { number: '60+', label: 'Projects Completed' },
-  { number: '15+', label: 'Awards Won' },
-  { number: '30+', label: 'Global Clients' },
-]
-
-const CONTACTS = [
-  { label: 'Email', value: 'hello@chenwei.design' },
-  { label: 'Location', value: 'Shanghai, China' },
-  { label: 'WeChat', value: 'chenwei_design' },
+  { number: '2', label: 'Years Experience' },
+  { number: '30+', label: 'Projects Completed' },
+  { number: '1w+', label: 'Sales Volume' },
+  { number: '500w+', label: 'Sales Revenue' },
 ]
 
 function About() {
   const [imgError, setImgError] = useState(false)
+  const containerRef = useGsapContext(createAboutReveal, [])
 
   return (
-    <section id="about" className="about">
+    <section id="about" className="about" ref={containerRef}>
       <div className="about__inner">
         <div className="about__header">
           <span className="about__section-label">About</span>
@@ -46,8 +43,8 @@ function About() {
           </div>
 
           <div className="about__content">
-            <h2 className="about__name">Chen Wei</h2>
-            <p className="about__role">Industrial Designer & Design Strategist</p>
+            <h2 className="about__name">唐梓铮</h2>
+            <p className="about__role">Industrial Designer</p>
             <p className="about__bio">
               专注于产品设计与品牌体验，善于在功能与美学之间寻找平衡点。
               从消费电子到家居用品，从概念探索到量产落地，
@@ -55,14 +52,6 @@ function About() {
               相信好的设计不需要解释——它自然地融入生活，让一切变得更简单、更美好。
             </p>
 
-            <div className="about__contacts">
-              {CONTACTS.map((c) => (
-                <div key={c.label} className="about__contact-item">
-                  <span className="about__contact-label">{c.label}</span>
-                  <span className="about__contact-value">{c.value}</span>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
 
