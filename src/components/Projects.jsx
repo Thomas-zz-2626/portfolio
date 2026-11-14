@@ -14,7 +14,7 @@ const CATEGORIES = [
         id: 'pen',
         label: '笔',
         items: [
-          { id: 'pen-1', title: '素翰', image: OSS + '/images/edc/pen-1/1.png', heroVideo: OSS + '/images/edc/pen-1/hero.mp4', tagline: ['口袋藏笔墨', '钛制见风骨'], year: '2026', duration: '8 周', type: '文具设计', skills: '概念 · 手绘 · 建模渲染 · 方案评估 · 打样落地', heroBg: 'dark', heroClass: 'brush', brief: '传统毛笔笔触与现代钢笔形态的融合', metaImage: OSS + '/images/edc/pen-1/2.png', metaLink: 'https://www.kickstarter.com/projects/419657217/still-a-titanium-brush-pen-that-slows-you-down?ref=discover_saved_projects&category_id=28', fullPageImage: OSS + '/images/edc/pen-1/6.png',
+          { id: 'pen-1', title: '素翰', image: OSS + '/images/edc/pen-1/1.png', heroVideo: OSS + '/images/edc/pen-1/hero.mp4', tagline: ['口袋藏笔墨', '钛制见风骨'], year: '2026', duration: '20 周', type: '文具设计', skills: '概念 · 手绘 · 建模渲染 · 方案评估 · 打样落地', heroBg: 'dark', heroClass: 'brush', brief: '传统毛笔笔触与现代钢笔形态的融合', metaImage: OSS + '/images/edc/pen-1/2.png', metaLink: 'https://www.kickstarter.com/projects/419657217/still-a-titanium-brush-pen-that-slows-you-down?ref=discover_saved_projects&category_id=28', fullPageImage: OSS + '/images/edc/pen-1/6.png',
           // Closing images — full-bleed (edge to edge) and shown at their own
           // aspect ratio, so a tall one runs over several screens.
           endImages: [{ src: OSS + '/images/edc/pen-1/11-hd.webp', w: 2560, h: 3429 }],
