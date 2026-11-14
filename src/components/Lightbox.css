@@ -2828,11 +2828,43 @@
   -webkit-mask-image: none;
   mask-image: none;
 }
+/* 「棱光」半页与图 6 之间的小图 6-0(2026-11-15 用户要求):黑底延续、
+   居中;宽度比标题两个字大一点——标题 2 字≈2em(clamp(26,4.5vw,56)),
+   取 2.5em 同档缩放 = clamp(65,11.25vw,140),随标题四档联动 */
+.lightbox__pen2-mid {
+  background: #000;
+  display: flex;
+  justify-content: center;
+  padding: clamp(16px, 3vh, 40px) 0; /* 与半页、图 6 之间留呼吸空间 */
+}
+.lightbox__pen2-mid-img {
+  display: block;
+  width: clamp(65px, 11.25vw, 140px);
+  height: auto;
+  aspect-ratio: 2400 / 1792; /* 6-0 原图画幅,防 CLS */
+}
+/* 图 6 与视频 11 之间的小字(2026-11-15 用户要求):黑底、居中对齐;
+   上下留白 clamp(24,4vh,48) 承担图 6→视频的间隔 */
+.lightbox__pen2-note {
+  background: #000;
+  padding: clamp(24px, 4vh, 48px) clamp(24px, 6vw, 64px);
+}
+.lightbox__pen2-note p {
+  margin: 0 auto;
+  max-width: 1000px;
+  text-align: center;
+  font-family: var(--font);
+  font-size: clamp(15px, 1.4vw, 18px);
+  font-weight: var(--fw-body);
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+  color: #f5f5f5;
+  white-space: pre-line; /* 数据内 \n 换行 */
+}
 /* 图 6 下方视频 11(2026-11-15 用户要求):版心宽度 min(1400,vw−48) 居中、
-   与图 6 间隔同卡内图文间距 clamp(24,4vh,48)、圆角 8px、黑底延续收尾区 */
+   圆角 8px、黑底延续收尾区;与图 6 的间隔改由上方小字板块 padding 承担 */
 .lightbox__pen2-closing-video {
   background: #000;
-  margin-top: clamp(24px, 4vh, 48px);
 }
 .lightbox__pen2-closing-video-el {
   display: block;

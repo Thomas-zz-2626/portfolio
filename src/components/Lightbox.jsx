@@ -779,6 +779,24 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
               <section className="lightbox__pen2-closing">
                 <h2 className="lightbox__pen2-closing-title">{project.closingTitle2}</h2>
               </section>
+              {/* ── 「棱光」标题与图 6 之间的小图 6-0(2026-11-15 用户要求):
+                  居中,宽度比标题两个字大一点(标题 2 字≈2em,取 2.5em 同档缩放)── */}
+              {project.midImage && (
+                <section className="lightbox__pen2-mid">
+                  <img
+                    className="lightbox__pen2-mid-img"
+                    src={project.midImage}
+                    srcSet={getSrcSet(project.midImage)}
+                    sizes="clamp(65px, 11.25vw, 140px)"
+                    alt="棱光"
+                    loading="lazy"
+                    decoding="async"
+                    style={getLqip(project.midImage)
+                      ? { backgroundImage: `url(${getLqip(project.midImage)})`, backgroundSize: 'cover' }
+                      : undefined}
+                  />
+                </section>
+              )}
               <section className="lightbox__pen2-closing-image lightbox__pen2-closing-image--6">
                 <img
                   src={project.pageImage3}
@@ -792,8 +810,16 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
                     : undefined}
                 />
               </section>
+              {/* ── 图 6 与视频 11 之间的小字(2026-11-15 用户要求):
+                  黑底、居中对齐 ── */}
+              {project.closingNote && (
+                <section className="lightbox__pen2-note">
+                  <p>{project.closingNote}</p>
+                </section>
+              )}
               {/* ── 图 6 下方视频 11(2026-11-15 用户要求):版心宽度、
-                  与图 6 有间隔;黑底延续收尾区;reduced-motion 不自动播 ── */}
+                  与图 6 有间隔(现间隔由上方小字板块承担);黑底延续收尾区;
+                  reduced-motion 不自动播 ── */}
               {project.closingVideo && (
                 <section className="lightbox__pen2-closing-video">
                   <video
