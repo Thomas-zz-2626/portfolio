@@ -2760,6 +2760,17 @@
   background-repeat: no-repeat;
   background-position: center; /* LQIP 居中同盒,不染污留白 */
 }
+/* 手机竖屏(2026-11-14 用户要求):整页不再只装一张图留大片空黑边,
+   高度按原图比例自然显示(通栏贴边),上方 CMF 台阶页同规则 */
+@media (max-width: 639px) {
+  .lightbox__page-image {
+    height: auto;
+  }
+  .lightbox__page-image img {
+    height: auto;
+    aspect-ratio: 2702 / 1536; /* 原图比例,防 CLS */
+  }
+}
 
 /* ── 「页面宽度」规则(2026-11-14 用户规则):页面宽度的单行大图/视频
    在窄设备(≤767)左右贴边通栏、无圆角;≥768 桌面/平板版心不变。

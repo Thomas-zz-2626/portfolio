@@ -156,16 +156,22 @@
     text-align: center;
   }
 }
-/* ── 静态降级(reduced-motion / 矮视口 <560px):黑带标题 + 六行图文 ── */
+/* ── 静态降级(reduced-motion / 矮视口 <560px / 手机竖屏 <640):紧凑标题 + 六行图文 ──
+   2026-11-14 用户要求:标题不再单独占 25vh 黑带一页,紧凑放在图组上方;
+   手机竖屏整页只有一张图留大片空黑边也不可取,统一走常规滚动。 */
 .cmfsteps--static {
   padding-bottom: clamp(48px, 8vh, 96px);
 }
 .cmfsteps--static .cmfsteps__band-title {
   position: relative; /* span 定位锚点 */
-  height: 25dvh;
+  height: auto; /* 不再 25dvh 黑带(2026-11-14) */
   margin-top: 0;
-  top: 0; /* 重置粘性 top:calc(64px−12.5vh)——relative 下 top 会整体上移 48.5px,
-            导致静态黑带文字偏离 25vh 带中心(2026-11-14 修) */
+  top: 0;
+  padding: clamp(40px, 10vw, 72px) 0 clamp(24px, 6vw, 40px);
+}
+.cmfsteps--static .cmfsteps__band-title > span {
+  position: static; /* 随流排版,不再是绝对定位在带中心 */
+  transform: none;
 }
 .cmfsteps__rows {
   /* 页面宽度(与面板同,2026-11-12) */

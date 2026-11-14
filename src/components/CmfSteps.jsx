@@ -47,6 +47,9 @@
 //       故删除快滚抑制。
 // 响应式:手机 <640 单列(图上文下);矮视口(<560px)/reduced-motion
 //       退化为静态:黑带标题 + 六行图文纵向排列,内容完整呈现。
+// 2026-11-14 用户要求:手机竖屏(<640)不再整页只有一张图(contain 竖屏
+//       留大片空黑边)——直接走静态常规滚动:紧凑标题(不占 25vh 黑带)
+//       + 六行图上文下,无钉住、无整屏。
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react'
 import { getLqip, getSrcSet, SIZES } from '../imageSrc'
@@ -67,14 +70,25 @@ export default function CmfSteps({ title, steps = [], scrollContainerRef }) {
   const [shortViewport, setShortViewport] = useState(
     () => window.matchMedia('(max-height: 560px)').matches
   )
+  // 手机竖屏(<640):2026-11-14 用户要求换显示方法,静态常规滚动
+  const [phoneLayout, setPhoneLayout] = useState(
+    () => window.matchMedia('(max-width: 639px)').matches
+  )
   const [step, setStep] = useState(0)
   // 图/文出现门控:标题文本中心到达视口中部(0.5h)起为 true
   const [shown, setShown] = useState(false)
-  const staticMode = !!reducedMotion || shortViewport
+  const staticMode = !!reducedMotion || shortViewport || phoneLayout
 
   useEffect(() => {
     const mq = window.matchMedia('(max-height: 560px)')
     const onChange = () => setShortViewport(mq.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 639px)')
+    const onChange = () => setPhoneLayout(mq.matches)
     mq.addEventListener('change', onChange)
     return () => mq.removeEventListener('change', onChange)
   }, [])
