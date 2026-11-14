@@ -772,8 +772,8 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
           )}
 
           {/* ── 图 5 之后(2026-11-15 用户要求):再来半页大标题「棱光」
-              居中;图 6 与图 5 同规——页面宽度左右贴边、响应式缩放、
-              完整显示(静态无动效,四档同布局)── */}
+              居中;图 6 版心宽度(2026-11-15 用户改:min(1400,vw−48)
+              居中,响应式缩放、完整显示,静态无动效,四档同布局)── */}
           {project.id === 'pen-2' && project.pageImage3 && (
             <>
               <section className="lightbox__pen2-closing">
@@ -783,7 +783,7 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
                 <img
                   src={project.pageImage3}
                   srcSet={getSrcSet(project.pageImage3)}
-                  sizes={SIZES.full}
+                  sizes={SIZES.board}
                   alt="棱光钢笔全貌展示图"
                   loading="lazy"
                   decoding="async"

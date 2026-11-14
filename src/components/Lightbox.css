@@ -2818,6 +2818,11 @@
 /* 图 6(2026-11-15 用户要求):与图 5 同规贴边等比完整,画幅不同 */
 .lightbox__pen2-closing-image--6 img {
   aspect-ratio: 1583 / 1178; /* 图 6 原图画幅,防 CLS */
+  /* 2026-11-15 用户改:图 6 版心宽度 min(1400,vw−48) 居中(卡片内版心
+     1400 规则),响应式缩放完整显示;非贴边故圆角 8px(全站图片规则) */
+  width: min(1400px, calc(100vw - 48px));
+  margin: 0 auto;
+  border-radius: 8px;
   /* 图 6 顶部不需要渐变(2026-11-15 用户要求):关闭图 5 的顶部融合 mask,
      完整显示;-webkit- 在前防压缩器吞标准声明 */
   -webkit-mask-image: none;
