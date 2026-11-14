@@ -2,6 +2,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
+// 全站 <768 响应式适配:最后导入,覆盖同特异性规则(2026-11-14 用户要求)
+import './responsive.css'
 
 // 滚动触发动效系统:初始隐藏必须且只能由 JS 存活时生效——
 // 在首帧渲染前同步给 <html> 加类,index.css 里所有 opacity:0 都限定在

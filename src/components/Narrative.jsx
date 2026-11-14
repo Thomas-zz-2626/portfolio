@@ -24,6 +24,7 @@ function Narrative({ narrative }) {
     const scrollEl = root.closest('.lightbox__scroll')
     if (!scrollEl) return
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      || window.matchMedia('(max-width: 767px)').matches // 2026-11-14:手机禁用滚动动效
 
     // ── Card entrances — IO per card, 100ms stagger between neighbours ──
     const cards = [...root.querySelectorAll('.narrative__card-inner')]

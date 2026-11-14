@@ -1,0 +1,83 @@
+/* ═══════ 全站 <768px 响应式适配(2026-11-14 用户要求:全端响应式) ═══════
+   只新增本媒体查询,≥768px 原有样式一律不动(桌面/平板效果完整保留)。
+   main.jsx 最后 import 本文件,同特异性规则覆盖各组件原有样式。
+
+   全局规则(用户):
+   · 关闭所有 position:sticky 定格;
+   · 取消 100vh 强制全屏区块;
+   · 容器版心 max-width:1400px,左右 padding 16px 不贴边;
+   · flex/grid 图文模块竖向堆叠;
+   · 禁止横向滚动;
+   · JS 滚动动效(定格/视差/图文联动)在 <768 由各模块 matchMedia
+     判断禁用(见 CmfSteps/ScrollWordReveal/FinalStack/Narrative),
+     reveal 入场动效由下方 CSS 强制终态直显(双保险)。
+   棱光 CmfSteps 板块另有两档断点:≥1024 保留定格动效;768–1023
+   横向静态行;<768 竖向堆叠(见 CmfSteps.jsx/css)。 */
+
+@media (max-width: 767px) {
+  /* 1) 全局关闭 position:sticky 定格 */
+  .cmfsteps__band-title,
+  .cmfsteps__stage,
+  .finalpres__showcase-text,
+  .lightbox__showcase-text,
+  .lightbox__first-meta-pin,
+  .lightbox__finalstack-title,
+  .lightbox__finalstack-wrap,
+  .swr__inner,
+  .swr:not(.swr--static) .swr__media {
+    position: static !important;
+    top: auto !important;
+    will-change: auto !important;
+  }
+
+  /* 2) 取消 100vh 强制全屏区块(内容自然随流) */
+  .hero {
+    height: auto;
+    min-height: 0;
+  }
+  .footer {
+    height: auto;
+    min-height: 0;
+  }
+
+  /* 3) 容器:版心 1400 上限 + 左右 16px,内容不贴边 */
+  .container {
+    max-width: 1400px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  /* 4) 图文网格/双栏统一转竖向堆叠 */
+  .about__body,
+  .projects__card,
+  .engder__row,
+  .finalpres__grid,
+  .finalpres__showcase-split,
+  .lightbox__showcase-split,
+  .lightbox__showcase-grid,
+  .lightbox__compact-grid,
+  .lightbox__compact-grid2,
+  .lightbox__research-inner--side,
+  .lightbox__research-inner--side-reverse,
+  .formder__row,
+  .lightbox__charts-grid,
+  .finalpres__showcase-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 5) reveal 入场动效全部直显(强制终态,内容不依赖 JS 即完整可见) */
+  html.js-reveal [data-reveal],
+  html.js-reveal [data-reveal-group] > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* 6) 禁止横向滚动(html 全局已有 overflow-x:clip,双保险) */
+  body {
+    overflow-x: clip;
+  }
+  img,
+  video {
+    max-width: 100%;
+  }
+}

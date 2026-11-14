@@ -157,32 +157,11 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
   const [reducedMotion, setReducedMotion] = useState(
     () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
   )
-  // ── 移动端拦截弹窗(2026-11-14 用户要求,pen-2 棱光专属):宽度 <1024px
-  //    (2026-11-14 用户改:断点 768→1024)整页只显示提示弹窗,隐藏图片/
-  //    标题/图注等全部页面内容;window resize 实时监听(useEffect + JS
-  //    判断,用户指定不用 CSS 媒体查询替代),拉大 ≥1024px 弹窗自动消失、
-  //    恢复页面正常内容;右上角叉号可关闭(仅当次,拉大到 ≥1024 后重置,
-  //    再缩回时重新提示)。 ──
-  const [isNarrow, setIsNarrow] = useState(() => window.innerWidth < 1024)
-  const [blockDismissed, setBlockDismissed] = useState(false)
   // 展开显示完整过程(2026-11-07 用户要求):背景.png 衔接处下方的居中箭头,
   // 点击一次性展开其后的两张图(占位待替换);现有内容不收起;
   // 切换卡片时重置收起态
   const [processExpanded, setProcessExpanded] = useState(false)
-  useEffect(() => { setProcessExpanded(false); setBlockDismissed(false) }, [project.id])
-
-  useEffect(() => {
-    const check = () => {
-      const narrow = window.innerWidth < 1024
-      setIsNarrow(narrow)
-      if (!narrow) setBlockDismissed(false) // 拉大后重置,再缩回时重新提示
-    }
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
-  }, [])
-
-  const mobileBlocked = project.id === 'pen-2' && isNarrow && !blockDismissed
+  useEffect(() => { setProcessExpanded(false) }, [project.id])
 
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 639px)')
@@ -521,7 +500,7 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
   }, [project.id, project.firstFade])
 
   return (
-    <div className={`lightbox${visible ? ' lightbox--visible' : ''}${closing ? ' lightbox--closing' : ''}${mobileBlocked ? ' lightbox--mobile-blocked' : ''}`}>
+    <div className={`lightbox${visible ? ' lightbox--visible' : ''}${closing ? ' lightbox--closing' : ''}`}>
       {/* Backdrop */}
       <div className="lightbox__backdrop" onClick={handleClose} />
 
@@ -537,34 +516,6 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
           <line x1="21" y1="7" x2="7" y2="21" />
         </svg>
       </button>
-
-      {/* ── 移动端拦截弹窗(2026-11-14 用户要求,pen-2 棱光专属):<1024px
-          只保留提示弹窗——黑色半透明遮罩铺满全屏、白色文字居中、层级
-          最高 z-50 语义;原本的图片/标题/图注等全部页面内容由 CSS
-          display:none 隐藏(lightbox--mobile-blocked),只保留提示弹窗。
-          叉号右上角可关闭(仅当次),resize ≥1024 自动消失恢复内容。 ── */}
-      {mobileBlocked && (
-        <div
-          className="lightbox__mobile-block"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="lightbox-mobile-block-title"
-        >
-          <button
-            type="button"
-            className="lightbox__mobile-block-close"
-            onClick={() => setBlockDismissed(true)}
-            aria-label="关闭提示"
-          >
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-              <line x1="4" y1="4" x2="14" y2="14" />
-              <line x1="14" y1="4" x2="4" y2="14" />
-            </svg>
-          </button>
-          <h2 id="lightbox-mobile-block-title" className="lightbox__mobile-block-title">请在电脑端浏览</h2>
-          <p className="lightbox__mobile-block-text">本页面为横版展示内容，移动端暂不支持查看，请切换至电脑打开获得完整浏览效果</p>
-        </div>
-      )}
 
       {/* Animated container */}
       <div className="lightbox__content" ref={contentRef}>

@@ -87,15 +87,16 @@ export default function ScrollWordReveal({ text, images = [], kicker = '滚动�
   const [shortViewport, setShortViewport] = useState(
     () => window.matchMedia('(max-height: 560px)').matches
   )
-  // 手机(<640):长文不塞进 100svh 面板,图区吸附视口顶部、文字流动
+  // 手机(<768):长文不塞进 100svh 面板,图区吸附视口顶部、文字流动;
+  //   2026-11-14 用户:全站 <768 禁用 JS 滚动定格动效 → 静态排版
   const [isMobile, setIsMobile] = useState(
-    () => window.matchMedia('(max-width: 640px)').matches
+    () => window.matchMedia('(max-width: 767px)').matches
   )
-  const staticMode = !!reducedMotion || shortViewport
+  const staticMode = !!reducedMotion || shortViewport || isMobile
 
   useEffect(() => {
     const mqShort = window.matchMedia('(max-height: 560px)')
-    const mqMobile = window.matchMedia('(max-width: 640px)')
+    const mqMobile = window.matchMedia('(max-width: 767px)')
     const onChange = () => {
       setShortViewport(mqShort.matches)
       setIsMobile(mqMobile.matches)

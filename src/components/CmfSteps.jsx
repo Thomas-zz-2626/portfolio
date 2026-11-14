@@ -70,14 +70,26 @@ export default function CmfSteps({ title, steps = [], scrollContainerRef }) {
   const [shortViewport, setShortViewport] = useState(
     () => window.matchMedia('(max-height: 560px)').matches
   )
+  // 2026-11-14 用户:全站响应式——<1024px 关闭 sticky 定格滚动动效,
+  // 图片区块正常随流滚动(平板横向行、手机竖向堆叠,见 CmfSteps.css)
+  const [isNarrow, setIsNarrow] = useState(
+    () => window.matchMedia('(max-width: 1023px)').matches
+  )
   const [step, setStep] = useState(0)
   // 图/文出现门控:标题文本中心到达视口中部(0.5h)起为 true
   const [shown, setShown] = useState(false)
-  const staticMode = !!reducedMotion || shortViewport
+  const staticMode = !!reducedMotion || shortViewport || isNarrow
 
   useEffect(() => {
     const mq = window.matchMedia('(max-height: 560px)')
     const onChange = () => setShortViewport(mq.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 1023px)')
+    const onChange = () => setIsNarrow(mq.matches)
     mq.addEventListener('change', onChange)
     return () => mq.removeEventListener('change', onChange)
   }, [])
@@ -120,10 +132,8 @@ export default function CmfSteps({ title, steps = [], scrollContainerRef }) {
     return () => cont.removeEventListener('scroll', update)
   }, [staticMode, scrollContainerRef])
 
-  // 图片一次性预载:台阶切换即显示,不闪空白;移动端拦截弹窗显示时
-  // 内容 display:none,跳过预载省流量(关闭弹窗后切换按需加载,LQIP 兜底)
+  // 图片一次性预载:台阶切换即显示,不闪空白(LQIP 兜底)
   useEffect(() => {
-    if (targetRef.current?.closest('.lightbox--mobile-blocked')) return
     steps.forEach((s) => {
       const im = new Image()
       im.src = s.image

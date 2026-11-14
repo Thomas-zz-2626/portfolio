@@ -221,9 +221,9 @@
   letter-spacing: 0.02em;
   color: #e6e6e6;
 }
-@media (max-width: 639px) {
+@media (max-width: 767px) {
   .cmfsteps__row {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* 手机 <768 竖向堆叠(2026-11-14 用户改:640→768) */
     gap: clamp(16px, 3vh, 24px);
   }
 }

@@ -30,6 +30,7 @@ function FinalStack({ images, title, trailingTitle, trailingImage }) {
 
   useLayoutEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (window.matchMedia('(max-width: 767px)').matches) return // 2026-11-14:手机禁用视差堆叠
     const section = sectionRef.current
     if (!section) return
     const scroller = section.closest('.lightbox__scroll') || window
