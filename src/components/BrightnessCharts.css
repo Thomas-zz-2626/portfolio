@@ -1,0 +1,135 @@
+/* ── 亮度衰减图表区(氚管灯):纯黑固定背景 + 1400px 居中版心 + CSS Grid 卡片 ──
+   (2026-10-21 用户规则:卡片内版心统一 1400,原 1200)
+   外层容器 max-width:1400px、margin:0 auto、左右 24px 内边距;网格 gap 40px:
+   ≥768px 双列(左上夜光管、右上 LED 同排,氚管灯 grid-column:1/-1 通栏),
+   <768px 单列堆叠。每张卡片:8px 圆角 + 纯黑底 + 内部留白(无边框),
+   标题在图表下方居中。背景无任何动画、固定纯黑,与上方图片的黑色渐变衔接。 */
+
+.lightbox__brightness {
+  background: #000000;
+  color: #9ca3af;
+  padding: clamp(48px, 8vh, 96px) 0;
+}
+
+/* 版心容器:超过 1400px 不再放大,左右各留 24px */
+.lightbox__brightness-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+.lightbox__charts-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+@media (min-width: 768px) {
+  .lightbox__charts-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ── 图表卡片 ── */
+.lightbox__chartcard {
+  position: relative;
+  background: #000000;
+  border-radius: 8px;
+  padding: clamp(28px, 4vw, 48px) clamp(20px, 3vw, 36px);
+  box-sizing: border-box;
+  /* 入场:滚动进入视口时上移 24px + 淡入(IO 加 --ready),初始隐藏 */
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.lightbox__chartcard--ready {
+  opacity: 1;
+  transform: none;
+}
+/* 氚管灯卡横跨整行 */
+.lightbox__chartcard--wide {
+  grid-column: 1 / -1;
+}
+/* 桌面同排两张卡错峰入场,避免整行一次性弹出 */
+@media (min-width: 768px) {
+  .lightbox__chartcard--second {
+    transition-delay: 0.15s;
+  }
+}
+
+/* 图表画布:宽度 100% 填满卡片内部,按比例定高(≤767 加高便于读数) */
+.lightbox__chartcard-canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+}
+.lightbox__chartcard--wide .lightbox__chartcard-canvas {
+  aspect-ratio: 16 / 9;
+}
+@media (max-width: 767.98px) {
+  .lightbox__chartcard-canvas,
+  .lightbox__chartcard--wide .lightbox__chartcard-canvas {
+    aspect-ratio: 3 / 2;
+  }
+}
+.lightbox__chartcard-canvas canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 标题在图表下方、与图表视觉居中对齐 */
+.lightbox__chartcard-title {
+  margin: clamp(16px, 2.4vh, 28px) 0 0;
+  font-family: var(--font);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: 0.02em;
+  color: #e5e7eb;
+  text-align: center;
+}
+
+/* 卡下说明文字:块级居中(与上方标题居中对齐),文字本身左对齐——
+   容器 fit-content 收缩到内容宽度 + margin auto 居中;氚管灯卡两段
+   共用同一左缘:第一段普通字档(正文字号),第二段小字档
+   (与夜光管/LED 小字同号),两段左对齐 */
+.lightbox__chartcard-note {
+  margin: clamp(10px, 1.6vh, 16px) auto 0;
+  width: -webkit-fit-content;
+  width: fit-content;
+  max-width: 100%;
+  text-align: left;
+}
+.lightbox__chartcard-note p {
+  margin: 0;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  line-height: 1.8;
+  color: #9ca3af;
+}
+.lightbox__chartcard-note p + p {
+  margin-top: 0.8em;
+}
+.lightbox__chartcard-note--big {
+  margin-top: clamp(12px, 2vh, 20px);
+}
+/* 氚管灯:第一段普通字档(全站正文统一字号),第二段保持小字(与上两卡一致) */
+.lightbox__chartcard-note--big > p:first-child {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-body);
+  line-height: 1.9;
+  color: #d1d5db;
+}
+
+/* reduced-motion:卡片直接完整呈现,无上移无淡入;图表仍按需初始化 */
+@media (prefers-reduced-motion: reduce) {
+  .lightbox__chartcard {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

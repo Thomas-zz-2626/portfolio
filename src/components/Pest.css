@@ -1,0 +1,37 @@
+/* ── PEST 宏观背景分析(2026-10-27 改版)──
+   原 P/E/S/T 卡片手风琴(100vh 居中舞台、字母轨道、展开箱)已替换为
+   AccordionGallery 图片手风琴,卡片交互规则随组件删除。本文件只剩
+   区块外壳与标题样式;画廊样式在 AccordionGallery.css。
+   版心 1400(卡片内统一规则),侧留白 80/40/24 与全站一致。 */
+
+.pest {
+  background: var(--surface);
+}
+
+.pest__inner {
+  max-width: 1400px; /* 卡片内版心统一 1400(用户规则:主页 1700 / 卡片内 1400) */
+  margin: 0 auto;
+  padding: 0 80px;
+}
+
+.pest__heading {
+  margin: 0 0 clamp(28px, 4vh, 44px);
+  text-align: center;
+  font-family: var(--font);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+@media (max-width: 1024px) {
+  .pest__inner {
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .pest__inner {
+    padding: 0 24px;
+  }
+}

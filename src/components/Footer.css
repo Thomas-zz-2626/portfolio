@@ -1,12 +1,12 @@
 .footer {
   height: 100vh;
+  height: 100svh; /* 移动端地址栏收起/展开不再跳动；桌面与 100vh 等价 */
   min-height: 700px;
   display: flex;
   align-items: center;
   background: var(--text-primary);
   color: #ffffff;
   position: relative;
-  overflow: hidden;
 }
 
 .footer::before {
@@ -48,6 +48,9 @@
   margin-bottom: 24px;
   color: #ffffff;
   overflow: visible;
+  padding: 20px 0;
+  position: relative;
+  z-index: 1;
 }
 
 .footer__heading-text {
@@ -81,7 +84,8 @@
 }
 
 .footer__text {
-  font-size: clamp(16px, 1.3vw, 20px);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-body);
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.5);
   margin-bottom: 56px;
@@ -95,12 +99,57 @@
 }
 
 .footer__contact-item {
-  font-size: clamp(16px, 1.3vw, 20px);
-  font-weight: 400;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-body);
   letter-spacing: 0.02em;
   color: rgba(255, 255, 255, 0.7);
   margin: 0;
   line-height: 1.6;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer__copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* 44×44px 触控热区：视觉仍是 28px，伪元素外扩 8px（桌面点击略宽松，无视觉变化） */
+.footer__copy-btn::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+}
+
+.footer__copy-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* 触屏按压反馈（触屏无 hover） */
+.footer__copy-btn:active {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.footer__copy-btn--copied {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(212, 120, 59, 0.15);
 }
 
 /* Bottom */
@@ -113,20 +162,15 @@
 }
 
 .footer__copyright {
-  font-size: 13px;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
   color: rgba(255, 255, 255, 0.35);
 }
 
-/* Initial animation states — prevent FOUC */
-.footer__heading-text { opacity: 0; }
-.footer__text { opacity: 0; }
-.footer__contact-item { opacity: 0; }
-.footer__bottom { opacity: 0; }
-
 @media (max-width: 1024px) {
   .footer__inner {
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: calc(40px + var(--safe-left));
+    padding-right: calc(40px + var(--safe-right));
   }
 }
 
@@ -135,12 +179,37 @@
     min-height: 600px;
   }
   .footer__inner {
-    padding: 100px 24px 32px;
+    padding: 100px calc(24px + var(--safe-right)) calc(32px + var(--safe-bottom)) calc(24px + var(--safe-left));
   }
   .footer__text {
     white-space: normal;
   }
   .footer__bottom {
     padding-top: 32px;
+  }
+}
+
+/* ── 矮窗口（横屏手机 / 拖矮的窗口）：footer 允许超过一屏自然滚动，绝不裁切 ── */
+@media (max-height: 640px) {
+  .footer {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+  .footer__inner {
+    padding-top: 72px;
+    padding-bottom: 24px;
+  }
+  .footer__main {
+    justify-content: flex-start;
+  }
+  .footer__text {
+    margin-bottom: 24px;
+  }
+  .footer__contact-lines {
+    gap: 10px;
+  }
+  .footer__bottom {
+    padding-top: 24px;
   }
 }

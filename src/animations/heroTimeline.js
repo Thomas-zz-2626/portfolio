@@ -11,10 +11,27 @@ import gsap from 'gsap'
  *   2.20s  Scroll indicator fades in
  */
 export function createHeroEntrance(container) {
+  // 「减弱动态效果」：跳过整套编排，直接呈现最终状态。
+  // Hero.css 为防 FOUC 给各元素写了初始 opacity:0，这里必须显式恢复。
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    gsap.set('.hero__inner', { opacity: 1 })
+    gsap.set('.hero__kicker', { opacity: 1 })
+    gsap.set('.hero__line', { scaleX: 1 })
+    gsap.set('.hero__label', { opacity: 1, y: 0 })
+    gsap.set('.hero__title-text', { clipPath: 'inset(0 0 0% 0)', scale: 1, y: 0, opacity: 1 })
+    gsap.set('.hero__subtitle', { opacity: 1, y: 0 })
+    gsap.set('.hero__scroll', { opacity: 0.7 })
+    return gsap.timeline()
+  }
+
   const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
   // Reveal container instantly
   tl.set('.hero__inner', { opacity: 1 })
+
+  // Kicker 包装层的 CSS opacity:0（防 FOUC）没有被任何 tween 揭示——既有 bug。
+  // 在子元素开始动之前恢复：此刻线与标签都还不可见，跳变本身不可见。
+  tl.set('.hero__kicker', { opacity: 1 }, 0.3)
 
   // Kicker line — expand from left
   tl.fromTo(

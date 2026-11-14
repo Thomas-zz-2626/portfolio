@@ -1,5 +1,6 @@
 .hero {
   height: 100vh;
+  height: 100svh; /* 移动端地址栏收起/展开不再跳动；桌面与 100vh 等价 */
   min-height: 700px;
   display: flex;
   align-items: center;
@@ -8,7 +9,6 @@
   background:
     radial-gradient(ellipse 600px 400px at 50% 0%, rgba(0,0,0,0.04), transparent),
     var(--surface);
-  overflow: hidden;
 }
 
 .hero::before {
@@ -47,8 +47,8 @@
 }
 
 .hero__label {
-  font-size: 13px;
-  font-weight: 500;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -63,6 +63,9 @@
   color: var(--text-primary);
   margin-bottom: 20px;
   overflow: visible;
+  padding: 24px 0;
+  position: relative;
+  z-index: 1;
 }
 
 .hero__title-text {
@@ -83,16 +86,30 @@
   font-size: 1.08em;
 }
 
+/* ── 线框 SVG logo(2026-10-22 用户要求)──
+   g 字形真实轮廓为简单闭合曲线(外轮廓+两内孔),无自相交;
+   常态空心描边,hover/鼠标邻近时平滑过渡为实心填充 */
 .hero__title-word--outline {
-  -webkit-text-stroke: 2px var(--accent);
-  color: transparent;
-  paint-order: stroke fill;
-  transition: color 0.4s ease, -webkit-text-stroke 0.4s ease;
+  /* viewBox 底边在基线下 228 单位(见 logoPaths.js):盒底上抬 0.228em,
+     使字形基线与同排「Form / follows」的文字基线重合 */
+  vertical-align: -0.228em;
 }
-
-.hero__title-word--fill {
-  -webkit-text-stroke: 0;
-  color: var(--accent);
+.hero__logo {
+  display: block;
+  height: 1em; /* 随 --lg 字档(1.08em)等比缩放,响应式 */
+  width: auto;
+  overflow: visible; /* g 的下垂笔越过基线,自然溢出(与真实文本一致) */
+}
+.hero__logo path {
+  fill: transparent;
+  stroke: var(--accent);
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke; /* 各档视口描边恒 2px,与旧 text-stroke 一致 */
+  transition: fill 0.4s ease; /* 柔和过渡(用户要求);reduced-motion 由全局规则瞬时化 */
+}
+.hero__title-word--outline:hover .hero__logo path,
+.hero__title-word--fill .hero__logo path {
+  fill: var(--accent);
 }
 
 /* Initial animation states — prevent FOUC */
@@ -116,8 +133,8 @@
 }
 
 .hero__subtitle {
-  font-size: clamp(14px, 1.2vw, 18px);
-  font-weight: 400;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-body);
   line-height: 1.6;
   color: var(--text-muted);
   letter-spacing: 1px;
@@ -135,7 +152,8 @@
 }
 
 .hero__scroll-text {
-  font-size: 11px;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -169,19 +187,23 @@
 
 @media (max-width: 1024px) {
   .hero__inner {
-    padding: 0 40px;
+    padding: 0 calc(40px + var(--safe-right)) 0 calc(40px + var(--safe-left));
   }
 }
 
 @media (max-width: 640px) {
   .hero__inner {
-    padding: 0 24px;
+    padding: 0 calc(24px + var(--safe-right)) 0 calc(24px + var(--safe-left));
+  }
+  .hero__title {
+    /* 手机端标题下限下调，随宽度流式缩放（640px 处 = 56px，与上档无缝衔接） */
+    font-size: clamp(44px, 13vw, 56px);
   }
   .hero__scroll {
     bottom: 24px;
   }
-  .hero__title-word--outline {
-    -webkit-text-stroke: 1.2px var(--accent);
+  .hero__logo path {
+    stroke-width: 1.2px; /* 手机档描边收细,与旧 text-stroke 一致 */
   }
   .hero::before {
     width: 100%;
@@ -189,5 +211,27 @@
     top: auto;
     bottom: 0;
     background: linear-gradient(to top, rgba(0,0,0,0.02), transparent);
+  }
+}
+
+/* ── 矮窗口（横屏手机 / 拖矮的窗口）：首屏不再强撑 700px ── */
+@media (max-height: 699px) {
+  .hero {
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+}
+
+/* ── 极矮窗口：压缩首屏排版，滚动提示让位 ── */
+@media (max-height: 479px) {
+  .hero__kicker {
+    margin-bottom: 24px;
+  }
+  .hero__title {
+    padding: 12px 0;
+    margin-bottom: 12px;
+  }
+  .hero__scroll {
+    display: none;
   }
 }

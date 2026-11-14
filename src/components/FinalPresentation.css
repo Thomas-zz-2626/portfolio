@@ -1,0 +1,372 @@
+/* ── 「最终呈现」(2026-10-22 用户要求):展开区块外、展开按钮下方的黑页 ──
+   黑底 #000 + 顶部居中白标题 + 全屏贴边图 4.png(通栏无圆角,
+   aspect-ratio 2752/1536 防 CLS)。
+   顶部渐变块 clamp(96px, 14vh, 180px)白→黑:收起态接住上方白底按钮区;
+   2026-10-22 用户追加:展开态上方 3-4 带也改白底,渐变两态都显示
+   (原「展开态隐藏、黑接黑」逻辑随黑带删除)。
+   2026-10-22 用户追加:4.png 下方整体白底(.finalpres__light)——5.png
+   收为版心 min(1400,vw−48) 居中、圆角 8px(全站图片规则)、与 4.png
+   留 clamp(24px,4vh,48px) 距离(白底区);小字白底黑字 #171717、
+   位置不变;底部白留白作呼吸,直接接下方白区。
+   四档同布局,无断点差异;静态版面,无动效。 */
+
+.finalpres {
+  background: #000000;
+  padding: 0; /* 底部留白移入 .finalpres__light(白底),黑底在 4.png 为止 */
+}
+/* 顶部白→黑渐变(收起/展开两态均显示) */
+.finalpres::before {
+  content: '';
+  display: block;
+  height: clamp(96px, 14vh, 180px);
+  background: linear-gradient(#ffffff, #000000);
+}
+.finalpres__title {
+  margin: 0 0 clamp(32px, 5vh, 56px);
+  text-align: center;
+  font-family: var(--font);
+  font-size: var(--fs-title); /* 全站统一标题档,与「工程推演」标题同档 */
+  font-weight: var(--fw-title);
+  letter-spacing: 0.02em;
+  color: #f5f5f5; /* 黑底反白 */
+}
+/* 全屏贴边图 4.png:通栏、无圆角(与 2-1 通栏图同款) */
+.finalpres__figure {
+  margin: 0;
+}
+.finalpres__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2752 / 1536;
+}
+/* ── 白底区(2026-10-22 用户要求):4.png 下方整体白底 ──
+   顶 padding = 与 4.png 的距离(白);底 padding = 小字下白留白呼吸。
+   用 padding 不用 margin:margin 会从无 padding/border 的父级塌陷
+   逃逸出白区、露出黑底(与 engder 黑带同款教训) */
+.finalpres__light {
+  background: #ffffff;
+  padding: clamp(24px, 4vh, 48px) 0 clamp(20px, 3vh, 32px);
+}
+/* 图 5(2026-10-22 用户要求):4 下面再接一张,收为版心居中,
+   圆角 8px(全站图片规则);画幅 2752/1257 */
+.finalpres__figure--5 {
+  margin: 0;
+  display: flow-root; /* BFC:防止 figcaption 上边距塌陷出白区露黑底 */
+}
+.finalpres__figure--5 img {
+  width: min(1400px, calc(100vw - 48px)); /* 卡片内版心统一 1400(用户规则) */
+  margin: 0 auto;
+  aspect-ratio: 2752 / 1257;
+  border-radius: 8px;
+}
+/* 5 下方居中小字(2026-10-22 用户追加):白底黑字,位置不变 */
+.finalpres__caption {
+  margin: clamp(12px, 2vh, 20px) 0 0;
+  padding: 0 24px;
+  text-align: center;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+  color: #171717; /* 白底黑字 */
+}
+/* 四宫格(2026-10-27 用户要求):5-1..5-4 上二下二,每格 16:9
+   (原图均 2752×1536)圆角 8px;版心 min(1400,vw−48) 居中、间隙
+   clamp(8px,1.5vw,16px);四档同布局,静态无动效。
+   2026-11-07 复用:视频板块下方再加一组 14-1..14-4(--14 修饰类
+   仅作定位标记,样式完全相同)——间隙为单 gap 值,上下左右相等,
+   整块版心宽度,满足用户要求 */
+.finalpres__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(8px, 1.5vw, 16px);
+  width: min(1400px, calc(100vw - 48px));
+  margin: clamp(12px, 2vh, 20px) auto 0;
+}
+.finalpres__grid-cell {
+  margin: 0;
+  border-radius: 8px;
+  overflow: hidden; /* 圆角裁切 */
+  background: #e8e8e8; /* 加载前占位底色 */
+}
+.finalpres__grid-cell img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9; /* 原图 2752×1536,防 CLS */
+}
+/* ── 中标题(2026-11-02 用户要求):「color」(7.png 上方)与
+   「第二代的两个版本区别」(8.png 上方)共用 ──
+   与「形态推演/工程推演」同款中标题档:居中、全站标题档字号
+   (clamp(14px,2.8vw,36px))、900、白底黑字 #171717;
+   标题→图间距与推导版面标题→内容一致 clamp(32px,5vh,56px) */
+.finalpres__mid-title {
+  margin: clamp(32px, 5vh, 56px) 0 clamp(32px, 5vh, 56px);
+  text-align: center;
+  font-family: var(--font);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: 0.02em;
+  color: #171717;
+}
+/* ── 图 7/图 8(2026-11-02 用户要求):7.png 在「color」标题下、
+   6.jpg 上方;8.png 在「第二代改进点」标题下、6.jpg 下方 ──
+   均版心宽:版心 min(1400px, calc(100vw − 48px)) 居中(卡片内
+   版心统一 1400,用户规则)、圆角 8px(全站图片规则)、aspect-ratio
+   防 CLS;上间距由标题下边距承担,自身 margin 0(display
+   flow-root 的 BFC 阻断边距塌陷,标题下边距完整生效);
+   7.png 仍为浅灰虚线占位 16:9(用户稍后替换文件本身,暂不挂
+   srcset/LQIP);8.png 已于 2026-11-05 换为真实图 2752×1700,
+   2026-11-05 再改页面宽度左右贴边——画幅/通栏/无圆角均由 --8
+   修饰类覆盖;四档同布局、静态无动效 */
+.finalpres__placeholder {
+  margin: 0;
+  display: flow-root; /* BFC:防边距塌陷出白区露黑底 */
+}
+.finalpres__placeholder img {
+  display: block;
+  width: min(1400px, calc(100vw - 48px));
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+}
+/* ── 图 16(2026-11-11 用户要求):「color」图(7.png)下方、6.jpg 上方 ──
+   上方大标题「最终众筹价格」与钢笔式毛笔同款:居中、标题档字号/
+   900、白带实底 + 橙色下划线 36×3(accent);标题上距/下距均
+   clamp(24px,4vh,48px)(下距=与图 16 的间隙);图 16 版心
+   min(1400,vw−48) 居中、圆角 8px、aspect 1940/814 防 CLS;
+   四档同布局、静态无动效 */
+.finalpres__price-title {
+  margin: clamp(24px, 4vh, 48px) 0 clamp(24px, 4vh, 48px);
+  text-align: center;
+  font-family: var(--font);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: -0.02em;
+  color: #171717;
+}
+.finalpres__price-title-text {
+  display: block;
+  position: relative; /* ::after 下划线锚点 */
+  padding: clamp(10px, 2vh, 18px) 24px 12px;
+  line-height: 1.2;
+  background: #ffffff;
+}
+.finalpres__price-title-text::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+.finalpres__figure16 {
+  margin: 0;
+  display: flow-root; /* BFC:防边距塌陷出白区露黑底 */
+}
+.finalpres__figure16 img {
+  display: block;
+  width: min(1400px, calc(100vw - 48px));
+  margin: 0 auto;
+  aspect-ratio: 1940 / 814;
+  border-radius: 8px;
+}
+/* 图 8 真实图(2026-11-05 用户替换):2752×1700,画幅按实图防 CLS;
+   2026-11-05 用户再改:页面宽度、左右贴边(同 4.png 通栏先例,无圆角) */
+.finalpres__placeholder--8 img {
+  width: 100%;
+  border-radius: 0;
+  aspect-ratio: 2752 / 1700;
+}
+/* 图 15(2026-11-07 用户要求):卡片最下面一张、页面宽度通栏贴边
+   (同 4.png/8.png 先例,无圆角);2752×1536(16:9,基类画幅相同
+   无需覆盖);上距与 gen2 通栏图同款 clamp(24px,4vh,48px);
+   四档同布局、静态无动效 */
+.finalpres__placeholder--15 {
+  margin: clamp(24px, 4vh, 48px) 0 0;
+}
+.finalpres__placeholder--15 img {
+  width: 100%;
+  border-radius: 0;
+}
+/* ── 图 9-1..9-4(2026-11-07 用户要求):8.png 下方两行并排图、每行各占
+   页面半宽(50%):每行左图贴页面左缘、右图贴页面右缘、中间相接无间隙;
+   行二(9-3/9-4)贴住行一底缘(无行距);贴边无圆角(与 8.png 通栏
+   先例一致);行一 2752×1536、行二 2048×2048,行内两图同画幅等高
+   无缝;align-items:flex-start 防未来换不等高图后拉伸变形;
+   上距与 gen2 通栏图同款 clamp(24px,4vh,48px);
+   四档同布局、静态无动效 */
+.finalpres__pair {
+  margin: clamp(24px, 4vh, 48px) 0 0;
+}
+.finalpres__pair-row {
+  display: flex;
+  align-items: flex-start;
+}
+.finalpres__pair img {
+  display: block;
+  width: 50%;
+  aspect-ratio: 2752 / 1536;
+}
+.finalpres__pair-row--2 img {
+  aspect-ratio: 2048 / 2048;
+}
+/* ── 视频位(2026-11-07 用户要求):9-4 下方版心宽视频槽 ──
+   版心 min(1400px, calc(100vw − 48px)) 居中、16:9 防 CLS、圆角 8px
+   (全站图片规则);源文件 9-5.mp4 由用户稍后放入同目录即生效
+   (poster 可选同名 -poster.jpg);无源时显示浅灰虚线占位框,
+   onLoadedMetadata 加 --ready 摘除虚线、底换黑;
+   小字说明复用 finalpres__caption(居中对齐视频);
+   上距与 gen2 通栏图同款 clamp(24px,4vh,48px);四档同布局、静态无动效 */
+.finalpres__video {
+  margin: clamp(24px, 4vh, 48px) 0 0;
+  display: flow-root; /* BFC:防 figcaption 上边距塌陷出白区露黑底 */
+}
+.finalpres__video video {
+  display: block;
+  width: min(1400px, calc(100vw - 48px));
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  background: #ececec;
+  outline: 2px dashed #c9c9c9;
+  outline-offset: -2px;
+}
+.finalpres__video video.finalpres__video--ready {
+  outline: none;
+  background: #000000;
+}
+/* ── Generation 2(2026-11-02 用户要求):卡片最底部收尾大图 6.jpg ──
+   全屏左右贴边(同 4.png 通栏先例,无圆角)、aspect-ratio 2752/1536
+   防 CLS;图片左侧叠白色大标题「Generation 2」,垂直居中;
+   6.jpg 左区实测纯黑(avg 1,1,1),白字对比充足无需遮罩;
+   字号随视口收敛(手机 28px → 桌面 64px);四档同布局、静态无动效 */
+.finalpres__gen2 {
+  position: relative;
+  margin: clamp(24px, 4vh, 48px) 0 0;
+  display: flow-root; /* BFC:防 figcaption 上边距塌陷出白区露黑底 */
+}
+.finalpres__gen2 img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2752 / 1536;
+}
+.finalpres__gen2-title {
+  position: absolute;
+  left: clamp(24px, 5vw, 80px);
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  font-family: var(--font);
+  font-size: clamp(28px, 5vw, 64px);
+  font-weight: var(--fw-title);
+  letter-spacing: 0.02em;
+  color: #ffffff;
+}
+/* ── 最终呈现·视频板块(2026-11-07 用户要求):9-5 视频位下方 ──
+   与钢笔式毛笔 showcase 同款排布:版心 min(1400,vw−48) 居中
+   (卡片内版心统一 1400,用户规则)、大标题居中、两行「左视频右
+   文字」(1.5fr 1fr,与钢笔式毛笔同比例);右文字 position:sticky
+   钉住 top 120px——滚动到行时文字钉住、行滚完随行底缘离开,即
+   「文字随页面动」的滚动联动效果(纯 CSS sticky,transform-only
+   合成层不触发重排,动效规范 v1);视频 16:9、圆角 8px(全站图片
+   规则),进视口自动播放由 JS IO 控制,reduced-motion 不自动播;
+   手机 <640 单列堆叠(视频上文字下);标题/小字字号与钢笔式毛笔
+   showcase 完全一致(var(--fs-title) / var(--fs-small)) */
+.finalpres__showcase {
+  width: min(1400px, calc(100vw - 48px));
+  margin: clamp(24px, 4vh, 48px) auto 0;
+}
+.finalpres__showcase-title {
+  margin: 0 0 clamp(32px, 5vh, 56px);
+  text-align: center;
+  font-family: var(--font);
+  font-size: var(--fs-title); /* 全站统一标题档 */
+  font-weight: var(--fw-title);
+  letter-spacing: 0.02em;
+  color: #171717;
+}
+.finalpres__showcase-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+.finalpres__showcase-split {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+.finalpres__showcase-video-box {
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000000;
+}
+.finalpres__showcase-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000000;
+}
+/* 右文字随滚动钉住:行在屏内时文字钉在视口顶下 120px,行滚完随行
+   底缘离开——与钢笔式毛笔 showcase 的 sticky 逻辑一致。
+   align-self:start 必须(grid align-items:center 时 sticky 无移动
+   空间);will-change 提升合成层,钉住移动不重栅格化 */
+.finalpres__showcase-text {
+  align-self: start;
+  position: sticky;
+  top: 120px;
+  will-change: transform;
+}
+.finalpres__showcase-text-title {
+  margin: 0 0 16px;
+  font-family: var(--font);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: -0.02em;
+  color: #171717;
+}
+.finalpres__showcase-text-body {
+  margin: 0;
+  font-size: var(--fs-small); /* 与钢笔式毛笔 showcase 右侧描述同档 */
+  font-weight: var(--fw-small);
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+@media (max-width: 639px) {
+  .finalpres__showcase-split {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .finalpres__showcase-grid {
+    gap: 32px;
+  }
+}
+
+/* ── 「页面宽度」规则(2026-11-14 用户规则):窄设备单行大图/视频
+   左右贴边无圆角;≥768 版心不变。(--8/--15 本就贴边,同宽无副作用) ── */
+@media (max-width: 767px) {
+  .finalpres__figure--5 img,
+  .finalpres__placeholder img,
+  .finalpres__figure16 img,
+  .finalpres__video video {
+    width: 100vw;
+    max-width: none; /* 解除 index.css img{max-width:100%} 钳制 */
+    border-radius: 0;
+  }
+}
+@media (max-width: 639px) {
+  .finalpres__showcase-video-box {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    border-radius: 0;
+  }
+}

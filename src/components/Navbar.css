@@ -5,22 +5,22 @@
   right: 0;
   z-index: 100;
   padding: 24px 0;
-  /* 全透明——导航栏颜色完全来自背景折射，不加任何白色底色 */
-  background: rgba(255, 255, 255, 0);
-  /* 液态玻璃折射：模糊营造透镜感，背景色透过模糊自然呈现 */
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  /* 2026-10-28 用户定版:简单磨砂玻璃——
+     等效 Tailwind backdrop-blur-md(12px 模糊)+ bg-white/10(白 10% 底色) */
+  background: rgba(255, 255, 255, 0.1);
+  /* 顺序注意:-webkit- 在前、标准在后,打包压缩器才能两者都保留
+     (标准在前会被吞,现代 Chrome 不认 -webkit- 别名 → 模糊失效) */
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   border-bottom: none;
   box-shadow: none;
   /* mask 从顶部开始渐变，越往下越透，底部完全透明 */
   -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
   mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
-  transition: background 0.45s ease, backdrop-filter 0.45s ease, box-shadow 0.45s ease, padding 0.45s ease;
+  transition: background 0.45s ease, box-shadow 0.45s ease, padding 0.45s ease;
 }
 
 .navbar--scrolled {
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
   padding: 16px 0;
 }
@@ -35,7 +35,7 @@
 }
 
 .navbar__logo {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 4px;
   color: var(--text-secondary);
@@ -56,8 +56,8 @@
 }
 
 .navbar__links a {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
   letter-spacing: 1px;
   color: var(--text-secondary);
   transition: color 0.25s;
@@ -97,14 +97,122 @@
     padding: 0 24px;
   }
   .navbar__logo {
-    font-size: 12px;
+    font-size: 14px;
     letter-spacing: 3px;
   }
   .navbar__links {
     gap: 20px;
   }
   .navbar__links a {
-    font-size: 13px;
+    font-size: var(--fs-small);
     letter-spacing: 0.5px;
+  }
+}
+
+/* ===== 移动端汉堡菜单（<640px）=====
+   桌面/平板保持现状内联链接，手机折叠为汉堡 + 下拉面板。
+   ≥640px 的所有规则不受影响。 */
+.navbar__burger {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  /* 刘海屏安全区：导航条下沉避开状态栏/刘海 */
+  .navbar {
+    padding-top: calc(24px + var(--safe-top));
+  }
+  .navbar--scrolled {
+    padding-top: calc(16px + var(--safe-top));
+  }
+  /* 汉堡按钮：44×44px 触控标准，视觉为 3 条 22px 短线 */
+  .navbar__burger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    margin-right: -10px; /* 视觉居中补偿，点击区保持 44px */
+  }
+  .navbar__burger span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--text-primary);
+    border-radius: 1px;
+    transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.3s ease;
+  }
+  /* 开合动效：三线 → X（中间线淡出，上下线旋转合拢） */
+  .navbar--open .navbar__burger span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+  .navbar--open .navbar__burger span:nth-child(2) {
+    opacity: 0;
+  }
+  .navbar--open .navbar__burger span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
+
+  /* 打开时移除导航条的渐隐 mask，否则面板底部会被 mask 吞掉 */
+  .navbar--open {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  /* 菜单面板：从导航条下方滑出，液态玻璃底色与导航一致 */
+  .navbar__links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 4px 24px calc(12px + var(--safe-bottom));
+    background: rgba(250, 250, 248, 0.94);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+    /* 收起态：不可见也不可聚焦（visibility 延迟切换保证淡出动画完整） */
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
+      visibility 0s linear 0.3s;
+  }
+  .navbar__links.is-open {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
+      visibility 0s;
+  }
+  /* 链接：整行点击区 ≥44px；触屏无 hover，去掉桌面下划线动效 */
+  .navbar__links li {
+    border-bottom: 1px solid var(--border-light);
+  }
+  .navbar__links li:last-child {
+    border-bottom: none;
+  }
+  .navbar__links a {
+    display: block;
+    padding: 15px 0;
+    font-size: var(--fs-small);
+    letter-spacing: 1px;
+  }
+  .navbar__links a::after {
+    display: none;
+  }
+  .navbar__links a:hover {
+    color: var(--text-secondary);
+  }
+  .navbar__links a:active {
+    color: var(--accent);
   }
 }

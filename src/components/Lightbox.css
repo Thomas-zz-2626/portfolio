@@ -1,0 +1,2807 @@
+/* ═══════════════════════════════════════════════════
+   Lightbox — Full-screen project detail
+   ═══════════════════════════════════════════════════ */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+/* ── Backdrop ── */
+
+.lightbox__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  /* 顺序同导航条:-webkit- 在前、标准在后,否则打包压缩器吞掉标准声明 */
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.lightbox--visible .lightbox__backdrop {
+  opacity: 1;
+}
+
+.lightbox--closing .lightbox__backdrop {
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+/* ── Animated outer container ── */
+
+.lightbox__content {
+  position: fixed;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.lightbox--visible .lightbox__content {
+  opacity: 1;
+}
+
+.lightbox--closing .lightbox__content {
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+/* ── Close button ── */
+
+.lightbox__close {
+  position: fixed;
+  top: calc(20px + var(--safe-top));
+  right: calc(20px + var(--safe-right));
+  z-index: 1010;
+  opacity: 0;
+  pointer-events: none;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  border: none;
+  border-radius: 50%;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.25s ease, opacity 0.3s ease 0.2s;
+}
+
+.lightbox--visible .lightbox__close {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox--closing .lightbox__close {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.lightbox__close:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* ── Scrollable inner ── */
+
+.lightbox__scroll {
+  height: 100%;
+  overflow-y: overlay;
+  overflow-x: hidden;
+  scroll-behavior: auto;
+}
+
+/* ══════════════════════════════════════════════
+   Sections
+   ══════════════════════════════════════════════ */
+
+/* ── Hero + Meta — explicit background so meta text blends seamlessly ── */
+
+.lightbox__hero {
+  width: 100%;
+  color: #ffffff;
+  background: #000;
+}
+
+.lightbox__hero--light {
+  color: var(--text-primary);
+  background: #f5f5f3;
+}
+
+/* ── Bottom dissolve — page one bleeds into page two ── */
+
+.lightbox__hero--fade {
+  position: relative;
+  /* Depth of the dissolve, written by the scroll handler. It stays at zero
+     while the hero is at rest — nothing is masked until the reader scrolls. */
+  --hero-fade-h: 0px;
+  /* Colour of the section that follows the hero — the mask fades to nothing
+     and this is what shows through, so the two must match exactly. */
+  --hero-fade-to: var(--surface);
+}
+
+/* Both ramps hang off .is-dissolving, which the handler only adds once the
+   dissolve has actually opened. They cannot simply be left on with a zero
+   height: every stop would collapse onto 100%, and a gradient whose stops all
+   share a position renders as its last colour — i.e. a fully erased hero. */
+
+/* Background ramp — keeps the hero's own fill in step with the mask, so the
+   last pixel of the hero is exactly the next section's colour: no seam. */
+.lightbox__hero--fade.is-dissolving::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent calc(100% - var(--hero-fade-h)),
+    var(--hero-fade-to) 100%
+  );
+}
+
+/* The mask — product image and the meta rows on the left dissolve together.
+   The stops trace a smoothstep rather than a straight line, so the ramp eases
+   away from the page at both ends instead of meeting it at a hard angle. */
+.lightbox__hero--fade.is-dissolving .lightbox__hero-img {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 calc(100% - var(--hero-fade-h)),
+    rgba(0, 0, 0, 0.94) calc(100% - var(--hero-fade-h) * 0.85),
+    rgba(0, 0, 0, 0.78) calc(100% - var(--hero-fade-h) * 0.7),
+    rgba(0, 0, 0, 0.5) calc(100% - var(--hero-fade-h) * 0.5),
+    rgba(0, 0, 0, 0.22) calc(100% - var(--hero-fade-h) * 0.3),
+    rgba(0, 0, 0, 0.06) calc(100% - var(--hero-fade-h) * 0.15),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 calc(100% - var(--hero-fade-h)),
+    rgba(0, 0, 0, 0.94) calc(100% - var(--hero-fade-h) * 0.85),
+    rgba(0, 0, 0, 0.78) calc(100% - var(--hero-fade-h) * 0.7),
+    rgba(0, 0, 0, 0.5) calc(100% - var(--hero-fade-h) * 0.5),
+    rgba(0, 0, 0, 0.22) calc(100% - var(--hero-fade-h) * 0.3),
+    rgba(0, 0, 0, 0.06) calc(100% - var(--hero-fade-h) * 0.15),
+    transparent 100%
+  );
+}
+
+.lightbox__hero-img {
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding-bottom: 20vh;
+}
+
+.lightbox__hero-img--no-pad {
+  padding-bottom: 0;
+  height: 100vh;
+  height: 100svh;
+}
+
+/* ── Navigating animation — smooth expand when switching projects ── */
+.lightbox__hero--navigating {
+  animation: heroNavigate 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.lightbox__hero--navigating .lightbox__hero-img {
+  animation: heroNavigateImg 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@keyframes heroNavigate {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+@keyframes heroNavigateImg {
+  0% { transform: scale(0.96); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ── Overlay mode: full-viewport immersive hero with meta on top ── */
+.lightbox__hero-img--overlay {
+  /* inherit height: 100vh from base */
+}
+
+.lightbox__hero-img--overlay .lightbox__hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lightbox__hero-image-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.lightbox__hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: inherit;
+  animation: heroImageFadeIn 0.8s ease both;
+}
+
+@keyframes heroImageFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Tagline fade-in that runs after the hero image settles (pendant-2) */
+@keyframes heroTaglineFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Left-side tagline for hero images ── */
+.lightbox__hero-tagline--left {
+  position: absolute;
+  left: 6%;
+  top: 50%;
+  transform: translateY(-50%);
+  flex-direction: column;
+  gap: 4px;
+  padding: 0;
+}
+
+.lightbox__hero-tagline-line {
+  display: block;
+  font-family: var(--font);
+  font-size: var(--fs-title); /* 全站统一标题档 */
+  font-weight: var(--fw-title);
+  letter-spacing: 0.04em;
+  color: inherit;
+}
+
+/* Mobile hero rules used to live here, but the base hero rules below this
+   point win the cascade (same specificity, later in the file). The complete
+   mobile hero restructure now lives in the last ≤768 block at the end of
+   this file. */
+
+.lightbox__hero-video-wrap {
+  position: relative;
+  width: 70%;
+  max-height: 80vh; /* fit inside hero content box (100vh - 20vh padding) so the tagline below is never covered */
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Side layout: video left, tagline right (array tagline) */
+.lightbox__hero-video-wrap--side {
+  width: 70%;
+  height: 88vh;
+  max-height: none;
+  flex-direction: row;
+  margin-right: 8%;
+  transform: translateX(-4%);
+  display: block;
+}
+
+.lightbox__hero-video-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 35%;
+  background: linear-gradient(to bottom, transparent, #000);
+  pointer-events: none;
+}
+
+.lightbox__hero--light .lightbox__hero-video-wrap::after {
+  background: none;
+}
+
+.lightbox__hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: #000;
+  border-radius: 2px;
+}
+
+.lightbox__hero--light .lightbox__hero-video {
+  background: #fff;
+}
+
+/* ── Mobile play overlay — poster cover + tap to play (rendered <640px only) ── */
+.lightbox__hero-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  padding: 0;
+}
+
+.lightbox__hero-play-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  pointer-events: none;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.lightbox__hero-play:active .lightbox__hero-play-icon {
+  transform: scale(0.92);
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.lightbox__hero--light .lightbox__hero-play-icon {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* ── Column wrap (pendant-1): video shrinks when space is tight, tagline always stays visible below ── */
+.lightbox__hero-video-wrap:not(.lightbox__hero-video-wrap--side) .lightbox__hero-video {
+  height: auto;
+  min-height: 0;
+  flex-shrink: 1;
+}
+
+/* ── Tritium (pendant-1): 视频与八字整体视觉居中,不再整体右移
+   4%(2026-10-17 按用户要求取消),无额外位移;八字仍在遮罩上层。 ── */
+
+/* ── Pendant-2 (氚管吊坠): image moved down, tagline on the left ── */
+.lightbox__hero--pendant2 .lightbox__hero-img {
+  padding-bottom: 6vh;
+}
+
+.lightbox__hero--pendant2 .lightbox__hero-tagline--left {
+  left: calc(100% / 6); /* comfortable margin from the left edge — 1/6 of the page width */
+  top: 50%;
+  bottom: auto;
+  transform: translateY(-50%);
+  align-items: flex-start;
+  text-align: left;
+  gap: 6px;
+  /* Fade in only after the hero image has finished its 0.8s fade-in
+     (0.9s delay = a short beat after the image settles). The --visible
+     class is already present on first paint, so a transition would never
+     run — the fill-mode animation holds the text hidden through the
+     delay and fades it in afterwards. */
+  opacity: 0;
+  animation: heroTaglineFadeIn 0.8s ease 0.9s both;
+}
+
+.lightbox__hero--pendant2 .lightbox__hero-tagline--left .lightbox__hero-tagline-line {
+  font-size: var(--fs-title);
+}
+
+/* ── Toy-1 (陀螺灯): hero 图右缘始终贴住视口最右,标语在页面左边
+   (2026-10-22 用户要求)。img 元素宽度改为实际显示宽(高度撑满),
+   wrap 用 flex-end 把图推到最右;标语 absolute 定在左侧。
+   2026-10-22 用户追加:首页图占满第一页全屏 → hero-img 去掉 20vh
+   底部预留,图高=整屏高、随屏放大,右缘仍贴视口最右。 ── */
+.lightbox__hero--toy1 .lightbox__hero-img {
+  padding-bottom: 0;
+}
+
+.lightbox__hero--toy1 .lightbox__hero-image-wrap {
+  justify-content: flex-end;
+}
+
+.lightbox__hero--toy1 .lightbox__hero-image {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+}
+
+.lightbox__hero--toy1 .lightbox__hero-tagline--left {
+  /* 图满屏后标语压在图左侧透明区上:窄桌面(图按宽度封顶、产品左缘
+     随之左移到 36vw 处)时同步左移,保证文字与产品间始终留出余量;
+     常规宽度仍取 1/6 版位(与 pendant-2 一致) */
+  left: clamp(56px, calc(36vw - 340px), calc(100% / 6));
+  top: 50%;
+  bottom: auto;
+  transform: translateY(-50%);
+  align-items: flex-start;
+  text-align: left;
+  gap: 6px;
+  opacity: 0;
+  animation: heroTaglineFadeIn 0.8s ease 0.9s both;
+}
+
+.lightbox__hero--toy1 .lightbox__hero-tagline--left .lightbox__hero-tagline-line {
+  font-size: var(--fs-title);
+}
+
+/* ── Brush (pen-1): video + text shifted down ── */
+.lightbox__hero--brush .lightbox__hero-video-wrap--side {
+  transform: translateX(-8%) translateY(10%);
+}
+
+/* ── Prism (pen-2): video + text shifted down ── */
+.lightbox__hero--prism .lightbox__hero-video-wrap--side {
+  transform: translateX(-4%) translateY(8%);
+}
+
+/* ── Ring (toy-2): smaller video, shifted left-down, text right ── */
+.lightbox__hero--ring .lightbox__hero-video-wrap--side {
+  width: 52%;
+  transform: translateX(-22%) translateY(10%);
+  margin-right: 4%;
+}
+
+.lightbox__hero--ring .lightbox__hero-tagline--right {
+  right: 22%;
+}
+
+/* ── Lighter (pendant-3 mini打火机): full-screen photo hero ──
+   点开卡片即播:图片缓进淡入 + 上移入场(仅 transform/opacity,
+   位移用 clamp 按视口缩放——桌面 2vw≈29px、手机下限 16px,桌面
+   大位移不照搬手机;reduced-motion 由 index.css 全局 0.01ms 规则
+   覆盖为瞬时完整呈现)。标语在图片右侧垂直居中,图片入场 0.9s 后
+   淡入(与 pendant2 同款节奏)。
+   cover 全屏仅 ≥769 生效:手机 ≤768 走文末移动端重构(图片完整
+   contain、标语静态移至图下常显,不依赖动效);aspect-ratio 在手机
+   contain 下预留高度防 CLS(桌面宽高双定尺寸时被忽略)。平板
+   769–1023 竖屏 cover 裁剪窗偏左(object-position 35%),产品主体
+   保持完整;产品位于画面中左(约 25–45%),右侧留白承载标语。 */
+.lightbox__hero--lighter .lightbox__hero-img {
+  --hero-rise: clamp(16px, 2vw, 32px);
+}
+
+.lightbox__hero--lighter .lightbox__hero-image {
+  aspect-ratio: 2752 / 1536;
+  animation: heroRiseIn 1.1s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* hero 图底部渐变黑:照片底边柔和融入下方黑色板块(meta/swr 黑底),
+   渐变只覆盖底部约 45%,tagline 中上区域不受影响(2026-10-22) */
+.lightbox__hero--lighter .lightbox__hero-image-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.45) 80%, #000 100%);
+  pointer-events: none;
+}
+
+@keyframes heroRiseIn {
+  from {
+    opacity: 0;
+    transform: translateY(var(--hero-rise, 28px));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 769px) {
+  .lightbox__hero--lighter .lightbox__hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+  .lightbox__hero--lighter .lightbox__hero-image {
+    object-position: 35% center;
+  }
+}
+
+.lightbox__hero--lighter .lightbox__hero-tagline--right {
+  opacity: 0;
+  animation: heroTaglineFadeIn 0.8s ease 0.9s both;
+}
+
+/* ── Tagline base ── */
+
+.lightbox__hero-tagline {
+  font-family: var(--font);
+  font-weight: var(--fw-title);
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  pointer-events: none;
+}
+
+.lightbox__hero--light .lightbox__hero-tagline {
+  color: var(--text-primary);
+}
+
+/* ── Right-side (array format: pen-1, pen-2) ── */
+
+.lightbox__hero-tagline--right {
+  position: absolute;
+  top: 50%;
+  right: 14%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.lightbox__hero-tagline--right .lightbox__hero-tagline-line {
+  font-size: var(--fs-title);
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.lightbox__hero-tagline--right.lightbox__hero-tagline--visible .lightbox__hero-tagline-line {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── Below video (string format: pendant-1) ──
+   文字位于视频正下方、随 wrap 一起居中;视频完整播完后才淡入,
+   纯 opacity 过渡 800ms,不触发重排。视频故障时由 JS 的 3s 兜底
+   定时器显示。
+   层级:wrap 底部 35% 有 ::after 黑色渐变遮罩(绝对定位,画在静态
+   文字之上,文字落在遮罩最黑处会整块看不见)——文字保持原位,
+   relative + z-index 提到遮罩上层绘制,零重排。 */
+
+.lightbox__hero-tagline--below {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+  margin: 0;
+  padding-top: clamp(20px, 3vh, 36px);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.lightbox__hero-tagline--below.lightbox__hero-tagline--visible {
+  opacity: 1;
+}
+/* reduced-motion 由 index.css 全局 0.01ms 规则覆盖,无需单独处理 */
+
+/* ── Left-side for hero images (string format: pendant-2) ── */
+
+.lightbox__hero-tagline--left {
+  position: absolute;
+  left: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.lightbox__hero-tagline--left.lightbox__hero-tagline--visible {
+  opacity: 1;
+}
+
+.lightbox__hero-tagline--left .lightbox__hero-tagline-line {
+  font-size: var(--fs-title);
+}
+
+.lightbox__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.lightbox__placeholder-img {
+  width: 100%;
+  height: 100%;
+}
+
+.lightbox__meta {
+  padding: 40px 80px 100px;
+  max-width: 1400px; /* 卡片内版心统一 1400(2026-10-21 用户规则:主页 1700 / 卡片内 1400) */
+  margin: 0 auto;
+}
+
+/* ── Opening statement — 开场白叠放在全幅大图上端 + 上下渐变蒙版 ──
+   大图占位期用固定比例预留空间;换成真图后 height:auto 随图自适应。 */
+.lightbox__statement {
+  padding: clamp(40px, 7vh, 88px) 0 0;
+  text-align: center;
+}
+
+.lightbox__statement-text {
+  /* 一句话一行放下:nowrap + 全站统一标题档(22 字 × 14px 下限 × 1.04
+     ≈ 320px < 375 视口可用宽 343px,桌面 36px 上限 ≈ 823px 也放得下) */
+  white-space: nowrap;
+  margin: 0 auto;
+  padding: 0 16px;
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  line-height: 1.45;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+}
+
+.lightbox__statement-img-wrap {
+  position: relative;
+  margin-top: clamp(48px, 8vh, 96px);
+  /* 底部渐变:图片蒙版底部 20% 淡出时,wrap 同区段的渐变正好透出,
+     图片底部平滑融入下方区块(柔和长渐变,消除白线/硬切边)。
+     默认渐变成白(下方是白色区块);pendant-1 下方是黑色图表区,
+     用 --dark-tail 变体渐变成黑(见下)。顶部 20% 仍淡入上方黑色。 */
+  background: linear-gradient(to bottom, transparent 80%, #ffffff 100%);
+}
+
+/* pendant-1(氚管灯):statement 图下方是纯黑图表区,底部渐变同步改黑,
+   图片淡出后与黑色背景无缝衔接(2026-10-17 用户要求) */
+.lightbox__statement--dark-tail .lightbox__statement-img-wrap {
+  background: linear-gradient(to bottom, transparent 80%, #000000 100%);
+}
+
+/* 图片已提供:开场白叠放在图片上端(顶部黑渐变区内,白字清晰),
+   放在图片上面一层;文字保留滚动触发入场(reveal),图片本身不参与 */
+.lightbox__statement-img-wrap .lightbox__statement-text {
+  position: absolute;
+  top: clamp(48px, 8vh, 96px); /* 再下移一点(2026-10-17 用户要求) */
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+/* 全幅图:铺满滚动容器宽度,不设最大宽——左右到边 */
+.lightbox__statement-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* 上下双向渐变蒙版:顶部 20% 淡出透明(融入黑色 hero,渐变区
+     加宽后开场白有更充裕的黑底)、底部 20% 淡出透明(透出 wrap
+     白渐变,柔和融入白色背景)、中间 60% 保持原样。mask 只做像素遮罩,
+     不叠半透明色块;双前缀兼容 Safari。蒙版挂在 img 自身:lqip
+     机制下图片加载完成前整体 opacity 0,加载完成淡入时蒙版随图片
+     一起呈现(即"加载完成后再渲染蒙版"),无需额外 JS。 */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 20%, #000 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 20%, #000 80%, transparent 100%);
+}
+
+/* Meta + side image layout */
+.lightbox__meta--with-image .lightbox__meta-content {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.lightbox__meta--with-image .lightbox__meta-rows {
+  flex-shrink: 0;
+}
+
+.lightbox__meta-image {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+}
+
+.lightbox__meta-image img {
+  max-width: 260px;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 8px;
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.lightbox__meta-image a:hover img,
+.lightbox__meta-image img:hover {
+  transform: scale(1.08);
+}
+
+.lightbox__meta-image-arrow {
+  flex-shrink: 0;
+  color: inherit;
+  opacity: 0.35;
+  transition: opacity 0.2s ease;
+  animation: arrowPulse 1.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes arrowPulse {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-6px); }
+}
+
+.lightbox__meta-image-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.lightbox__meta-image-link:hover .lightbox__meta-image-arrow {
+  opacity: 0.7;
+}
+
+.lightbox__meta--overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 0 0 48px 64px;
+  max-width: none;
+  margin: 0;
+}
+
+/* Desktop: 4 rows, default visible */
+.lightbox__meta--overlay .lightbox__meta-rows {
+  display: block;
+}
+
+.lightbox__meta--overlay .lightbox__meta-row {
+  padding: 3px 0;
+  gap: 14px;
+  opacity: 0.5;
+}
+
+.lightbox__meta--overlay .lightbox__meta-label,
+.lightbox__meta--overlay .lightbox__meta-value {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  letter-spacing: 0.03em;
+}
+
+.lightbox__meta--overlay .lightbox__meta-label {
+  min-width: 36px;
+}
+
+/* Mobile: 1 line, hidden on desktop */
+.lightbox__meta--overlay .lightbox__meta-line {
+  display: none;
+  font-family: var(--font);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  letter-spacing: 0.04em;
+  color: inherit;
+  opacity: 0.5;
+  margin: 0;
+}
+
+/* ── Inline overlay: 4 rows at bottom-left INSIDE the image ── */
+.lightbox__hero-image-wrap .lightbox__meta--overlay-inline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 0 0 40px 56px;
+  max-width: none;
+  margin: 0;
+}
+
+.lightbox__hero-image-wrap .lightbox__meta--overlay-inline .lightbox__meta-rows {
+  display: block;
+}
+
+.lightbox__hero-image-wrap .lightbox__meta--overlay-inline .lightbox__meta-row {
+  padding: 3px 0;
+  gap: 14px;
+  opacity: 0.5;
+}
+
+.lightbox__hero-image-wrap .lightbox__meta--overlay-inline .lightbox__meta-label,
+.lightbox__hero-image-wrap .lightbox__meta--overlay-inline .lightbox__meta-value {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  letter-spacing: 0.03em;
+  color: var(--text-secondary);
+  text-shadow: none;
+}
+
+.lightbox__hero-image-wrap .lightbox__meta--overlay-inline .lightbox__meta-label {
+  min-width: 36px;
+}
+
+@media (max-width: 768px) {
+  .lightbox__meta--overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 20px 20px;
+  }
+  /* Hide 4 rows, show 1 line */
+  .lightbox__meta--overlay .lightbox__meta-rows {
+    display: none;
+  }
+  .lightbox__meta--overlay .lightbox__meta-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  /* Inline overlay: hide 4 rows, show mobile line */
+  .lightbox__hero-image-wrap .lightbox__meta--overlay-inline .lightbox__meta-rows {
+    display: none;
+  }
+  .lightbox__hero-image-wrap .lightbox__meta--overlay-inline .lightbox__meta-line {
+    display: flex;
+    justify-content: flex-start;
+    gap: 14px;
+  }
+  .lightbox__hero-image-wrap .lightbox__meta--overlay-inline {
+    padding: 0 20px 20px;
+  }
+}
+
+/* ── Inline meta: single line below hero image ── */
+.lightbox__meta--inline {
+  padding: 20px 40px 0;
+  text-align: center;
+}
+
+.lightbox__meta-line {
+  font-family: var(--font);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  letter-spacing: 0.04em;
+  color: inherit;
+  opacity: 0.45;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .lightbox__meta--inline {
+    padding: 16px 20px 0;
+  }
+}
+
+.lightbox__meta-brief {
+  font-family: var(--font);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-body);
+  letter-spacing: 0.02em;
+  color: inherit;
+  opacity: 0.6;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.lightbox__meta-row {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 4px 0;
+  opacity: 0.5;
+}
+
+.lightbox__meta-label {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  letter-spacing: 0.02em;
+  color: inherit;
+  font-family: var(--font);
+  min-width: 40px;
+}
+
+.lightbox__meta-value {
+  font-family: var(--font);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  letter-spacing: 0.02em;
+  color: inherit;
+  line-height: 1.4;
+}
+
+/* ── Centered layout: the four stacked rows sit in the middle of the block ── */
+
+.lightbox__meta--center .lightbox__meta-rows {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+/* ── Research sections ── */
+
+.lightbox__research-group {
+  background: var(--surface);
+  padding: 100px 0;
+}
+
+.lightbox__research {
+  padding: 48px 0;
+}
+
+.lightbox__research-inner {
+  max-width: 1400px; /* 卡片内版心统一 1400(2026-10-21 用户规则:主页 1700 / 卡片内 1400) */
+  margin: 0 auto;
+  padding: 0 80px;
+}
+
+/* ── Insight text ── */
+
+.lightbox__insight-text {
+  /* wrapper for text content */
+}
+
+.lightbox__insight {
+  font-family: var(--font);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  line-height: 1.45;
+  margin-bottom: 6px;
+  max-width: 800px;
+  white-space: pre-line;
+}
+
+/* Stacked layout: wider insight area */
+.lightbox__research-inner:not([class*='--']) .lightbox__insight {
+  max-width: none;
+}
+
+/* Orange eyebrow label above a section title (e.g. "unmet needs 1") */
+.lightbox__insight-label {
+  font-family: var(--font);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  letter-spacing: 0.16em;
+  color: var(--accent);
+  margin: 0 0 12px;
+}
+
+.lightbox__insight-marker {
+  display: inline-block;
+  width: 40px;
+  height: 2px;
+  background: var(--accent);
+  margin-right: 16px;
+  vertical-align: middle;
+  margin-bottom: 4px;
+  flex-shrink: 0;
+}
+
+.lightbox__insight-caption {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 560px;
+  margin-bottom: 24px;
+}
+
+/* ── Layout: stacked (default) — text above, full-width images below ── */
+
+/* ── Layout: side — text left, image group right; side-reverse mirrors it ── */
+.lightbox__research-inner--side {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 88px;
+  align-items: center;
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.lightbox__research-inner--side-reverse {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 88px;
+  align-items: center;
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.lightbox__research-inner--side-reverse .lightbox__insight-text {
+  order: 2;
+}
+
+.lightbox__research-inner--side-reverse .lightbox__insight-images {
+  order: 1;
+}
+
+/* Adjacent side rows sit close together like the original in-row pair:
+   pull the lower section up by its own padding chain (section 48 + inner 48
+   above and below) so the two images end up ~20px apart — the same gap the
+   pair used when they shared one row. The goal block and everything after
+   the section shift with it, so the goal's symmetry chain is untouched. */
+.lightbox__research:has(.lightbox__research-inner--side) + .lightbox__research:has(.lightbox__research-inner--side) {
+  margin-top: -172px;
+}
+
+/* Titles/subtitles in every layout follow the first section's typography
+   (site-wide rule): the generic .lightbox__insight / -caption rules above. */
+
+/* Image group: stacked, centred, uniform 20px gaps, soft 24px corners and a
+   barely-there shadow. The square sits at 68% so the pair reads as a column. */
+.lightbox__research-inner--side .lightbox__insight-images,
+.lightbox__research-inner--side-reverse .lightbox__insight-images {
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.lightbox__research-inner--side .lightbox__insight-img,
+.lightbox__research-inner--side-reverse .lightbox__insight-img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(23, 23, 23, 0.07), 0 2px 8px rgba(23, 23, 23, 0.04);
+}
+
+.lightbox__research-inner--side .lightbox__insight-img--square,
+.lightbox__research-inner--side-reverse .lightbox__insight-img--square {
+  max-width: 68%;
+}
+
+/* ── Images ── */
+
+.lightbox__insight-images {
+  display: flex;
+  gap: 24px;
+}
+
+.lightbox__insight-images--single {
+  /* single image takes full width */
+}
+
+.lightbox__insight-images--pair {
+  /* two images side by side */
+}
+
+.lightbox__insight-img {
+  overflow: hidden;
+  border-radius: 8px;
+  flex: 1;
+}
+
+.lightbox__insight-img--wide {
+  aspect-ratio: 16 / 9;
+}
+
+.lightbox__insight-img--tall {
+  aspect-ratio: 3 / 4;
+  max-width: 45%;
+}
+
+.lightbox__insight-img--square {
+  aspect-ratio: 1 / 1;
+  max-width: 55%;
+}
+
+/* Full-fit image: no crop — the photo's full width is shown and the height
+   follows its own proportions instead of a fixed box. Same soft 12px corners
+   as the side group so every image on the page reads as one family. */
+.lightbox__insight-img--full {
+  aspect-ratio: auto;
+  border-radius: 8px;
+}
+
+.lightbox__insight-img--full .lightbox__img {
+  height: auto;
+  object-fit: contain;
+}
+
+/* ── Goal statement — big centered heading with a theme-orange underline ──
+   The block sits at equal visual distance from the PEST page above and
+   the full-page image below. Above: the PEST page's bottom gap (half of
+   100vh minus its stage height) + top. Below: bottom + group padding 100
+   (full-page image has no top pad).
+   Equality: gap + top = bottom + 100  →  bottom = top + gap - 100.
+   The gap is (100vh - clamp(560px, 70vh, 780px)) / 2 — keep it in sync
+   with the stage height in Pest.css. */
+.lightbox__goal {
+  text-align: center;
+  padding: clamp(160px, 36vh, 320px) 24px;
+  padding-bottom: calc(clamp(160px, 36vh, 320px) + (100vh - clamp(560px, 70vh, 780px)) / 2 - 100px);
+}
+
+.lightbox__goal-title {
+  display: inline-block;
+  position: relative;
+  margin: 0;
+  padding-bottom: 26px;
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+/* The theme-orange underline sits at the bottom of the heading */
+.lightbox__goal-title::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 1.2em;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.lightbox__goal-text {
+  max-width: 780px;
+  margin: 44px auto 0;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-body);
+  line-height: 2;
+  color: var(--text-primary);
+}
+
+.lightbox__goal-accent {
+  color: var(--accent);
+  font-weight: var(--fw-body);
+}
+
+/* ── Design Question ── */
+
+.lightbox__design-question {
+  width: 100%;
+  min-height: 60vh;
+  background: #f3f3f1;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox__design-question-inner {
+  max-width: 1400px; /* 卡片内版心统一 1400(2026-10-21 用户规则:主页 1700 / 卡片内 1400) */
+  margin: 0 auto;
+  text-align: center;
+  padding: 80px 24px;
+}
+
+.lightbox__design-question-text {
+  font-family: var(--font);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.lightbox__design-question-highlight {
+  color: var(--accent);
+}
+
+/* ── Design Process ── */
+
+.lightbox__process {
+  position: relative;
+  background: #f3f3f1;
+  padding: 0;
+  /* 底部渐变带高:图 11 的视觉消失线 = 板块底缘 − 此值(渐变带把图片
+     底部遮住淡入白色页脚),展开圆钮的圆心钉在这条线上 */
+  --process-fade: 48px;
+}
+
+.lightbox__process::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--process-fade);
+  background: linear-gradient(to bottom, #f3f3f1, var(--surface));
+  pointer-events: none;
+  z-index: 1;
+}
+
+.lightbox__process-inner {
+  max-width: 1400px; /* 卡片内版心统一 1400(2026-10-21 用户规则:主页 1700 / 卡片内 1400) */
+  margin: 0 auto;
+  padding: 0 80px;
+}
+
+.lightbox__process-img-wrap {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* ── 展开显示完整过程(2026-11-07 用户要求,当天两改):「如何设计一款更
+   安静、更安全的擦窗机?」标题下方 背景.png(图 11)上,居中 44px 橙
+   圆钮 + 白箭头 + 灰字;按钮不占独立板块、不撑开间距——背景板块与
+   下方板块直接相连;圆心钉在图 11 消失线上(图片内容被底部渐变带
+   --process-fade 遮住的起始线 = 板块底缘 − 48px),上一半叠图片可见
+   区、下一半落在渐变带里;点击一次性展开背景图之后的其余内容(两张
+   图,src 为空时渲染浅灰虚线占位槽,后续用户替换真实文件)。现有内容
+   不收起,槽位只包住展开内容。展开为点击驱动的一次性交互,非滚动
+   动效;四档同布局;reduced-motion:箭头弹跳停、展开过渡瞬时(全局
+   0.01ms 规则兜底动画,transition 在此显式关闭)。 */
+.lightbox__process-slots {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.45s ease 0.3s, max-height 0.65s cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* 展开后的内容区背景纯白(2026-11-07 用户要求):容器无背景会透出灯箱
+     深色毛玻璃底,展开后两张图周围发黑;收起态高 0 无影响 */
+  background: var(--surface);
+}
+.lightbox__process-slots--expanded {
+  max-height: 6000px;
+  opacity: 1;
+}
+/* 展开图槽:圆角 8px 在 cell 上(与四宫格同款约定),与下一张间距
+   clamp(24,4vh,48) */
+.lightbox__process-slot {
+  margin: 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+/* 展开后按钮消失,首图槽自带与背景.png 板块的间距(=图间同款间距);
+   收起态被容器 overflow hidden 裁剪,不影响塌陷高度 */
+.lightbox__process-slot:first-child {
+  margin-top: clamp(24px, 4vh, 48px);
+}
+.lightbox__process-slot + .lightbox__process-slot {
+  margin-top: clamp(24px, 4vh, 48px);
+}
+.lightbox__process-slot img {
+  display: block;
+  width: 100%;
+}
+/* 占位槽(待用户替换真实文件):16:9 浅灰底 + 虚线框,与 9-5 视频槽同款语言 */
+.lightbox__process-slot-ph {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #ececea;
+  border: 1px dashed #c9c9c4;
+}
+/* 展开按钮区:绝对定位悬在背景.png 板块底缘的接缝上,居中;
+   pointer-events none 让整块不挡下方板块,仅圆钮可点 */
+.lightbox__process-toggle {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  pointer-events: none;
+}
+/* 44px 橙色圆钮 + 白色下箭头;margin-top 上探(22px 半钮 + 渐变带高):
+   圆心钉在图 11 消失线上(图片内容被底部渐变遮住的起始线),上一半
+   叠图片可见区,下一半落在渐变带里,不越过板块底缘 */
+.lightbox__process-expand {
+  width: 44px;
+  height: 44px;
+  margin-top: calc(-22px - var(--process-fade));
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 12px rgba(212, 120, 59, 0.3);
+  pointer-events: auto;
+}
+.lightbox__process-expand:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 20px rgba(212, 120, 59, 0.45);
+}
+.lightbox__process-expand:active {
+  transform: scale(1.05);
+}
+.lightbox__process-expand:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.lightbox__process-text {
+  margin: 16px 0 0;
+  font-family: var(--font);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+}
+/* 下箭头小弹跳(transform 纯绘制) */
+.lightbox__process-arrow {
+  animation: processBounce 2s ease-in-out infinite;
+}
+@keyframes processBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lightbox__process-arrow {
+    animation: none;
+  }
+  .lightbox__process-slots {
+    transition: none;
+  }
+}
+
+/* ── 卡片首图(2026-10-27 用户要求):全屏贴边,左右贴网页左右、无圆角,
+   画幅 3840/2159 防 CLS。2026-11-07 追加(仿空气炸锅 hero):四行字叠
+   左下角 + 底部滚动溶解,见 .lightbox__first--fade / --overlay-inline ── */
+.lightbox__first {
+  position: relative;
+  margin: 0;
+}
+.lightbox__first-figure {
+  margin: 0;
+}
+.lightbox__first img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3840 / 2159; /* 原图 3840×2159,防 CLS */
+}
+/* 首图媒体容器(2026-11-07):溶解蒙版包住图+四行字,滚动离开时一起
+   虚化(仿空气炸锅 heroFade);relative 为遮罩/四行字提供定位上下文 */
+.lightbox__first-media {
+  position: relative;
+}
+/* 2026-11-08 用户要求「首页占满第一页屏幕,下面不要留白」:视口比例比
+   16:9 更高(图自然高放不满屏高、下方露出白色调研区)时,首图占满
+   100svh——img 用 cover 填满。图构图主体靠右、左侧 ~36% 空白背景,
+   ≥1024 右贴边(object-position 100%)只裁左侧空白、主体完整;窄屏竖屏
+   裁切量大,右贴边只剩主体右缘,取 70% 位置框住主体面罩/传感器区
+   (x≈56-72%)作特写构图。16:9 及更宽视口图自然高已≥屏高(无留白、
+   超出部分滚动露出),维持自然铺满、不裁切。100svh 永远跟在 100vh
+   后面(项目约定)。 */
+@media (max-aspect-ratio: 16/9) {
+  .lightbox__first-media {
+    height: 100vh;
+    height: 100svh;
+  }
+  /* img 的 height:100% 要包含块有确定高度才解析——figure 默认 auto,
+     不设会把 100% 解析成 auto 落回自然高(手机实测 219px/844px) */
+  .lightbox__first-figure {
+    height: 100%;
+  }
+  .lightbox__first-media img {
+    height: 100%;
+    object-fit: cover;
+    object-position: 100% 50%;
+  }
+}
+@media (max-aspect-ratio: 16/9) and (max-width: 1023px) {
+  .lightbox__first-media img {
+    object-position: 70% 50%;
+  }
+}
+/* 图底垂直渐变遮罩:透明 → 白色 100%,渐变贯穿整个遮罩高(融合区域=
+   遮罩高):高 clamp(48px,16%,160px) 随图高比例伸缩——桌面 1440 约
+   130px(用户建议区间 120-160px)、平板 69px、手机 48px(图高仅 ~211px,
+   再长会盖住主体)、超宽封顶 160px。2026-10-27 原为中性浅灰
+   rgba(209,209,209,1),衔接其下灰色字板块;2026-11-07 四行字移上首图、
+   灰色字板块取消,终点改白 #ffffff 无缝衔接下方白色调研区
+   (var(--surface)),与底部溶解带同为白,滚动叠加不产生色差;不模糊
+   图片主体、不拦截指针。
+   2026-11-08 用户要求:首页刚打开时首图下边缘不得有渐变,滚动之后才
+   有——静止态整块隐藏(opacity 0),is-dissolving 时随溶解带淡入。 */
+.lightbox__first-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(48px, 16%, 160px);
+  background: linear-gradient(to bottom, transparent 0%, #ffffff 100%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.lightbox__first--fade.is-dissolving .lightbox__first-fade {
+  opacity: 1;
+}
+/* ── 首图底部溶解(2026-11-07 用户要求,仿空气炸锅 heroFade):滚动离开
+   时首图底部开启虚化带,图+四行字一起渐入下方板块底色(白色调研区)。
+   静止时零蒙版(带高由 JS 写入 --first-fade-h);两个渐变都挂在
+   .is-dissolving 上(带高为 0 时所有停点都会塌到 100%,渐变会渲染成
+   末色=整图消失,故静止态必须完全摘除)。 ── */
+.lightbox__first--fade {
+  --first-fade-h: 0px;
+  --first-fade-to: #ffffff; /* 与下方调研区 var(--surface) 一致 */
+}
+/* 底色渐变带:与蒙版同步,首图最后一像素恰好是下一板块的颜色,无接缝 */
+.lightbox__first--fade.is-dissolving::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent calc(100% - var(--first-fade-h)),
+    var(--first-fade-to) 100%
+  );
+}
+/* 蒙版:图与左下角四行字一起溶解。停点走 smoothstep 而非直线,
+   渐变带两端缓出,不会与页面成硬角相交 */
+.lightbox__first--fade.is-dissolving .lightbox__first-media {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 calc(100% - var(--first-fade-h)),
+    rgba(0, 0, 0, 0.94) calc(100% - var(--first-fade-h) * 0.85),
+    rgba(0, 0, 0, 0.78) calc(100% - var(--first-fade-h) * 0.7),
+    rgba(0, 0, 0, 0.5) calc(100% - var(--first-fade-h) * 0.5),
+    rgba(0, 0, 0, 0.22) calc(100% - var(--first-fade-h) * 0.3),
+    rgba(0, 0, 0, 0.06) calc(100% - var(--first-fade-h) * 0.15),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 calc(100% - var(--first-fade-h)),
+    rgba(0, 0, 0, 0.94) calc(100% - var(--first-fade-h) * 0.85),
+    rgba(0, 0, 0, 0.78) calc(100% - var(--first-fade-h) * 0.7),
+    rgba(0, 0, 0, 0.5) calc(100% - var(--first-fade-h) * 0.5),
+    rgba(0, 0, 0, 0.22) calc(100% - var(--first-fade-h) * 0.3),
+    rgba(0, 0, 0, 0.06) calc(100% - var(--first-fade-h) * 0.15),
+    transparent 100%
+  );
+}
+/* ── 首图内四行字(2026-11-07 用户要求,仿空气炸锅 hero):左下角叠在
+   首图上,桌面四行/≤768 单行;在静态渐变遮罩之上(遮罩 DOM 在前) ── */
+/* 四行字钉针(2026-11-08 用户要求):首图比视口高(宽于 16:9 的视口,
+   图自然高超出屏高)时,四行字仍留在第一屏左下角、不随图底掉到折叠线
+   以下——高度 0 的 sticky 容器 bottom:0 钉在滚动容器底;图底升到视口
+   底后随图一起滚走(钉针在图内,溶解蒙版一起罩住)。高度 0 不占流、
+   不影响图高与溶解带几何 */
+.lightbox__first-meta-pin {
+  position: sticky;
+  bottom: 0;
+  height: 0;
+}
+.lightbox__first-media .lightbox__meta--overlay-inline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 0 0 40px 56px;
+  max-width: none;
+  margin: 0;
+}
+.lightbox__first-media .lightbox__meta--overlay-inline .lightbox__meta-rows {
+  display: block;
+}
+.lightbox__first-media .lightbox__meta--overlay-inline .lightbox__meta-row {
+  padding: 3px 0;
+  gap: 14px;
+  opacity: 0.5;
+}
+.lightbox__first-media .lightbox__meta--overlay-inline .lightbox__meta-label,
+.lightbox__first-media .lightbox__meta--overlay-inline .lightbox__meta-value {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  letter-spacing: 0.03em;
+  color: var(--text-secondary);
+  text-shadow: none;
+}
+.lightbox__first-media .lightbox__meta--overlay-inline .lightbox__meta-label {
+  min-width: 36px;
+}
+@media (max-width: 768px) {
+  /* 手机/小平板:四行收成单行,贴图左下角(同空气炸锅 hero 变体) */
+  .lightbox__first-media .lightbox__meta--overlay-inline .lightbox__meta-rows {
+    display: none;
+  }
+  .lightbox__first-media .lightbox__meta--overlay-inline .lightbox__meta-line {
+    display: flex;
+    justify-content: flex-start;
+    gap: 14px;
+  }
+  .lightbox__first-media .lightbox__meta--overlay-inline {
+    padding: 0 20px 20px;
+  }
+}
+
+/* ── Full-page image (目标下方全景图) — 铺满整页的 100vh 全幅大图 ──
+   cover 填满整个视口,无滚动视差(2026-10-15 用户确认还原)。
+   2752×1536 横向图在窄屏会横向裁切较多,属预期。 */
+.lightbox__fullpage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh; /* 项目约定:100svh 永远跟在 100vh 后面 */
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.lightbox__fullpage-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* ── Closing images — full-bleed, natural height ──
+   Deliberately outside the content column: no max-width and no horizontal
+   padding, so the image spans the viewport edge to edge. Unlike the
+   full-page band above it, the height is NOT capped — the image keeps its own
+   aspect ratio and a tall one simply runs over several screens, which is the
+   point of a closing band. `line-height: 0` kills the inline-element gap the
+   image would otherwise leave under itself. ── */
+.lightbox__endimages {
+  width: 100%;
+  line-height: 0;
+  background: var(--bg);
+}
+
+.lightbox__endimages-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* ── Showcase ── */
+
+.lightbox__showcase {
+  background: var(--surface);
+  padding: 120px 0;
+}
+
+.lightbox__showcase-inner {
+  max-width: 1400px; /* 卡片内版心统一 1400(2026-10-21 用户规则:主页 1700 / 卡片内 1400) */
+  margin: 0 auto;
+  padding: 0 80px;
+}
+
+.lightbox__showcase-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.lightbox__showcase-img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.lightbox__showcase-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: #000;
+}
+
+/* ── Split showcase: video left, text right ── */
+.lightbox__showcase-split {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.lightbox__showcase-video-box {
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000;
+}
+
+/* Sticky text column: pins 120px below the viewport top while its row is on
+   screen, then unpins at the row's bottom edge and scrolls away with it.
+   align-self: start is required — with the grid's align-items: center the
+   cell would be centered and sticky would have no room to move. */
+.lightbox__showcase-text {
+  align-self: start;
+  position: sticky;
+  top: 120px;
+  /* Promote the pinned block to its own compositor layer so the sticky
+     movement never re-rasterizes the rest of the row. */
+  will-change: transform;
+}
+
+.lightbox__showcase-text-title {
+  font-family: var(--font);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 0 0 16px;
+}
+
+.lightbox__showcase-text-body {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.lightbox__showcase-text-body + .lightbox__showcase-text-body {
+  margin-top: 0.5em;
+}
+
+/* ── 短小精悍(2026-10-23):showcase 下方白底板块——大标题 + 两图并排,
+   两张合计版心宽 min(1400,vw−48),圆角 8px ── */
+
+.lightbox__compact {
+  --fade-h: clamp(88px, 18vw, 320px); /* 图 15/14 融合渐变区高度(四档自适应) */
+  background: var(--surface);
+  padding: 0 0 120px;
+}
+
+.lightbox__compact-inner {
+  /* 版心规则同图 3/4/5:min(1400,vw−48) 居中,无额外侧留白 */
+  width: min(1400px, calc(100vw - 48px));
+  margin: 0 auto;
+}
+
+.lightbox__compact-title {
+  font-family: var(--font);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  text-align: center;
+  margin: 0 0 clamp(32px, 5vh, 56px);
+}
+
+.lightbox__compact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* 7/8/9/10-13 之间统一小缝隙(2026-10-24 用户要求:缝隙小一些、对比要小) */
+  gap: clamp(8px, 1.5vw, 20px);
+}
+
+.lightbox__compact-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1536 / 2752; /* 原图 1536×2752,防 CLS */
+  border-radius: 8px;
+  background: #000;
+}
+
+/* 图 9(2026-10-23):版心全宽图;左下角叠一行小字(左下角实测深色
+   mean≈12,白字直接可读);与 7/8/9/10-13 统一小缝隙 clamp(8,1.5vw,20)
+   (2026-10-24 用户要求) */
+.lightbox__compact-figure9 {
+  position: relative;
+  margin: clamp(8px, 1.5vw, 20px) 0 0;
+}
+
+.lightbox__compact-img9 {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  background: #000;
+}
+
+.lightbox__compact-img9 {
+  aspect-ratio: 2752 / 1536; /* 原图 2752×1536,防 CLS */
+}
+
+.lightbox__compact-figure9-caption {
+  position: absolute;
+  left: clamp(16px, 2.5vw, 36px);
+  bottom: clamp(14px, 2.5vh, 32px);
+  margin: 0;
+  font-size: clamp(15px, 1.5vw, 18px);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* 图 10-13(2026-10-24):图 9 下方两行四图(2×2),与 7/8/9 统一小缝隙
+   clamp(8,1.5vw,20);每图静态无动效(2026-10-24 用户要求移除悬停放大) */
+.lightbox__compact-grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(8px, 1.5vw, 20px);
+  margin-top: clamp(8px, 1.5vw, 20px);
+}
+
+.lightbox__compact-figure2x2 {
+  position: relative;
+  margin: 0;
+  border-radius: 8px;
+  overflow: hidden; /* 圆角裁切,图片不溢出 */
+  background: #000;
+}
+
+.lightbox__compact-img2x2 {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1021 / 1019; /* 原图 1021×1019,防 CLS */
+}
+
+/* 图 10-13 与视频 5 之间说明段(2026-11-07 用户要求):居中对齐、
+   普通字档 var(--fs-body);pre-line 保留换行(两行文案);
+   上距与视频上距同款 clamp(24px,4vh,48px);四档同布局、静态无动效 */
+.lightbox__compact-grid2-note {
+  margin: clamp(24px, 4vh, 48px) 0 0;
+  text-align: center;
+  font-family: var(--font);
+  font-size: var(--fs-body); /* 普通字档(用户要求"正常大小") */
+  font-weight: var(--fw-body);
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
+  white-space: pre-line;
+}
+
+/* 图 15/14(2026-10-24 改):视频 5 下方全屏贴边大图(出 inner、section 直接
+   子元素,无圆角),15 在上、火焰图 14 在下;两张叠放融合:14 上移 --fade-h/2
+   与 15 重叠,交界处渐变黑遮罩(上透明→中间纯黑→下透明),上图底隐入下图顶,
+   无边框无间隙,整体连贯 banner;width:100% + aspect-ratio 防 CLS */
+.lightbox__compact-figure15 {
+  position: relative;
+  margin: clamp(24px, 4vh, 48px) 0 0;
+}
+
+.lightbox__compact-figure14 {
+  position: relative; /* 与 figure15 同层定位,按 DOM 顺序绘在其上 */
+  margin: calc(var(--fade-h) * -0.5) 0 0; /* 上移半个渐变区,与 15 叠放 */
+}
+
+/* 融合渐变遮罩:顶部透明 → 中间纯黑(压在 14 顶边上,隐去分割线)→ 底部透明 */
+.lightbox__compact-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--fade-h);
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0), #000 50%, rgba(0, 0, 0, 0));
+}
+
+.lightbox__compact-img15,
+.lightbox__compact-img14 {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.lightbox__compact-img15 {
+  aspect-ratio: 3507 / 1209; /* 原图 3507×1209,防 CLS */
+}
+
+.lightbox__compact-img14 {
+  aspect-ratio: 2752 / 1536; /* 原图 2752×1536,防 CLS */
+}
+
+/* 视频 5(2026-10-23):图组下方版心全宽循环视频,圆角 8px */
+.lightbox__compact-video-box {
+  margin: clamp(24px, 4vh, 48px) 0 0;
+  aspect-ratio: 17 / 10; /* 视频实际画幅 680×400,防 CLS */
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000;
+}
+
+.lightbox__compact-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .lightbox__compact {
+    padding: 0 0 80px;
+  }
+}
+
+/* ── Final stack:滚动堆叠卡 ──
+   每张卡与上方 showcase 模块同尺寸(整列宽 16:9,容器与边距断点一致)。
+   滚动时后一张滑出盖住前一张,前一张同步缩到 targetScale;最后一张
+   不被覆盖、不缩小。纯 CSS sticky 负责钉住,GSAP 只做 scale scrub。 */
+
+.lightbox__finalstack {
+  background: var(--surface);
+  padding: 60px 0 0;
+}
+
+/* 2026-11-08 用户要求:「最终呈现」大标题滚动时始终钉在页面顶部、与下方
+   堆叠图同框。标题改为 section 直接子元素后,sticky 的包含块横跨全部卡片,
+   滚动到堆叠区即钉在滚动容器顶部(top 0);纯 CSS sticky,不触发重排;
+   z-index 2 压过 is-active 卡片的合成层;实底 var(--surface) 色带保证文字
+   在图片滚过时不花;reduced-motion 下同样钉住(纯布局,非动画)。
+   2026-11-08 再改:最后一张图往上滚时标题随它同步上移(而不是图走完标题
+   才动)——h2 钉住盒高 100vh:钉住时盒底=视口底,与最后一张 100vh 卡
+   同时触发底部约束,两者严格同步上升。100vh 占流由第一张 wrap 的负上边距
+   补偿(净间距仍 80px;负边距不可放在 sticky 元素自身——Chrome 对 sticky
+   的底部约束用 margin 盒,负下边距会把盒底拉回视口顶+80,同步失效)。
+   盒体透明、pointer-events none(不挡卡片),仅内部文字带实底。
+   注意:lightbox 自带滚动容器 .lightbox__scroll,sticky 相对它生效。 */
+.lightbox__finalstack-title {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  height: 100vh;
+  height: 100svh;
+  /* 2026-11-08 用户要求:文字别贴滚动容器顶部——padding-top 把文字带
+     整体下移(盒 border-box 仍 100vh、top 0,sticky 底部约束几何不变,
+     与末卡同步上移不受影响) */
+  padding-top: clamp(14px, 3vh, 26px);
+  /* 下边距必须为 0:Chrome 对 sticky 的底部约束按 margin 盒算,
+     80px 下边距会让标题比末卡早 80px 起升(实测同步差 80);
+     80px 间距已并入第一张 wrap 的负上边距 */
+  margin: 0;
+  pointer-events: none;
+  text-align: center;
+  font-family: var(--font);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+.lightbox__finalstack-title-text {
+  display: block;
+  position: relative; /* ::after 下划线锚点 */
+  /* 带高保持紧凑(行高 1.2 + 窄上下垫)+ 为整体下移留量:桌面 900px
+     视口卡顶≈101px,带底 26+18+43+12≈99px 仍在卡顶之上,不压图顶缘 */
+  padding: clamp(10px, 2vh, 18px) 24px 12px;
+  line-height: 1.2;
+  background: var(--surface);
+}
+
+/* Short orange underline, centered under the title */
+.lightbox__finalstack-title-text::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+/* 每张卡一个 100vh 粘性容器:滚到顶即钉住,后一张盖上来。
+   100svh 永远跟在 100vh 后面(项目约定)。 */
+.lightbox__finalstack-wrap {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 80px;
+}
+/* 第一张 wrap 负上边距:补偿标题钉住盒的 100vh 占流并保留 80px 净间距
+   (见标题注释;标题下边距为 0,塌陷后净间距 = −100vh+80px)。
+   负边距放 wrap 上不影响 sticky 自身约束(wrap 无负上下边距)。 */
+.lightbox__finalstack-wrap:first-of-type {
+  margin-top: calc(-100vh + 80px);
+  margin-top: calc(-100svh + 80px);
+}
+
+/* 卡片本体:与上方 showcase 模块同宽——整列宽、上限 1540px(容器
+   1700−160 边距);max-height 是极矮视口的兜底(横屏手机等),正常
+   比例下不生效 */
+.lightbox__finalstack-card {
+  width: 100%;
+  max-width: calc(1400px - 160px);
+  aspect-ratio: 16 / 9;
+  max-height: calc(100vh - 48px);
+  max-height: calc(100svh - 48px);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000;
+}
+
+/* will-change 只在堆叠区块在视口内时挂载(ScrollTrigger onToggle),
+   滚离即释放 */
+.lightbox__finalstack.is-active .lightbox__finalstack-card {
+  will-change: transform;
+}
+
+.lightbox__finalstack-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.lightbox__finalstack-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #e3e2de 0%, #e8e7e3 50%, #deddd9 100%);
+}
+
+/* ── 堆叠图下方收尾图(2026-11-08 用户要求):版心宽 7.png ──
+   兄弟 section(在 .lightbox__finalstack 之外,保标题同步);白底延续
+   堆叠 section;上距=与末卡间距、下距=与下方通栏收尾图(endimages)
+   的间隙(2026-11-08 用户要求:图 7 与下图之间留间隙);图版心
+   min(1400,vw−48) 居中、圆角 8px(全站图片规则)、aspect-ratio
+   1951/817 防 CLS。
+   四档同布局、静态无动效 */
+.lightbox__finalstack-trailing {
+  background: var(--surface);
+  padding: clamp(24px, 4vh, 48px) 0 clamp(24px, 4vh, 48px);
+}
+/* 图 7 上方大标题「最终众筹价格」(2026-11-08 用户要求):与「最终呈现」
+   同档标题(字体/字号/字重/橙色下划线),静态、不参与滚动钉住 */
+.lightbox__finalstack-trailing-title {
+  margin: 0 0 clamp(24px, 4vh, 48px);
+  text-align: center;
+  font-family: var(--font);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+/* mini 打火机卡片内的同款大标题(2026-11-11 用户要求:视频 5 下方、
+   图 16 上方,与钢笔式毛笔「最终众筹价格」标题一模一样——复用
+   trailing-title + title-text 两类的全部样式,此处只补与视频的上距;
+   标题自带下边距=与图 16 的间隙。置于本文件靠后位置,保证
+   margin-top 不被 trailing-title 的 margin 简写覆盖) */
+.lightbox__compact-price-title {
+  margin-top: clamp(24px, 4vh, 48px);
+}
+/* 图 16(2026-11-11 用户要求):视频 5 下方版心全宽大图(inner 内,
+   天然 min(1400,vw−48))、圆角 8px(全站图片规则)、aspect-ratio
+   1953/813 防 CLS;四档同布局、静态无动效 */
+.lightbox__compact-figure16 {
+  margin: 0;
+}
+.lightbox__compact-img16 {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  aspect-ratio: 1953 / 813;
+}
+.lightbox__finalstack-trailing-img {
+  display: block;
+  width: min(1400px, calc(100vw - 48px)); /* 卡片内版心统一 1400(用户规则) */
+  margin: 0 auto;
+  aspect-ratio: 1951 / 817;
+  border-radius: 8px;
+}
+
+/* ── Footer spacer ── */
+
+.lightbox__footer {
+  padding: 80px 0;
+  text-align: center;
+  background: var(--surface);
+}
+
+.lightbox__footer-text {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+/* ── Related Works Carousel ── */
+
+.lightbox__related {
+  background: var(--surface);
+  padding: 80px 0 100px;
+}
+
+.lightbox__related-inner {
+  max-width: 1400px; /* 卡片内版心统一 1400(2026-10-21 用户规则:主页 1700 / 卡片内 1400) */
+  margin: 0 auto;
+  padding: 0 80px;
+}
+
+/* 「浏览其他作品」此前继承浏览器 h2 默认样式,补全站统一标题档(2026-10-22) */
+.lightbox__related .lightbox__section-heading {
+  font-family: var(--font);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: -0.02em;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* ── Coverflow carousel ──
+   The rake is tuned through custom properties so each breakpoint re-scales
+   the motion without JS (motion spec v1: 参数用响应式变量按断点定义).
+   JS reads them once per resize and paints transform/opacity directly. */
+.lightbox__related-carousel {
+  --rc-rotate: 44deg;
+  --rc-depth: 0.6;
+  --rc-perspective: 3;
+  --rc-falloff: 0.56;
+  --rc-fade: 0.1;
+  --rc-card: clamp(240px, 24vw, 340px);
+  --rc-gap: 0.05;
+  position: relative;
+}
+
+@media (max-width: 1023px) {
+  .lightbox__related-carousel {
+    --rc-rotate: 38deg;
+    --rc-depth: 0.5;
+    --rc-card: clamp(220px, 30vw, 300px);
+  }
+
+  /* Toy-1 平板(640-1023):图全幅铺满(右缘=视口最右),标语移至图下、
+     左对齐(「文字在页面左边」,2026-10-22) */
+  .lightbox__hero--toy1 .lightbox__hero-image-wrap {
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .lightbox__hero--toy1 .lightbox__hero-image {
+    width: 100%;
+    height: auto;
+  }
+  .lightbox__hero--toy1 .lightbox__hero-tagline--left {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch; /* 覆盖 wrap 的 align-items:center——标语容器撑满宽、文字靠左 */
+    text-align: left;
+    gap: 4px;
+    transform: none;
+    top: auto;
+    left: auto;
+    right: auto;
+    padding: 20px 40px 0;
+    opacity: 1;
+    animation: none;
+  }
+}
+
+@media (max-width: 639px) {
+  .lightbox__related-carousel {
+    --rc-rotate: 30deg;
+    --rc-depth: 0.4;
+    --rc-fade: 0.05;
+    --rc-card: clamp(190px, 62vw, 236px);
+  }
+}
+
+/* ── Frame — perspective viewport; vertical padding keeps shadows clear of
+   the overflow clip. Drag is ours, vertical page scroll stays touchable. ── */
+.lightbox__related-frame {
+  position: relative;
+  overflow: hidden;
+  padding: 40px 0;
+  cursor: grab;
+  outline: none;
+  touch-action: pan-y;
+}
+
+.lightbox__related-frame:active {
+  cursor: grabbing;
+}
+
+.lightbox__related-frame:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: -2px;
+}
+
+/* ── Stage — flat plane the 3D cards hang off ── */
+.lightbox__related-stage {
+  position: relative;
+  height: calc(var(--rc-card) * 0.75);
+  transform-style: preserve-3d;
+  user-select: none;
+  /* 关键(2026-11-07 修复):卡片 translateZ 负值退到本平面之后,stage 的
+     z=0 平面若不透指针会吞掉全部命中——侧边卡片点不到、轮播不转、
+     无法跳转对应卡片。none 后命中落到后方的卡片(拖拽仍由 frame 承接) */
+  pointer-events: none;
+}
+
+/* ── Card — transform/opacity/z-index painted inline by JS ── */
+.lightbox__related-card {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--rc-card);
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--bg);
+  pointer-events: auto;
+  backface-visibility: hidden;
+  transform: translateX(-50%);
+}
+
+/* will-change only while dragging / settling — released at rest (motion
+   spec v1: 动画结束后释放 will-change) */
+.lightbox__related-coverflow--moving .lightbox__related-card {
+  will-change: transform, opacity;
+}
+
+.lightbox__related-card--active {
+  box-shadow:
+    0 14px 36px rgba(0, 0, 0, 0.3),
+    0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+/* ── Card image — full card ── */
+.lightbox__related-card-img {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  background: var(--border-light);
+}
+
+.lightbox__related-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.lightbox__placeholder-img--related {
+  width: 100%;
+  height: 100%;
+  background: #e8e6e2;
+}
+
+/* ── Card info — overlaid at bottom of image ── */
+.lightbox__related-card-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 36px 18px 14px;
+  color: #fff;
+}
+
+.lightbox__related-card-title {
+  font-family: var(--font);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.lightbox__related-card-year {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.03em;
+}
+
+/* ── Arrow buttons ── */
+.lightbox__related-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.lightbox__related-arrow:hover {
+  background: var(--bg);
+  border-color: var(--text-muted);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.14);
+}
+
+.lightbox__related-arrow--left {
+  left: 20px;
+}
+
+.lightbox__related-arrow--right {
+  right: 20px;
+}
+
+/* ══════════════════════════════════════════════
+   Responsive
+   ══════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .lightbox__meta {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .lightbox__research-inner,
+  .lightbox__process-inner,
+  .lightbox__showcase-inner,
+  .lightbox__related-inner {
+    padding: 0 40px;
+  }
+
+  /* 堆叠卡与 showcase 模块同宽:平板 40px 边距 */
+  .lightbox__finalstack-wrap {
+    padding: 0 40px;
+  }
+
+  .lightbox__research-inner--side,
+  .lightbox__research-inner--side-reverse {
+    gap: 56px;
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
+  .lightbox__research:has(.lightbox__research-inner--side) + .lightbox__research:has(.lightbox__research-inner--side) {
+    margin-top: -140px;
+  }
+
+  .lightbox__research-inner--side {
+    grid-template-columns: 300px 1fr;
+  }
+
+  .lightbox__research-inner--side-reverse {
+    grid-template-columns: 1fr 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .lightbox__close {
+    top: calc(12px + var(--safe-top));
+    right: calc(12px + var(--safe-right));
+    width: 38px;
+    height: 38px;
+  }
+
+  /* Tagline: never hidden on small screens — static below the video/image,
+     always visible (no video-end gate, no hover dependency). The per-variant
+     selectors match the base variant rules so the resets win the cascade.
+     (Tritium 的 --below 例外:仍跟随视频结束/3s 兜底淡入。) */
+  .lightbox__hero-tagline--right,
+  .lightbox__hero-tagline--left,
+  .lightbox__hero--ring .lightbox__hero-tagline--right,
+  .lightbox__hero--pendant2 .lightbox__hero-tagline--left {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4px;
+    white-space: normal;
+    transform: none;
+    top: auto;
+    left: auto;
+    right: auto;
+    padding: 20px 24px 0;
+    opacity: 1 !important;
+    animation: none !important;
+  }
+
+  .lightbox__hero-tagline--right .lightbox__hero-tagline-line,
+  .lightbox__hero-tagline--left .lightbox__hero-tagline-line {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Toy-1:手机标语图下左对齐,左侧留白与页面一致(2026-10-22) */
+  .lightbox__hero--toy1 .lightbox__hero-tagline--left {
+    align-items: flex-start;
+    align-self: stretch; /* 覆盖 wrap 的 align-items:center——标语容器撑满宽、文字靠左 */
+    text-align: left;
+    padding: 20px 24px 0;
+  }
+
+  /* ── Mobile hero: normal document flow — media on top, all copy below ──
+     Base hero rules sit AFTER the early ≤768 block in this file and win
+     the cascade, so the full restructure lives here in the last block:
+     the stage grows with its content, the media shows complete (contain,
+     never cover-cropped), and every piece of copy is static below it. */
+
+  /* Stage: height = content (cancel 100vh/100svh and the 20vh pad) */
+  .lightbox__hero-img,
+  .lightbox__hero-img--no-pad,
+  .lightbox__hero--pendant2 .lightbox__hero-img {
+    height: auto;
+    min-height: 0;
+    padding-bottom: 0;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+
+  /* Media wrap: full width, hugs its video (was 70% × 88vh) */
+  .lightbox__hero-video-wrap,
+  .lightbox__hero-video-wrap--side,
+  .lightbox__hero--ring .lightbox__hero-video-wrap--side {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    margin-right: 0;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Media: complete view, never cropped. Posters (all landscape) and the
+     1920p videos share a 16/9 slot — contain letterboxes instead of
+     cropping, and the slot ratio never changes when playback starts. */
+  .lightbox__hero-video {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+  }
+
+  /* Image-hero projects (pendant-2 / app-1): natural-ratio full image,
+     stacked vertically so the tagline flows below the media */
+  .lightbox__hero-image-wrap {
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .lightbox__hero-image,
+  .lightbox__hero-img--overlay .lightbox__hero-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  /* Play overlay: cover the media box only (not the tagline below it), so
+     the icon sits dead-centre on the media and the whole face is the
+     ≥44px tap target. */
+  .lightbox__hero-play {
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Copy never floats above the media */
+  .lightbox__hero-tagline--right {
+    z-index: auto;
+  }
+
+  /* Dark gradient under the video — the base rule wins over earlier
+     blocks, hide it again for the stacked layout */
+  .lightbox__hero-video-wrap::after {
+    display: none;
+  }
+
+  /* Hero video variants shift the video with translate — cancel on mobile
+     so the stacked column sits flush (otherwise the clip is offset down/side) */
+  .lightbox__hero--brush .lightbox__hero-video-wrap--side,
+  .lightbox__hero--prism .lightbox__hero-video-wrap--side,
+  .lightbox__hero--ring .lightbox__hero-video-wrap--side {
+    transform: none;
+  }
+
+  .lightbox__meta {
+    padding: 28px 24px 64px;
+  }
+
+  .lightbox__meta-row {
+    padding: 6px 0;
+    gap: 12px;
+  }
+
+  .lightbox__research-group {
+    padding: 60px 0;
+  }
+
+  .lightbox__research {
+    padding: 36px 0;
+  }
+
+  .lightbox__research-inner {
+    padding: 0 24px;
+  }
+
+  .lightbox__research-inner--side,
+  .lightbox__research-inner--side-reverse {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  .lightbox__research:has(.lightbox__research-inner--side) + .lightbox__research:has(.lightbox__research-inner--side) {
+    margin-top: -104px;
+  }
+
+  /* Above: PEST 60 + top. Below: bottom + group 60 (full-page image has
+     no top pad). Equality needs 60 + top = bottom + 60, i.e. bottom = top. */
+  .lightbox__goal {
+    padding: 96px 20px 96px;
+  }
+
+  /* Full width again once stacked — the 68% cap is a column-layout concern. */
+  .lightbox__research-inner--side .lightbox__insight-img--square,
+  .lightbox__research-inner--side-reverse .lightbox__insight-img--square {
+    max-width: 100%;
+  }
+
+  .lightbox__research-inner--side-reverse .lightbox__insight-text {
+    order: 0;
+  }
+
+  .lightbox__research-inner--side-reverse .lightbox__insight-images {
+    order: 0;
+  }
+
+  .lightbox__insight {
+    margin-bottom: 32px;
+  }
+
+  .lightbox__insight-images {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .lightbox__insight-img--tall,
+  .lightbox__insight-img--square {
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+
+  .lightbox__showcase-split {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .lightbox__process {
+    padding: 0;
+  }
+
+  .lightbox__process-inner {
+    padding: 0 24px;
+  }
+
+  .lightbox__showcase {
+    padding: 80px 0;
+  }
+
+  .lightbox__showcase-inner {
+    padding: 0 24px;
+  }
+
+  .lightbox__showcase-grid {
+    gap: 32px;
+  }
+
+  .lightbox__finalstack {
+    padding: 40px 0 0;
+  }
+
+  /* 卡片与 showcase 模块同宽:手机同样 24px 边距 */
+  .lightbox__finalstack-wrap {
+    padding: 0 24px;
+  }
+
+  /* Carousel — tuning already re-scaled in the --rc-* media block */
+  .lightbox__related {
+    padding: 50px 0 70px;
+  }
+
+  /* Meta + side image: stack instead of the desktop side-by-side row,
+     otherwise the kickstarter image overflows the scroll container */
+  .lightbox__meta--with-image .lightbox__meta-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .lightbox__meta--with-image .lightbox__meta-image {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .lightbox__related-arrow {
+    width: 32px;
+    height: 32px;
+    display: flex;
+  }
+
+  .lightbox__related-arrow--left {
+    left: 4px;
+  }
+
+  .lightbox__related-arrow--right {
+    right: 4px;
+  }
+}
+
+/* ── 触屏设备（无 hover / 粗指针）──────────
+   触控目标 ≥44px、hover 反馈改为按压反馈；桌面视觉完全不变。 */
+@media (hover: none) and (pointer: coarse) {
+  /* 相关作品箭头：视觉 40px(手机 32px) + 外扩热区 */
+  .lightbox__related-arrow::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+  }
+
+  /* 关闭按钮：手机视觉 38px + 外扩热区 ≥44px */
+  .lightbox__close::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+  }
+
+  .lightbox__close:active {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  .lightbox__related-arrow:active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+}
+
+/* ── 光视频板块(滚动文字板块之后,打火机专属,2026-10-22) ──
+   黑底(与 swr 板块连成深色区);标题全站标题档居中;
+   视频循环播放、左右铺满版心宽度(卡片内版心统一 1400);
+   视频下三段小字居中(段落间行距均匀);小字下方全屏贴边大图(2026-10-23)。
+   动效响应式规范 v1:纯静态板块无动画;四档同布局(版心自收缩);
+   reduced-motion 由 JSX 关闭自动播放(见 Lightbox.jsx)。 */
+
+.lightbox__light-demo {
+  background: #000;
+  color: rgba(255, 255, 255, 0.92);
+  padding: clamp(64px, 9vh, 110px) 0;
+}
+
+.lightbox__light-demo-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 4vw, 80px);
+}
+
+.lightbox__light-demo-title {
+  font-family: var(--font);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-align: center;
+  margin: 0 0 clamp(28px, 4.5vh, 48px);
+}
+
+.lightbox__light-demo-video {
+  display: block;
+  width: 100%; /* 左右铺满版心宽度 */
+  border-radius: 8px; /* 全站图片圆角 8px */
+  background: #000;
+}
+
+.lightbox__light-demo-caption {
+  font-family: var(--font);
+  font-size: clamp(15px, 1.3vw, 17px);
+  font-weight: var(--fw-body);
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.62);
+  text-align: center;
+  margin: clamp(24px, 4vh, 40px) auto 0;
+}
+
+.lightbox__light-demo-caption-line {
+  display: block;
+}
+
+/* 全屏贴边大图(2026-10-23,小字最后一段下方):通栏贴边无圆角
+   (贴边等要求除外——全站圆角 8px 规则不适用);与 caption 的上距同款
+   clamp(24px,4vh,40px) 保持板块内节奏;aspect-ratio 预留防 CLS。
+   图内下部分叠两段小字(2026-10-23 同日):figcaption 绝对定位在
+   figure(即图片框)内底部居中,图底为纯黑渲染区白字直接可读,
+   无需渐变遮罩。 */
+.lightbox__light-demo-figure {
+  position: relative;
+  margin: clamp(24px, 4vh, 40px) 0 0; /* 左右必须 0,否则默认 40px 破坏通栏 */
+}
+.lightbox__light-demo-full {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2752 / 1536; /* 原图 2752×1536,预留防 CLS */
+  background: #000;
+}
+.lightbox__light-demo-figure-caption {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: clamp(20px, 4vh, 44px);
+  width: min(1200px, calc(100% - 48px));
+  margin: 0;
+  text-align: center;
+  font-family: var(--font);
+  font-size: clamp(15px, 1.5vw, 18px); /* 全站小字档加大一档(2026-10-23 用户要求) */
+  font-weight: var(--fw-body);
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.85);
+}
+.lightbox__light-demo-figure-caption p {
+  margin: 0;
+}
+.lightbox__light-demo-figure-caption p + p {
+  margin-top: 0.5em; /* 两段之间半行距 */
+}
+
+/* 图 3(2026-10-23):版心宽 min(1400,vw−48) 居中,与上图 2 留间隙
+   clamp(24px,4vh,48px)(8px→clamp(16,2.5vh,32) 同日加宽,再嫌小再加大);
+   非贴边故圆角 8px(全站图片规则);aspect-ratio 预留防 CLS */
+.lightbox__light-demo-figure2 {
+  margin: clamp(24px, 4vh, 48px) 0 0;
+}
+.lightbox__light-demo-img2 {
+  display: block;
+  width: min(1400px, calc(100vw - 48px));
+  height: auto;
+  margin: 0 auto;
+  aspect-ratio: 2300 / 2400; /* 原图 2300×2400 */
+  border-radius: 8px;
+  background: #000;
+}
+
+/* 图 3 下方中号字(2026-10-23,用户改):黑底白字居中,字号介于标题档与小字之间 */
+.lightbox__light-demo-quote {
+  margin: clamp(48px, 7vh, 96px) 0 0;
+  padding: 0 clamp(24px, 4vw, 80px);
+  text-align: center;
+  font-family: var(--font);
+  font-size: clamp(17px, 1.9vw, 24px);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  color: #ffffff;
+}
+
+/* 图 4(2026-10-23,中号字下方):与图 3 同款——版心宽 min(1400,vw−48) 居中、
+   圆角 8px、aspect-ratio 预留防 CLS */
+.lightbox__light-demo-figure3 {
+  margin: clamp(24px, 4vh, 48px) 0 0;
+}
+.lightbox__light-demo-img3 {
+  display: block;
+  width: min(1400px, calc(100vw - 48px));
+  height: auto;
+  margin: 0 auto;
+  aspect-ratio: 2752 / 1536; /* 原图 2752×1536 */
+  border-radius: 8px;
+  background: #000;
+}
+
+/* 图 5(2026-10-23,图 4 下方):版心宽同款,顶部一行小字叠在图顶
+   (图顶为纯黑渲染区,白字直接可读) */
+.lightbox__light-demo-figure4 {
+  position: relative;
+  margin: clamp(24px, 4vh, 48px) 0 0;
+}
+.lightbox__light-demo-img4 {
+  display: block;
+  width: min(1400px, calc(100vw - 48px));
+  height: auto;
+  margin: 0 auto;
+  aspect-ratio: 2752 / 1700; /* 原图 2752×1700 */
+  border-radius: 8px;
+  background: #000;
+}
+.lightbox__light-demo-figure4-caption {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: clamp(20px, 4vh, 44px);
+  width: min(1200px, calc(100% - 48px));
+  text-align: center;
+  font-size: clamp(15px, 1.5vw, 18px);
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* 图 6(2026-10-23,图 5 下方):全屏贴边(左右贴住网页两边,无圆角),
+   与图 5 同间距 clamp(24,4vh,48),aspect-ratio 预留防 CLS */
+.lightbox__light-demo-figure5 {
+  margin: clamp(24px, 4vh, 48px) 0 0;
+}
+.lightbox__light-demo-full5 {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3508 / 923; /* 原图 3508×923 */
+  background: #000;
+}
+
+/* ── 台阶滚动之后的整页大图(pen-2 图 4,2026-11-13 用户要求:
+   3-6 滚完后下一页面放图 4,页面大小=占满一屏)──
+   黑底衔接上方黑板块;静态无动效(无需 reduced-motion 处理);
+   四档同布局:整页 100svh + object-fit cover,无圆角 ── */
+.lightbox__page-image {
+  position: relative;
+  height: 100vh;
+  height: 100svh; /* 手机地址栏收起/弹出不溢出 */
+  background: #000;
+  overflow: hidden;
+}
+.lightbox__page-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── 「页面宽度」规则(2026-11-14 用户规则):页面宽度的单行大图/视频
+   在窄设备(≤767)左右贴边通栏、无圆角;≥768 桌面/平板版心不变。
+   贴边技巧:块级盒 width:100vw + 负边距 calc(50% − 50vw) 或既有
+   margin:0 auto(过约束解析为负值)──版心容器内居中溢出即左右贴边。
+   网格/双栏/阶梯/手风琴等设计布局不受此规则影响 ── */
+/* ── 「页面宽度」规则附则(2026-11-14):statement 一句话在极窄设备
+   (<340)nowrap 会横向溢出 16px(320 视口实测 sw336),放行换行保持
+   可读、不飞出页面 ── */
+@media (max-width: 339px) {
+  .lightbox__statement-text {
+    white-space: normal;
+  }
+}
+@media (max-width: 767px) {
+  .lightbox__light-demo-video,
+  .lightbox__compact-img9,
+  .lightbox__compact-img16 {
+    width: 100vw;
+    max-width: none; /* 解除 index.css img{max-width:100%} 钳制 */
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    border-radius: 0;
+  }
+  .lightbox__light-demo-img2,
+  .lightbox__light-demo-img3,
+  .lightbox__light-demo-img4,
+  .lightbox__finalstack-trailing-img {
+    width: 100vw;
+    max-width: none; /* 解除 index.css img{max-width:100%} 钳制 */
+    border-radius: 0;
+  }
+  .lightbox__showcase-video-box,
+  .lightbox__compact-video-box,
+  .lightbox__process-img-wrap,
+  .lightbox__process-slot {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    border-radius: 0;
+  }
+  .lightbox__insight-images--single .lightbox__insight-img--wide {
+    flex: 0 0 auto;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    border-radius: 0;
+  }
+}

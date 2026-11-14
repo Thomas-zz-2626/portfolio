@@ -1,0 +1,169 @@
+/* ── 「形态推演」(2026-10-21 用户要求):展开区块内、
+   2-1 通栏图正下方(2026-10-22 标题由英文 Form Derivation 改为中文)──
+   白底静态版面,无动效(无需 reduced-motion 处理);无边框、无阴影,
+   图片保持全站 8px 圆角。
+   2026-10-21 用户改版:四张图重排为两行——
+   · 第一行:大图 2-2 单独放大填满整行
+   · 第二行:上排 2-3/2-4 等高并排、竖排文字箭头链放在两张图之间,
+     2-5 横跨整行
+   2026-10-21 用户再改:所有图片放大到版心最大宽度——卡片内版心统一
+   1400(2026-10-21 用户规则:主页 1700 / 卡片内 1400)。
+   2026-10-21 用户三改:文字箭头链从 2-2 右边移到上排 2-3/2-4 两张图
+   之间——2-2 单独放大填满整行;上排改三列 grid(2-3 | 链 T | 2-4),
+   2-3/2-4 等比缩小让出链列(T+2G),画幅比例分列宽故仍等高,2-5 宽
+   = 上排总宽不变;链在上排内垂直居中;全部 row-gap 上下间距不变。
+   纯 CSS calc,无 JS;图片 width:100% + 原生画幅 aspect-ratio。
+   断点:≥1024 两行版面;<1024 堆叠(2-2 整行 → 2-3|链|2-4 上排 →
+   2-5 整行),四档同布局。 */
+
+.formder {
+  background: #ffffff;
+  padding: clamp(48px, 8vh, 96px) 24px;
+  box-sizing: border-box;
+}
+.formder__inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.formder__title {
+  margin: 0 0 clamp(32px, 5vh, 56px);
+  text-align: center;
+  font-family: var(--font);
+  font-size: var(--fs-title); /* 全站统一标题档 */
+  font-weight: var(--fw-title);
+  letter-spacing: 0.02em;
+  color: #171717;
+}
+
+.formder__stage {
+  --G: clamp(14px, 1.6vw, 24px); /* 所有图片间留白间距统一 */
+  --T: 72px; /* 文字箭头链列宽(3 个汉字 13px ≈ 42px,留余量) */
+  --r3: 0.749790795;
+  --r4: 0.7510477795;
+  --r34: calc(var(--r3) + var(--r4));
+  display: grid;
+  grid-template-columns: 100%;
+  row-gap: var(--G);
+}
+
+/* 第一行:2-2 单独放大填满整行(2026-10-21 用户三改:文字链已移到
+   上排两张图之间,2-2 独享整行) */
+.formder__row1 {
+  display: flex;
+  justify-content: flex-start;
+  gap: var(--G);
+}
+
+/* 大图 2-2:放大到版心最大宽度(整行宽) */
+.formder__left {
+  flex: 0 0 auto;
+  width: 100%;
+}
+.formder__img-22 {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1364 / 768; /* 原始画幅,预留防 CLS */
+  border-radius: 8px;
+}
+
+/* 竖排文字箭头链:在上排 2-3/2-4 之间(T 列 grid 项,列宽由 row 给出),
+   文字垂直均匀分布,箭头在文字正下方(最后一项药剂瓶无箭头);
+   gap 收紧(手机上 2-3/2-4 等比缩小后仅 ~150px 高,链不能比图高) */
+.formder__chain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 1.6vh, 36px);
+}
+.formder__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.formder__step-label {
+  font-family: var(--font);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  letter-spacing: 0.06em;
+  color: #171717;
+  white-space: nowrap;
+}
+.formder__step-arrow {
+  margin-top: 8px;
+  color: #555555;
+}
+
+/* 第二行:图组,左右放大到版心最大宽度(100%);上排三列
+   = 2-3 | 文字链(T) | 2-4——2-3/2-4 按画幅比例分剩余列宽(等比缩小、
+   仍等高),链在中间列、行内垂直居中;下排 2-5 横跨整行(宽 = 上排
+   总宽 = 100%);上下 row-gap 间距不变 */
+.formder__group {
+  width: 100%;
+  display: grid;
+  row-gap: var(--G);
+  align-content: start;
+}
+.formder__row {
+  display: grid;
+  grid-template-columns:
+    calc((100% - var(--T) - 2 * var(--G)) * var(--r3) / var(--r34))
+    var(--T)
+    calc((100% - var(--T) - 2 * var(--G)) * var(--r4) / var(--r34));
+  column-gap: var(--G);
+  align-items: center; /* 文字链在 2-3/2-4 行内垂直居中 */
+}
+.formder__img-23,
+.formder__img-24,
+.formder__img-25 {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+.formder__img-23 {
+  aspect-ratio: 896 / 1195;
+}
+.formder__img-24 {
+  aspect-ratio: 896 / 1193;
+}
+.formder__img-25 {
+  aspect-ratio: 1691 / 624;
+}
+
+/* <1024(手机/平板):堆叠——2-2 整行 → 上排(2-3|链|2-4)→ 2-5 整行;
+   上排三列布局与桌面一致(列宽 % 按 row 自身宽解析,图组 = 整版心宽),
+   四档同布局 */
+@media (max-width: 1023px) {
+  .formder__stage {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--G);
+  }
+  .formder__row1 {
+    flex-direction: column;
+    gap: var(--G);
+  }
+  .formder__left {
+    width: 100%;
+  }
+  .formder__group {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+/* ── 「页面宽度」规则(2026-11-14 用户规则):窄设备大图 2-2/2-5 左右
+   贴边无圆角;≥768 版心不变(2-3/2-4 小图对不受影响) ── */
+@media (max-width: 767px) {
+  .formder__img-22,
+  .formder__img-25 {
+    width: 100vw;
+    max-width: none; /* 解除 index.css img{max-width:100%} 钳制 */
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    border-radius: 0;
+  }
+}

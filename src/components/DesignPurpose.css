@@ -1,0 +1,282 @@
+/* ── 外壳页(静态标题 + 居中 1-1 图)×「设计目的」──
+   白底简约工业风(用户 2026-10-18 二次修订:背景换白):场景底
+   #ffffff、无边框、无辅助标记线;白底照片原图直出与白底无缝融合。
+   用户 2026-10-19 简化(算了,全部去掉):三层视差滚动、标题向左下
+   钉住动效、右侧钛合金参数卡片全部移除——外壳页 = 50vh 静态标题
+   板块(标题 + 细横线 + 小字)+ 1-1 原图静态居中(max-width 1400
+   封顶、两侧留白 clamp(20px, 4.5vw, 64px),不贴左右边缘),下方
+   直接接「设计目的」。整页无动效。 */
+
+/* 场景总容器:白色工业底;底部无占位,直接接「设计目的」标题,
+   上下连在一起 */
+.lightbox__shellscene {
+  position: relative;
+  background: #ffffff;
+}
+
+/* 标题板块:50vh 白底静态布局,标题 + 细横线 + 小字整组垂直居中;
+   内容超半页时自然长高不溢出 */
+.lightbox__shell-pitch {
+  min-height: 50vh;
+  min-height: 50svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(48px, 8vh, 96px) 24px;
+  box-sizing: border-box;
+  text-align: center;
+}
+.lightbox__shell-title {
+  /* 收缩包住文字 */
+  width: -webkit-fit-content;
+  width: fit-content;
+  margin: 0 auto;
+  font-family: var(--font);
+  /* 全站统一标题档(与 statement 开场白/「设计目的」标题同档) */
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: 0.02em;
+  color: #171717;
+}
+/* 标题下方细横线:短居中 1px 线(半透明黑) */
+.lightbox__shell-divider {
+  display: block;
+  width: 56px;
+  height: 1px;
+  margin: clamp(20px, 3vh, 32px) 0 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+/* 小字:标题→横线 = 横线→小字 同间距(用户要求);一行放下:
+   不换行 + 全站小字档统一字号(≥768px 时单行) */
+.lightbox__shell-sub {
+  margin: clamp(20px, 3vh, 32px) 0 0;
+  white-space: nowrap;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  line-height: 1.9;
+  color: #555555;
+}
+/* 手机:一行必然缩到不可读,改为允许换行、13px 保持可读 */
+@media (max-width: 767px) {
+  .lightbox__shell-sub {
+    white-space: normal;
+  }
+}
+
+/* 静态产品图:1-1 原图居中展示(2026-10-19 用户简化:去掉视差与
+   标题钉住动效,页面直接换成这张图)。不贴左右边缘——两侧留白与
+   全站版心同款 clamp(20px, 4.5vw, 64px),max-width 1400 封顶
+   (2026-10-19 用户三次要求放大:800 → 1000 → 1200 → 1400;竖幅图
+   保持适中尺寸,超宽屏两侧留白继续扩大);高度随画幅自然自适应,
+   不拉伸、不裁切 */
+.lightbox__shell-figure {
+  width: calc(100% - 2 * clamp(20px, 4.5vw, 64px));
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.lightbox__shell-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3600 / 5300; /* 预留画幅空间(2026-10-19 第四次换图,新图 3600×5300):懒加载图到位前不产生布局位移,且 LQIP 底图可见作占位 */
+  border-radius: 8px; /* 全站图片圆角统一 8px */
+}
+
+/* ── 「设计目的」:白底 + 居中标题 + 墨水揭秘句子 ──
+   用户要求去掉视差块下方到标题上方之间的半页:直接跟在产品图
+   下面、上下连在一起,顶部只隔一节律间距(20~32px);底部保留
+   8vh 纵向节奏与页面其余部分一致;标题与 statement 开场白同款
+   clamp。顶部间距用 padding 不用 margin——margin 会露出灯箱
+   深色底,白页上成一条黑缝(2026-10-18 三改修复)。 */
+.lightbox__purpose {
+  background: #ffffff;
+  padding: clamp(20px, 3vh, 32px) 24px clamp(48px, 8vh, 96px);
+  box-sizing: border-box;
+}
+.lightbox__purpose-inner {
+  max-width: 1400px; /* 卡片内版心统一 1400(2026-10-21 用户规则:主页 1700 / 卡片内 1400) */
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+  text-align: center;
+}
+.lightbox__purpose-title {
+  margin: 0;
+  font-family: var(--font);
+  font-size: var(--fs-title); /* 全站统一标题档,与 statement 开场白同档 */
+  font-weight: var(--fw-title);
+  letter-spacing: 0.02em;
+  color: #000000;
+}
+/* 标题下方小横线(2026-10-19 用户要求):与外壳标题横线同款
+   56×1 半透明黑,居中;标题→横线 = 横线→句子 同间距 */
+.lightbox__purpose-divider {
+  display: block;
+  width: 56px;
+  height: 1px;
+  margin: clamp(20px, 3vh, 32px) auto 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+/* 句子块:fit-content 居中(遮罩正好包住整句);虚线框 = 未揭开时的
+   "这里可以揭开"淡淡指示(另一指示是句子透过半透明遮罩隐约可见)。
+   首次揭开后虚线框淡出(border-color 过渡,纯绘制不触发布局)。 */
+.lightbox__purpose-text {
+  position: relative;
+  width: -webkit-fit-content;
+  width: fit-content;
+  max-width: 100%;
+  margin: clamp(20px, 3vh, 32px) auto 0;
+  padding: 10px 14px;
+  box-sizing: border-box;
+  border: 1px dashed rgba(0, 0, 0, 0.28);
+  border-radius: 8px;
+  transition: border-color 0.5s ease;
+}
+.lightbox__purpose-text--revealed {
+  border-color: rgba(0, 0, 0, 0);
+}
+.lightbox__purpose-text:focus-visible {
+  outline: 2px dashed rgba(0, 0, 0, 0.4);
+  outline-offset: 6px;
+}
+.lightbox__purpose-sentence {
+  font-size: var(--fs-title); /* 全站统一标题档(原「比标题小一点」并入统一档) */
+  font-weight: var(--fw-title);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: #000000;
+  white-space: nowrap; /* 一行放下:手机 14px×15 字 ≈ 210px,桌面 36px×15 字 ≈ 540px */
+}
+
+/* ── 「展开查看完整过程」(2026-10-21 用户要求):设计目的下方 ──
+   按钮与擦窗机器人页面同款(44px 橙色圆钮 + 下箭头 + 灰字);
+   展开后第一张图 = 2-1.png 通栏左右贴边(2026-10-21 用户要求),
+   后面直接接「形态推导」版面。2026-10-22 用户要求:未补图的
+   空槽位全部删除(后续要加内容时再说),空槽与 inner 规则一并移除。
+   展开为点击驱动的一次性交互(与墨水揭秘同类),非滚动动效;
+   过渡只有 opacity + max-height;无限弹跳箭头由 index.css 全局
+   reduced-motion 0.01ms/1 次规则兜底。白底与「设计目的」同色
+   衔接,底部留与页面一致的 8vh 纵向节奏;四档断点共用同一套
+   布局(通栏图贴边 + 推导版面 1400 封顶,卡片内版心统一规则),
+   无断点差异。 */
+.lightbox__purpose-process {
+  background: #ffffff;
+  padding: 0 0 clamp(48px, 8vh, 96px);
+  box-sizing: border-box;
+}
+/* 展开态:底部白留白归零——工程推演 3-4 黑带(黑底自带底部留白)
+   直贴「最终呈现」黑页,中间不留白条(2026-10-22 用户要求) */
+.lightbox__purpose-process--expanded {
+  padding-bottom: 0;
+}
+/* 槽位:默认收起,点击后淡入展开(与擦窗机器人同款节奏:
+   先收 max-height,再带 0.3s 延迟淡入) */
+.lightbox__purpose-process-slots {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.45s ease 0.3s, max-height 0.65s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.lightbox__purpose-process-slots--expanded {
+  max-height: 6000px;
+  opacity: 1;
+}
+/* 第一张通栏图:2-1.png 左右贴边(用户 2026-10-21 要求)。
+   贴边图不做圆角(圆角会露白角,与"贴边"矛盾);
+   aspect-ratio 3840/2160 预留画幅防 CLS。 */
+.lightbox__purpose-process-hero {
+  width: 100%;
+  margin: 0 0 24px;
+}
+.lightbox__purpose-process-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3840 / 2160;
+}
+/* 通栏图下的小字说明(2026-10-21 用户要求):分两段、文字居中对齐、
+   完全贴着图片下缘(padding-top 0),版心 1400 内;小号灰色与全站
+   小字同款 clamp,随图一起只在展开后出现(2026-10-21 用户再改:
+   一段→两段、左对齐→居中;2026-10-22 用户三改:再贴近,8px→0
+   直接贴图) */
+.lightbox__purpose-process-caption {
+  display: block;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+  color: #555555;
+}
+.lightbox__purpose-process-caption p {
+  margin: 0;
+}
+.lightbox__purpose-process-caption p + p {
+  margin-top: 0.5em;
+}
+.lightbox__purpose-process-toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* 44px 橙色圆钮 + 白色下箭头:与擦窗机器人页面同款;
+   hover 放大为装饰,触屏按压有 :active 等效反馈(规范) */
+.lightbox__purpose-process-expand {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 12px rgba(212, 120, 59, 0.3);
+}
+.lightbox__purpose-process-expand:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 20px rgba(212, 120, 59, 0.45);
+}
+.lightbox__purpose-process-expand:active {
+  transform: scale(1.05);
+}
+.lightbox__purpose-process-expand:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.lightbox__purpose-process-text {
+  margin: 16px 0 0;
+  font-family: var(--font);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+}
+/* 下箭头小弹跳(与擦窗机器人同款,transform 纯绘制) */
+.lightbox__purpose-process-arrow {
+  animation: purposeBounce 2s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes purposeBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* ── 「页面宽度」规则(2026-11-14 用户规则):窄设备 1-1 产品图左右
+   贴边无圆角;≥768 保持 clamp(20,4.5vw,64) 留白版心 ── */
+@media (max-width: 767px) {
+  .lightbox__shell-figure img {
+    width: 100vw;
+    max-width: none; /* 解除 index.css img{max-width:100%} 钳制 */
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    border-radius: 0;
+  }
+}

@@ -1,0 +1,46 @@
+/* ── 「使用人群差异化需求解读」(2026-11-05 用户要求):棱光 pen-2 卡片
+   首图下方黑底板块 ── 板块背景纯黑 #000;中标题档与推导版面同款:
+   居中、全站标题档字号、900、黑底反白 #f5f5f5;
+   板块顶 padding = 标题上间距 clamp(32px,5vh,56px)(padding 不用
+   margin:margin 会从无 padding 的父级塌陷逃逸、露出上层底色),
+   标题→图间距同推导版面标题→内容 clamp(32px,5vh,56px);
+   图 1(3100×3078)版心 min(1400px, calc(100vw − 48px)) 居中(卡片内
+   版心统一 1400,用户规则)、圆角 8px(全站图片规则)、
+   aspect-ratio 3100/3078 防 CLS;底部留白 clamp(20px,3vh,32px) 呼吸。
+   静态版面、无动效;四档同布局,无断点差异。 */
+.demand {
+  background: #000000;
+  padding: clamp(32px, 5vh, 56px) 0 clamp(20px, 3vh, 32px);
+}
+.demand__title {
+  margin: 0 0 clamp(32px, 5vh, 56px);
+  text-align: center;
+  font-family: var(--font);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: 0.02em;
+  color: #f5f5f5; /* 黑底反白,同「最终呈现」标题 */
+}
+.demand__figure {
+  margin: 0;
+  display: flow-root; /* BFC:防边距塌陷出黑区露上层底色 */
+}
+.demand__figure img {
+  display: block;
+  width: min(1400px, calc(100vw - 48px));
+  margin: 0 auto;
+  aspect-ratio: 3100 / 3078;
+  border-radius: 8px;
+}
+/* 注:2026-11-11 起「色彩・材质・工艺」黑带大标题并入其下 CmfSteps
+   板块(粘性面板顶部 25vh 黑带,滚动时标题钉住),不再属于本板块。 */
+
+/* ── 「页面宽度」规则(2026-11-14 用户规则):窄设备图 1 左右贴边
+   无圆角;≥768 版心不变 ── */
+@media (max-width: 767px) {
+  .demand__figure img {
+    width: 100vw;
+    max-width: none; /* 解除 index.css img{max-width:100%} 钳制 */
+    border-radius: 0;
+  }
+}

@@ -18,8 +18,10 @@ function App() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Navbar drop-in entrance
+  // Navbar drop-in entrance（用户开启「减弱动态效果」时跳过）
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     const ctx = gsap.context(() => {
       gsap.fromTo(
         '.navbar',

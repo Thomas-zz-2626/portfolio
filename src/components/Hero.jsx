@@ -2,6 +2,7 @@ import { useRef, useEffect, useCallback } from 'react'
 import gsap from 'gsap'
 import { useGsapContext } from '../hooks/useGsapContext'
 import { createHeroEntrance } from '../animations'
+import { LOGIC_PATHS, LOGIC_VIEWBOX } from './logoPaths'
 import './Hero.css'
 
 function Hero() {
@@ -102,7 +103,19 @@ function Hero() {
               className="hero__title-word hero__title-word--lg hero__title-word--outline"
               ref={(el) => (wordRefs.current[2] = el)}
             >
-              logic.
+              {/* 线框 SVG logo(2026-10-22 用户要求):真实 Montserrat 600 字形
+                  轮廓路径,无 text-stroke 自相交;role=img 供读屏读出单词 */}
+              <svg
+                className="hero__logo"
+                viewBox={LOGIC_VIEWBOX}
+                role="img"
+                aria-label="logic."
+                focusable="false"
+              >
+                {LOGIC_PATHS.map((p, i) => (
+                  <path key={i} d={p.d} />
+                ))}
+              </svg>
             </span>
           </span>
         </h1>

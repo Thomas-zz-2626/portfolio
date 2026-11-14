@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# 未压缩的设计原稿（体积大，不进仓库；需要的图从 public/ 里的成品取）
+原图
+
+# Claude Code local settings (personal, not committed)
+.claude/settings.local.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

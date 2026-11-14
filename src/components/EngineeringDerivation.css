@@ -1,0 +1,96 @@
+/* ── 「工程推演」(2026-10-22 用户要求):展开区块内、「形态推演」正下方 ──
+   白底静态版面,无动效(无需 reduced-motion 处理):顶部居中标题
+   (与「形态推演」标题同款样式),下面一行三张图横向排列,每张图
+   外面套一个圆角矩形方框(border + 8px 圆角 + 内留白)。
+   三张图原始画幅一致(1700×1600),三列等宽故等高;列间留白与
+   「形态推演」图组同款 clamp(14px, 1.6vw, 24px)。
+   断点:四档同布局(横向一行三图,等比缩小),无断点差异;
+   卡片内版心统一 1400(2026-10-21 用户规则)。
+   2026-10-22 用户追加:三图下方 3-4 所在行背景黑色——黑带通栏
+   贴边(作 section 直接子元素),紧挨三图下方;同日再改:带底色改
+   白(与上方白页同色),带底白留白接「最终呈现」顶部白→黑渐变
+   (展开态);该带随展开区块一起收起,收起态不可见。 */
+
+.engder {
+  background: #ffffff;
+  padding: 0; /* 侧留白移到 inner;底部由黑带自带,保证黑带贴底直达下一黑页 */
+}
+.engder__inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+.engder__title {
+  margin: 0 0 clamp(32px, 5vh, 56px);
+  text-align: center;
+  font-family: var(--font);
+  font-size: var(--fs-title); /* 全站统一标题档,与「形态推演」标题同档 */
+  font-weight: var(--fw-title);
+  letter-spacing: 0.02em;
+  color: #171717;
+}
+
+/* 一行三图横向排列:三列等宽 grid,列间留白与「形态推演」图组同款 */
+.engder__row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(14px, 1.6vw, 24px);
+}
+/* 圆角矩形方框:淡灰 1px 边框 + 8px 圆角 + 内留白,图在框内
+   (图自身 4px 圆角,与方框形成内外两圈圆角) */
+.engder__figure {
+  margin: 0;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  border-radius: 8px;
+  padding: 10px;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+.engder__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1700 / 1600; /* 原始画幅,预留防 CLS */
+  border-radius: 4px;
+}
+
+/* ── 白带(2026-10-22 用户追加:原黑带改白底,带色随白页):通栏贴边
+   (section 直接子元素),紧挨三图下方;两张图(2026-11-07 用户调整:
+   3-5.png 上、3-4.jpg 下)均版心全宽 min(1400,vw−48) 居中,圆角 8px
+   (全站图片规则);带底白留白用 figure 的 padding-bottom
+   (不用 img 的 margin-bottom——margin 会从无 padding/border 的 figure
+   底部塌陷逃逸,变成带外的白条,割裂与「最终呈现」渐变的衔接) */
+.engder__full {
+  display: flow-root; /* BFC:防止 img 的 margin-top 从无 padding-top 的
+    figure 顶部塌陷逃逸变成带外白隙(实测 4vh=36px),保证行隙=本元素
+    margin 14~24px,img 的上留白留在白带内部 */
+  margin: clamp(14px, 1.6vw, 24px) 0 0; /* 与列间留白同款(白底区) */
+  background: #ffffff;
+  padding-bottom: clamp(48px, 8vh, 96px);
+}
+.engder__full img {
+  display: block;
+  width: min(1400px, calc(100vw - 48px));
+  height: auto;
+  margin: clamp(24px, 4vh, 48px) auto 0; /* 首图=与三图行的间距,次图=两图间距 */
+  border-radius: 8px;
+}
+/* 各图按自身原始画幅防 CLS(2026-11-07:3-5.png 宽幅 2752×736、
+   3-4.jpg 2752×1536) */
+.engder__img-35 {
+  aspect-ratio: 2752 / 736;
+}
+.engder__img-34 {
+  aspect-ratio: 2752 / 1536;
+}
+
+/* ── 「页面宽度」规则(2026-11-14 用户规则):窄设备 3-4/3-5 大图左右
+   贴边无圆角;≥768 版心不变(3-1..3-3 三图行不受影响) ── */
+@media (max-width: 767px) {
+  .engder__full img {
+    width: 100vw;
+    max-width: none; /* 解除 index.css img{max-width:100%} 钳制 */
+    border-radius: 0;
+  }
+}

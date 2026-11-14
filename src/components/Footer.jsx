@@ -1,16 +1,69 @@
-import { useRef, useEffect, useCallback } from 'react'
+import { useRef, useEffect, useCallback, useState } from 'react'
 import gsap from 'gsap'
-import { useGsapContext } from '../hooks/useGsapContext'
-import { createFooterReveal } from '../animations'
+import { initReveal } from '../scrollReveal'
 import './Footer.css'
 
+const CONTACT_ITEMS = [
+  { label: '电话', value: '15362924544' },
+  { label: '微信', value: 'npc_2626' },
+  { label: '邮箱', value: '1216811949@qq.com' },
+]
+
+function CopyButton({ value }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async (e) => {
+    e.stopPropagation()
+    try {
+      await navigator.clipboard.writeText(value)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // Fallback for older browsers
+      const ta = document.createElement('textarea')
+      ta.value = value
+      ta.style.position = 'fixed'
+      ta.style.opacity = '0'
+      document.body.appendChild(ta)
+      ta.select()
+      document.execCommand('copy')
+      document.body.removeChild(ta)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }
+
+  return (
+    <button
+      className={`footer__copy-btn${copied ? ' footer__copy-btn--copied' : ''}`}
+      onClick={handleCopy}
+      aria-label={`复制${value}`}
+      title="复制"
+    >
+      {copied ? (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      ) : (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+        </svg>
+      )}
+    </button>
+  )
+}
+
 function Footer() {
-  const containerRef = useGsapContext(createFooterReveal, [])
+  const containerRef = useRef(null)
   const headingRef = useRef(null)
   const wordRefs = useRef([])
   const quickToX = useRef([])
   const quickToY = useRef([])
   const lastClosest = useRef(-1)
+
+  // ── 滚动触发动效(统一系统)──
+  useEffect(() => initReveal(containerRef.current), [])
 
   // Init quickTo after mount
   useEffect(() => {
@@ -80,7 +133,7 @@ function Footer() {
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
           >
-            <span className="footer__heading-text">
+            <span className="footer__heading-text" data-reveal>
               <span
                 className="footer__heading-word footer__heading-word--sm"
                 ref={(el) => (wordRefs.current[0] = el)}
@@ -110,19 +163,22 @@ function Footer() {
               </span>
             </span>
           </h2>
-          <p className="footer__text">
+          <p className="footer__text" data-reveal>
             如果你有一个想法，或者只是想聊聊设计，欢迎联系我。
           </p>
           <div className="footer__contact">
-            <div className="footer__contact-lines">
-              <p className="footer__contact-item">电话：15362924544</p>
-              <p className="footer__contact-item">微信：npc_2626</p>
-              <p className="footer__contact-item">邮箱：1216811949@qq.com</p>
+            <div className="footer__contact-lines" data-reveal-group>
+              {CONTACT_ITEMS.map((item) => (
+                <p className="footer__contact-item" key={item.label}>
+                  {item.label}：{item.value}
+                  <CopyButton value={item.value} />
+                </p>
+              ))}
             </div>
           </div>
         </div>
 
-        <div className="footer__bottom">
+        <div className="footer__bottom" data-reveal>
           <span className="footer__copyright">
             © 2026 Thomas. All rights reserved.
           </span>

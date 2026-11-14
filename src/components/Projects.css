@@ -17,19 +17,11 @@
 }
 
 .projects__section-label {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
   letter-spacing: 4px;
   text-transform: uppercase;
   color: var(--text-muted);
-}
-
-.projects__title {
-  font-family: var(--font);
-  font-size: 32px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--text-primary);
 }
 
 /* ── Main Category Tabs ── */
@@ -56,8 +48,8 @@
   z-index: 1;
   padding: 10px 24px;
   font-family: var(--font);
-  font-size: 15px;
-  font-weight: 500;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
   letter-spacing: 0.5px;
   color: var(--text-secondary);
   background: transparent;
@@ -109,8 +101,8 @@
   z-index: 1;
   padding: 6px 16px;
   font-family: var(--font);
-  font-size: 13px;
-  font-weight: 500;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
   letter-spacing: 0.5px;
   color: var(--text-muted);
   background: transparent;
@@ -157,12 +149,11 @@
   transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
               box-shadow 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
               background 0.45s ease;
-  animation: cardFadeIn 0.6s ease both;
 }
 
 .projects__card:hover {
   transform: scale(1.02);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   background: var(--surface);
 }
 
@@ -171,8 +162,15 @@
   aspect-ratio: 16 / 9;
   overflow: hidden;
   position: relative;
-  border-radius: 8px;
+  border-radius: 4px;
   background: var(--border-light);
+}
+
+.projects__card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .projects__card-placeholder-img {
@@ -187,16 +185,33 @@
 
 .projects__card-title {
   font-family: var(--font);
-  font-size: 22px;
-  font-weight: 600;
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
   letter-spacing: -0.01em;
   color: var(--text-primary);
   line-height: 1.4;
+  margin-bottom: 10px;
   transition: color 0.25s;
 }
 
 .projects__card:hover .projects__card-title {
   color: var(--accent);
+}
+
+.projects__card-meta {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+  margin-bottom: 6px;
+}
+
+.projects__card-brief {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-body);
+  color: var(--text-muted);
+  line-height: 1.5;
+  opacity: 0.7;
 }
 
 /* ── Expand Arrow Button ── */
@@ -217,6 +232,8 @@
   opacity: 0.7;
 }
 
+/* 一次性展开(2026-11-08 用户要求):箭头只有向下的形态,展开后整个按钮
+   消失,不再有向上箭头/收起态,故去掉旋转过渡与 --open 反转规则 */
 .projects__expand-arrow {
   display: block;
   width: 24px;
@@ -224,45 +241,33 @@
   border-right: 2px solid var(--text-muted);
   border-bottom: 2px solid var(--text-muted);
   transform: rotate(45deg);
-  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-.projects__expand--open .projects__expand-arrow {
-  transform: rotate(-135deg);
 }
 
 /* ── Empty State ── */
 .projects__empty {
   text-align: center;
-  padding: 80px 0;
+  padding: 160px 0 110px;
   color: var(--text-muted);
-  font-size: 16px;
+  font-size: var(--fs-body);
   letter-spacing: 1px;
 }
 
-/* ── Initial animation states ── */
-.projects__section-label { opacity: 0; }
-.projects__title { opacity: 0; }
-
-/* ── Card entrance animation (for category switches) ── */
-@keyframes cardFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+/* ── Responsive ── */
+/* <1280:卡片列表从整行横排切换为自适应网格，列数随宽度变化（≈3列→2列→1列）。
+   ≥1280 保持现状（2 列整行卡，图左文右），规则不变。 */
+@media (max-width: 1279px) {
+  .projects__subgroup-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
 }
 
-/* ── Responsive ── */
 @media (max-width: 1024px) {
   .projects {
     padding: 100px 0;
   }
   .projects__inner {
-    padding: 0 40px;
+    padding: 0 calc(40px + var(--safe-right)) 0 calc(40px + var(--safe-left));
   }
   .projects__card {
     grid-template-columns: 1fr;
@@ -274,7 +279,6 @@
   }
   .projects__tab {
     padding: 8px 18px;
-    font-size: 14px;
   }
   .projects__subtabs {
     gap: 6px;
@@ -282,7 +286,9 @@
   }
   .projects__subtab {
     padding: 5px 12px;
-    font-size: 12px;
+  }
+  .projects__empty {
+    padding: 120px 0 90px;
   }
 }
 
@@ -291,7 +297,7 @@
     padding: 80px 0;
   }
   .projects__inner {
-    padding: 0 24px;
+    padding: 0 calc(24px + var(--safe-right)) 0 calc(24px + var(--safe-left));
   }
   .projects__header {
     flex-direction: column;
@@ -299,16 +305,12 @@
     gap: 12px;
     margin-bottom: 32px;
   }
-  .projects__title {
-    font-size: 24px;
-  }
   .projects__tabs {
     gap: 6px;
     flex-wrap: wrap;
   }
   .projects__tab {
     padding: 6px 14px;
-    font-size: 13px;
     border-radius: 8px;
   }
   .projects__tabs-separator {
@@ -321,7 +323,6 @@
   }
   .projects__subtab {
     padding: 4px 10px;
-    font-size: 11px;
     border-radius: 6px;
   }
   .projects__subgroup-items {
@@ -332,11 +333,36 @@
     gap: 16px;
     padding: 12px;
   }
-  .projects__card-title {
-    font-size: 18px;
-  }
   .projects__expand-arrow {
     width: 18px;
     height: 18px;
+  }
+}
+
+/* ── 触屏设备（无 hover / 粗指针）──────────
+   tab 触控目标 ≥44px；卡片 hover 上浮改为按压反馈。 */
+@media (hover: none) and (pointer: coarse) {
+  .projects__tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 8px 16px;
+  }
+  .projects__subtab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 8px 14px;
+  }
+  .projects__card:active {
+    transform: scale(0.99);
+  }
+  .projects__card:hover {
+    transform: none; /* 触屏无 hover，避免点按后卡片黏在上浮态 */
+  }
+  .projects__card:hover .projects__card-title {
+    color: var(--text-primary);
   }
 }

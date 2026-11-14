@@ -1,0 +1,195 @@
+/* ── 「色彩・材质・工艺」图文台阶滚动板块(2026-11-11 用户要求,棱光 pen-2)──
+   板块顶部四分之一页(25vh)黑带大标题:标题文本 span 绝对定位在
+   板块顶 12.5vh(黑带中心),黑底反白,承接「四分之一页黑带大标题」。
+   钉住:板块(高 (n+1)×100vh)内两枚 sticky,释放点完全重合——
+   · 面板(排最前)sticky top 0(高 100vh):面板顶到视口顶即钉住、
+     板块结束(其底到视口底)即干净释放;
+   · h2(排其后、高 calc(100vh − 64px + 12.5vh)、margin-top −100vh
+     拉回板块顶)sticky top calc(64px − 12.5vh):钉住时文本中心恰在
+     距视口顶 64px、盒底恰在视口底 → 释放阈值 = 板块结束(p=1),
+     与面板同步滑出;标题全程固定、永不压到下方白色页脚;
+   h2 盒透明(仅文本渲染)、z-index 2 浮于面板上,面板顶部留 padding
+   让开钉住的标题文本(标题底 ≈ 86px,留 clamp(80px,11vh,104px))。
+   面板内左图右文双栏,图框 1:1 圆角 8px(全站图片规则)、宽限
+   min(100%,72vh)(不超内容区高);文字反白。
+   动画只动 opacity(合成层);四档断点:手机 <640 单列(图上文下);
+   矮视口 <560px / reduced-motion 走静态态(黑带 + 六行纵向图文)。
+   触屏:scroll 本身即触发,无 hover 依赖。
+   2026-11-12 用户要求:① 内容占满页面宽度,图/字各自在左/右半边
+   居中,两侧留白 clamp(32px,4vw,64px);② 图带 alpha 透明,图框
+   无灰底;③ 文字在右半边居中(justify-content/text-align center)、
+   字号加大 clamp(17px,1.4vw,19px);④ 桌面滚轮一步一阶(wheel
+   劫持,见 CmfSteps.jsx);⑤ 钉住标题下移 48→64px;⑥ ≥640 图/字
+   向中间收拢:两侧留白 clamp(72px,8vw,160px),手机图改水平居中。
+   2026-11-14 用户要求:每张图页面全屏(3-1..3-6 换新图 2752×1536
+   不透明)——图移出网格,绝对定位铺满 100vh 粘性面板(inset 0 +
+   object-fit cover、无圆角);原图框格位改纯占位,文字仍在原位
+   (桌面右半边居中、手机下方);动效(两步一阶/交叉渐变/钉住)不变。 */
+.cmfsteps {
+  background: #000000;
+}
+.cmfsteps__band-title {
+  position: sticky;
+  top: calc(64px - 12.5vh); /* 钉住时文本中心在距视口顶 64px(2026-11-12 下移) */
+  z-index: 2; /* 浮于粘性面板之上 */
+  /* 盒高 = 视口高 − sticky top:钉住时盒底恰在视口底,
+     释放点与板块结束(p=1)重合 → 标题与面板一起随页面滑出 */
+  height: calc(100vh - 64px + 12.5vh);
+  margin: 0;
+  margin-top: -100vh; /* 拉回面板上方:盒顶 = 板块顶 */
+  font-family: var(--font);
+  font-size: var(--fs-title);
+  font-weight: var(--fw-title);
+  letter-spacing: 0.02em;
+  color: #f5f5f5;
+}
+.cmfsteps__band-title > span {
+  position: absolute;
+  top: 12.5vh; /* 未钉时 = 黑带(25vh)中心;钉住时中心 = 48px */
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  text-align: center;
+}
+.cmfsteps__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  /* 让开钉住的标题文本(标题下移后底 ≈ 86px) */
+  padding-top: clamp(80px, 11vh, 104px);
+  box-sizing: border-box;
+}
+.cmfsteps__content {
+  position: relative; /* 锚点(非绝对定位锚,仅供层序) */
+  z-index: 1; /* 文字浮于全屏图之上(2026-11-14) */
+  height: 100%;
+  /* 页面宽度(2026-11-12 用户要求):占满页面宽,两半各居中 */
+  width: 100%;
+  padding: 0 clamp(32px, 4vw, 64px);
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+}
+/* ≥640:图/字向中间收拢(2026-11-12 用户要求,两侧留白加大) */
+@media (min-width: 640px) {
+  .cmfsteps__content {
+    padding: 0 clamp(72px, 8vw, 160px);
+  }
+}
+.cmfsteps__imgbox {
+  /* 2026-11-14 改为纯网格占位:图已移出作整页全屏层(粘性面板的
+     直接子元素、绝对定位),此格只占住左半边格位让文字保持在
+     右半边原位;不参与渲染(空 div,无底色)。 */
+  width: auto;
+  height: auto;
+  aspect-ratio: auto;
+  border-radius: 0;
+  overflow: visible;
+}
+.cmfsteps__img {
+  position: absolute;
+  inset: 0; /* 相对粘性面板 .cmfsteps__stage(100vh)铺满整页(2026-11-14) */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0; /* 全屏贴边无圆角 */
+  z-index: 0;
+}
+.cmfsteps__textbox {
+  position: relative;
+  min-height: clamp(96px, 16vh, 180px);
+}
+.cmfsteps__text {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  /* 右半边居中 + 字号放大(2026-11-12 用户要求) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: var(--font);
+  font-size: clamp(17px, 1.4vw, 19px);
+  font-weight: var(--fw-small);
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  color: #e6e6e6;
+}
+/* 手机 <640:单列;全屏图铺满整页,文字叠在图下方
+   (原「图上文下」文字位=视口下半部,2026-11-14 文字位置不变) */
+@media (max-width: 639px) {
+  .cmfsteps__content {
+    grid-template-columns: 1fr;
+    gap: clamp(16px, 3vh, 24px);
+    align-content: end;
+    padding-bottom: clamp(48px, 10vh, 96px);
+  }
+  .cmfsteps__imgbox {
+    display: none; /* 占位格无图可占,隐藏 */
+  }
+  .cmfsteps__textbox {
+    min-height: clamp(64px, 12vh, 120px);
+  }
+}
+/* ── 静态降级(reduced-motion / 矮视口 <560px):黑带标题 + 六行图文 ── */
+.cmfsteps--static {
+  padding-bottom: clamp(48px, 8vh, 96px);
+}
+.cmfsteps--static .cmfsteps__band-title {
+  position: relative; /* span 定位锚点 */
+  height: 25vh;
+  margin-top: 0;
+  top: 0; /* 重置粘性 top:calc(64px−12.5vh)——relative 下 top 会整体上移 48.5px,
+            导致静态黑带文字偏离 25vh 带中心(2026-11-14 修) */
+}
+.cmfsteps__rows {
+  /* 页面宽度(与面板同,2026-11-12) */
+  width: 100%;
+  padding: 0 clamp(32px, 4vw, 64px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 6vh, 64px);
+}
+@media (min-width: 640px) {
+  .cmfsteps__rows {
+    padding: 0 clamp(72px, 8vw, 160px); /* 与面板同收拢 */
+  }
+}
+.cmfsteps__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+}
+.cmfsteps__row-imgbox {
+  margin: 0;
+  aspect-ratio: 16 / 9; /* 2026-11-14 新图 16:9(原 1:1) */
+  border-radius: 8px;
+  overflow: hidden;
+  /* 无底色(同主面板,图透明不垫灰底) */
+}
+.cmfsteps__row-imgbox img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cmfsteps__row-text {
+  margin: 0;
+  font-family: var(--font);
+  font-size: clamp(17px, 1.4vw, 19px); /* 与面板文字同放大 */
+  font-weight: var(--fw-small);
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  color: #e6e6e6;
+}
+@media (max-width: 639px) {
+  .cmfsteps__row {
+    grid-template-columns: 1fr;
+    gap: clamp(16px, 3vh, 24px);
+  }
+}

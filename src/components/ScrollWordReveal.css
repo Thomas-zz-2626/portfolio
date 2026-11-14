@@ -1,0 +1,232 @@
+/* ── ScrollWordReveal — 图文联动滚动板块(卡片内第一个板块,2026-10-22) ──
+   左:固定图片区,与右栏文字共用同一 scrollYProgress;进度到达 snap 卡点
+   时一次性弹出切换(scale+fade,AnimatePresence 进出场),不随滚轮连续形变;
+   细指针设备滚停后自动吸附最近卡点(JS,仅本板块进度区间内生效)。
+   右:逐词渐显(REST 0.15 / REVEAL_SPAN 0.8 / WORD_WINDOW 0.2),
+   多段落:每段首行空两格(text-indent 2em)、段间空一行(约一行高间距)。
+   长文排版:桌面/平板字号按视口高度收敛,整段文字必须落在 100svh sticky
+   面板内;手机(<640)图区吸附视口顶部、文字自然流动,进度由文字块
+   进入/离开视口映射(见 JSX 双 useScroll)。
+   动效响应式规范 v1:四档断点;触屏不做物理滚动吸附;reduced-motion 与
+   矮视口(<560px,横屏)完全静态展示;动画仅 transform/opacity。 */
+
+.swr {
+  position: relative;
+  height: 300vh; /* 滚动行程:内层 sticky 100svh,余 200svh 驱动图文进度 */
+  /* 黑色底(2026-10-22 用户要求):与上方 hero、下方视频板块连成深色区,
+     文字/进度条同步反转为浅色 */
+  background: #000;
+}
+
+.swr--static {
+  height: auto;
+}
+
+.swr__inner {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh; /* 100svh 永远跟在 100vh 后面 */
+  max-width: 1400px; /* 卡片内版心统一 1400 */
+  margin: 0 auto;
+  padding: 0 clamp(24px, 4vw, 80px);
+  display: grid;
+  grid-template-columns: minmax(0, 46%) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 96px);
+  align-items: center;
+}
+
+.swr--static .swr__inner {
+  position: static;
+  height: auto;
+  grid-template-columns: 1fr;
+  gap: 44px;
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+
+/* ── 左:固定图片区 ── */
+
+.swr__media {
+  position: relative;
+  min-width: 0;
+}
+
+.swr__media-sticky {
+  display: flex;
+  justify-content: center;
+}
+
+.swr__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9; /* 与「最终呈现」堆叠卡同款画幅(钢笔式毛笔 finalGrid) */
+  border-radius: 8px; /* 全站图片圆角 8px */
+  overflow: hidden;
+  background: #000;
+  /* 矮视口兜底:图卡高度不超出视口上下留白之外 */
+  max-height: calc(100vh - 160px);
+  max-height: calc(100svh - 160px);
+  box-shadow: 0 18px 48px rgba(23, 23, 23, 0.16);
+}
+
+.swr__frame-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.swr__counter {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(0, 0, 0, 0.38);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+/* reduced-motion / 矮视口:静态纵向排列,全部可见 */
+.swr__media-static {
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.swr--static .swr__media-static {
+  display: flex;
+}
+
+.swr--static .swr__media-sticky {
+  display: none;
+}
+
+.swr__card {
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000;
+}
+
+.swr__card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── 右:逐词渐显文字 ── */
+
+.swr__kicker {
+  font-family: var(--font);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-small);
+  letter-spacing: 0.24em;
+  color: var(--accent);
+  margin: 0 0 clamp(14px, 2vh, 22px);
+}
+
+.swr__heading-row {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(20px, 3vw, 36px);
+}
+
+.swr__progress {
+  flex: none;
+  width: 2px;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.14); /* 黑底:浅色轨道 */
+  overflow: hidden;
+}
+
+.swr__progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: top;
+  background: var(--accent);
+}
+
+.swr__heading {
+  font-family: var(--font);
+  /* 长文排版:字号按视口高度收敛,保证整段落在 sticky 面板内 */
+  font-size: clamp(18px, 2.6vh, 26px);
+  font-weight: 500;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.92); /* 黑底:浅色文字 */
+  margin: 0;
+}
+
+/* 段落:首行空两格,段间空一行(约一行高) */
+.swr__para {
+  display: block;
+  text-indent: 2em;
+}
+
+.swr__para + .swr__para {
+  margin-top: 1.4em;
+}
+
+/* ── 平板 640-1023:双栏收紧,图片列 44%;字号同时受宽/高约束 ── */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .swr__inner {
+    grid-template-columns: minmax(0, 44%) minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 48px);
+  }
+
+  .swr__heading {
+    font-size: clamp(15px, min(2.5vh, 2.5vw), 21px);
+  }
+}
+
+/* ── 手机 <640:长文不塞进 100svh 面板——图区吸附在视口顶部,
+   文字自然流动、从其下方滚过,每个词都在可见区域内渐显;
+   进度由文字块进入/离开视口映射(JSX 里 OFFSET_FLOW)。 ── */
+@media (max-width: 640px) {
+  .swr {
+    height: auto;
+  }
+
+  .swr__inner {
+    display: block;
+    height: auto;
+    padding: 0;
+  }
+
+  /* 图区吸附视口顶部,文字从其下方流过(z-index 盖住) */
+  .swr:not(.swr--static) .swr__media {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+  }
+
+  .swr:not(.swr--static) .swr__content {
+    padding: 24px;
+  }
+
+  .swr__heading {
+    font-size: clamp(17px, 4.8vw, 19px);
+    line-height: 1.65;
+  }
+
+  .swr__heading-row {
+    gap: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swr__frame-img,
+  .swr__card-img {
+    transition: none;
+  }
+}
