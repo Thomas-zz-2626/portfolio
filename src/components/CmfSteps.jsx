@@ -46,10 +46,10 @@
 //       吞掉(快甩一甩最多一阶、刻意两格一阶),无需再按速度吞格,
 //       故删除快滚抑制。
 // 响应式:手机 <640 单列(图上文下);矮视口(<560px)/reduced-motion
-//       退化为静态:黑带标题 + 六行图文纵向排列,内容完整呈现。
-// 2026-11-14 用户要求:手机竖屏(<640)不再整页只有一张图(contain 竖屏
-//       留大片空黑边)——直接走静态常规滚动:紧凑标题(不占 25vh 黑带)
-//       + 六行图上文下,无钉住、无整屏。
+//       退化为静态:紧凑标题 + 六行图文纵向排列,内容完整呈现。
+// 2026-11-14 用户要求:这几张图回到最开始网页全屏的样子,移动端
+//       (<768)不再适配查看——所有宽度统一全屏台阶滚动,棱光页移动端
+//       由 Lightbox 的拦截弹窗接管(见 Lightbox.jsx mobileBlock)。
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react'
 import { getLqip, getSrcSet, SIZES } from '../imageSrc'
@@ -70,25 +70,14 @@ export default function CmfSteps({ title, steps = [], scrollContainerRef }) {
   const [shortViewport, setShortViewport] = useState(
     () => window.matchMedia('(max-height: 560px)').matches
   )
-  // 手机竖屏(<640):2026-11-14 用户要求换显示方法,静态常规滚动
-  const [phoneLayout, setPhoneLayout] = useState(
-    () => window.matchMedia('(max-width: 639px)').matches
-  )
   const [step, setStep] = useState(0)
   // 图/文出现门控:标题文本中心到达视口中部(0.5h)起为 true
   const [shown, setShown] = useState(false)
-  const staticMode = !!reducedMotion || shortViewport || phoneLayout
+  const staticMode = !!reducedMotion || shortViewport
 
   useEffect(() => {
     const mq = window.matchMedia('(max-height: 560px)')
     const onChange = () => setShortViewport(mq.matches)
-    mq.addEventListener('change', onChange)
-    return () => mq.removeEventListener('change', onChange)
-  }, [])
-
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 639px)')
-    const onChange = () => setPhoneLayout(mq.matches)
     mq.addEventListener('change', onChange)
     return () => mq.removeEventListener('change', onChange)
   }, [])
@@ -131,8 +120,10 @@ export default function CmfSteps({ title, steps = [], scrollContainerRef }) {
     return () => cont.removeEventListener('scroll', update)
   }, [staticMode, scrollContainerRef])
 
-  // 图片一次性预载:台阶切换即显示,不闪空白
+  // 图片一次性预载:台阶切换即显示,不闪空白;移动端拦截弹窗显示时
+  // 内容 display:none,跳过预载省流量(关闭弹窗后切换按需加载,LQIP 兜底)
   useEffect(() => {
+    if (targetRef.current?.closest('.lightbox--mobile-blocked')) return
     steps.forEach((s) => {
       const im = new Image()
       im.src = s.image

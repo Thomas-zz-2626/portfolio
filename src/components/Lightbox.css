@@ -89,6 +89,75 @@
   background: rgba(0, 0, 0, 0.7);
 }
 
+/* ── 移动端拦截弹窗(2026-11-14 用户要求,pen-2 棱光专属):宽度 <768px
+   时整页只保留提示弹窗——JS useEffect 监听 window resize 判断
+   (用户指定不用 CSS 媒体查询替代),黑色半透明遮罩铺满全屏、白色文字
+   居中、层级最高;显示时隐藏原本的图片、标题、图注等全部页面内容
+   (.lightbox--mobile-blocked 下 content/close 均 display:none),拉大
+   ≥768px 自动消失恢复内容;右上角叉号可关闭(仅当次,拉大后重置)。
+   纯静态无动效。 ── */
+.lightbox__mobile-block {
+  position: fixed;
+  inset: 0;
+  z-index: 9999; /* 弹窗层级最高(用户要求 z-50 语义) */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 3vh, 24px);
+  padding: 0 clamp(24px, 8vw, 64px);
+  background: rgba(0, 0, 0, 0.88); /* 黑色半透明遮罩铺满全屏 */
+  color: #ffffff;
+  text-align: center;
+  overflow: hidden; /* 不允许横向滚动 */
+}
+.lightbox__mobile-block-title {
+  margin: 0;
+  font-family: var(--font);
+  font-size: clamp(20px, 5vw, 28px);
+  font-weight: var(--fw-title);
+  letter-spacing: 0.02em;
+  color: #ffffff;
+}
+.lightbox__mobile-block-text {
+  margin: 0;
+  max-width: 560px;
+  font-family: var(--font);
+  font-size: clamp(14px, 3.5vw, 16px);
+  font-weight: var(--fw-small);
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.88);
+}
+.lightbox__mobile-block-close {
+  position: absolute;
+  top: calc(12px + var(--safe-top));
+  right: calc(12px + var(--safe-right));
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  cursor: pointer;
+}
+.lightbox__mobile-block-close:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+.lightbox__mobile-block-close:active {
+  background: rgba(255, 255, 255, 0.32);
+}
+/* 弹窗出现时隐藏原本的图片、标题、图注等所有页面内容,只保留提示弹窗 */
+.lightbox--mobile-blocked .lightbox__content {
+  display: none;
+}
+.lightbox--mobile-blocked .lightbox__close {
+  display: none; /* 关闭灯箱的叉号藏起,弹窗自带叉号;关掉弹窗后恢复 */
+}
+
 /* ── Scrollable inner ── */
 
 .lightbox__scroll {
@@ -2742,8 +2811,10 @@
 /* ── 台阶滚动之后的整页大图(pen-2 图 4,2026-11-13 用户要求:
    3-6 滚完后下一页面放图 4,页面大小=占满一屏)──
    深灰黑底衔接上方黑板块;静态无动效(无需 reduced-motion 处理);
-   四档同布局:整页 100dvh + object-fit contain(方案 A 整图完整
-   显示不裁切,留深灰黑边;方案 B 铺满改 cover;2026-11-14)── */
+   2026-11-14 用户要求:移动端(<768)不再适配查看——所有宽度统一
+   整页 100dvh + object-fit contain(方案 A 整图完整显示不裁切,
+   留深灰黑边;方案 B 铺满改 cover),手机竖屏由 Lightbox 拦截弹窗
+   接管(隐藏全部页面内容,见 .lightbox__mobile-block)── */
 .lightbox__page-image {
   position: relative;
   height: 100dvh; /* dvh 移动端地址栏不引起高度抖动 */
@@ -2759,17 +2830,6 @@
   background-color: #1a1b1c;
   background-repeat: no-repeat;
   background-position: center; /* LQIP 居中同盒,不染污留白 */
-}
-/* 手机竖屏(2026-11-14 用户要求):整页不再只装一张图留大片空黑边,
-   高度按原图比例自然显示(通栏贴边),上方 CMF 台阶页同规则 */
-@media (max-width: 639px) {
-  .lightbox__page-image {
-    height: auto;
-  }
-  .lightbox__page-image img {
-    height: auto;
-    aspect-ratio: 2702 / 1536; /* 原图比例,防 CLS */
-  }
 }
 
 /* ── 「页面宽度」规则(2026-11-14 用户规则):页面宽度的单行大图/视频
