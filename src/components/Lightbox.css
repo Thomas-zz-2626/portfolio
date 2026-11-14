@@ -2777,6 +2777,41 @@
   }
 }
 
+/* ── 图 4 之后(2026-11-14 用户要求):半页黑底大标题「藏于方寸,
+   落笔从容」居中;图 5 页面宽度左右贴边、响应式缩放、完整显示
+   (width:100% + 原画幅 aspect-ratio,任何宽度等比缩放不裁切)。
+   静态无动效,四档同布局(标题 clamp 响应式)。── */
+.lightbox__pen2-closing {
+  height: 50dvh; /* 半页 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000; /* 与 <1024 台阶小字纯黑底一致 */
+  padding: 0 clamp(24px, 6vw, 64px);
+}
+.lightbox__pen2-closing-title {
+  margin: 0;
+  font-family: var(--font);
+  font-size: clamp(26px, 4.5vw, 56px);
+  font-weight: var(--fw-title);
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: #f5f5f5;
+}
+.lightbox__pen2-closing-image {
+  background: #000;
+}
+.lightbox__pen2-closing-image img {
+  display: block;
+  width: 100%; /* 页面宽度:左右贴边 */
+  height: auto;
+  aspect-ratio: 2752 / 3045; /* 图 5 原图画幅,防 CLS;等比完整显示 */
+  background-color: #000;
+  background-repeat: no-repeat;
+  background-position: center; /* LQIP 居中同盒 */
+}
+
 /* ── 「页面宽度」规则(2026-11-14 用户规则):页面宽度的单行大图/视频
    在窄设备(≤767)左右贴边通栏、无圆角;≥768 桌面/平板版心不变。
    贴边技巧:块级盒 width:100vw + 负边距 calc(50% − 50vw) 或既有

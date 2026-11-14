@@ -8,7 +8,12 @@ import { OSS } from './assetBase.js'
 // 2026-11-14:数据里的 src 统一为相对路径(images/...);返回的 srcset/LQIP
 // 一律加 OSS 前缀直连阿里云(比 GitHub 快几十倍)。rel() 同时剥掉前导
 // 斜杠与 OSS 前缀,调用方传相对路径或 OSS 绝对地址都能查到 manifest。
-const rel = (s) => (s || '').replace(/^\//, '').replace(OSS + '/', '')
+// OSS='' (本地模式)时 OSS+'/' 是 '/' 会吞掉 images/ 的斜杠,
+// 必须按空前缀跳过该步(2026-11-14 修复:本地模式 srcset/LQIP 静默丢失)
+const rel = (s) => {
+  const k = (s || '').replace(/^\//, '')
+  return OSS ? k.replace(OSS + '/', '') : k
+}
 
 const lookup = (src) => {
   const key = rel(src)

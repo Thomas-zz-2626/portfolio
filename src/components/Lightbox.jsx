@@ -747,6 +747,30 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
             </section>
           )}
 
+          {/* ── 图 4 之后(2026-11-14 用户要求):半页黑底大标题
+              「藏于方寸,落笔从容」居中;下方图 5 页面宽度左右贴边、
+              响应式缩放、完整显示(静态无动效,四档同布局)── */}
+          {project.id === 'pen-2' && project.pageImage2 && (
+            <>
+              <section className="lightbox__pen2-closing">
+                <h2 className="lightbox__pen2-closing-title">{project.closingTitle}</h2>
+              </section>
+              <section className="lightbox__pen2-closing-image">
+                <img
+                  src={project.pageImage2}
+                  srcSet={getSrcSet(project.pageImage2)}
+                  sizes={SIZES.full}
+                  alt="棱光钢笔收纳展示图"
+                  loading="lazy"
+                  decoding="async"
+                  style={getLqip(project.pageImage2)
+                    ? { backgroundImage: `url(${getLqip(project.pageImage2)})`, backgroundSize: 'cover' }
+                    : undefined}
+                />
+              </section>
+            </>
+          )}
+
           {/* ── ScrollWordReveal 图文联动滚动板块(卡片内第一个板块,2026-10-22)──
               左:固定图片区,与右栏文字共用同一 scrollYProgress,到达 snap 卡点
               一次性弹出切换(scale+fade,AnimatePresence 进出场),不随滚轮连续形变;
