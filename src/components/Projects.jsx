@@ -14,7 +14,7 @@ const CATEGORIES = [
         id: 'pen',
         label: '笔',
         items: [
-          { id: 'pen-1', title: '素翰', image: OSS + '/images/edc/pen-1/1.png', heroVideo: OSS + '/images/edc/pen-1/hero.mp4', tagline: ['口袋藏笔墨', '钛制见风骨'], year: '2026', duration: '8 周', type: '文具设计', skills: '概念 · 建模 · 渲染', heroBg: 'dark', heroClass: 'brush', brief: '传统毛笔笔触与现代钢笔形态的融合', metaImage: OSS + '/images/edc/pen-1/2.png', metaLink: 'https://www.kickstarter.com/projects/419657217/still-a-titanium-brush-pen-that-slows-you-down?ref=discover_saved_projects&category_id=28', fullPageImage: OSS + '/images/edc/pen-1/6.png',
+          { id: 'pen-1', title: '素翰', image: OSS + '/images/edc/pen-1/1.png', heroVideo: OSS + '/images/edc/pen-1/hero.mp4', tagline: ['口袋藏笔墨', '钛制见风骨'], year: '2026', duration: '8 周', type: '文具设计', skills: '概念 · 手绘 · 建模渲染 · 方案评估 · 打样落地', heroBg: 'dark', heroClass: 'brush', brief: '传统毛笔笔触与现代钢笔形态的融合', metaImage: OSS + '/images/edc/pen-1/2.png', metaLink: 'https://www.kickstarter.com/projects/419657217/still-a-titanium-brush-pen-that-slows-you-down?ref=discover_saved_projects&category_id=28', fullPageImage: OSS + '/images/edc/pen-1/6.png',
           // Closing images — full-bleed (edge to edge) and shown at their own
           // aspect ratio, so a tall one runs over several screens.
           endImages: [{ src: OSS + '/images/edc/pen-1/11-hd.webp', w: 2560, h: 3429 }],
@@ -177,7 +177,7 @@ const CATEGORIES = [
         id: 'pendant',
         label: '吊坠',
         items: [
-          { id: 'pendant-1', title: '氚管灯', image: OSS + '/images/edc/pendant-1/三根氚管卡片图.781.png', heroVideo: OSS + '/images/edc/pendant-1/hero.mp4', tagline: '暗夜微光，恒久自明', year: '2025', duration: '2 周', type: '饰品设计', skills: '调研 · 手绘 · 建模渲染', heroBg: 'dark', heroClass: 'tritium', heroTextAfterVideo: true, brief: '自发光氚管，暗夜中的恒久微光', metaImage: OSS + '/images/edc/pendant-1/2.png', metaLink: 'https://www.kickstarter.com/projects/459774293/noxti-a-titanium-glow-tube-light-for-everyday-carry?ref=discovery&term=tritium&total_hits=86&category_id=28', statement: { text: '当最后一盏灯熄灭时，你口袋里还有什么会发光？', image: OSS + '/images/edc/pendant-1/1.jpg' } },
+          { id: 'pendant-1', title: '氚管灯', image: OSS + '/images/edc/pendant-1/三根氚管卡片图.781.png', heroVideo: OSS + '/images/edc/pendant-1/hero.mp4', tagline: '暗夜微光，恒久自明', year: '2025', duration: '2 周', type: '饰品设计', skills: '概念 · 手绘 · 建模渲染 · 方案评估 · 打样落地', heroBg: 'dark', heroClass: 'tritium', heroTextAfterVideo: true, brief: '自发光氚管，暗夜中的恒久微光', metaImage: OSS + '/images/edc/pendant-1/2.png', metaLink: 'https://www.kickstarter.com/projects/459774293/noxti-a-titanium-glow-tube-light-for-everyday-carry?ref=discovery&term=tritium&total_hits=86&category_id=28', statement: { text: '当最后一盏灯熄灭时，你口袋里还有什么会发光？', image: OSS + '/images/edc/pendant-1/1.jpg' } },
           { id: 'pendant-3', title: 'mini打火机', image: OSS + '/images/edc/pendant-3/卡片图.780.png', heroImage: OSS + '/images/edc/pendant-3/1.jpg', tagline: '掌间微焰，一触即燃', taglineRight: true, year: '2026', duration: '14 周', type: '工具设计', skills: '概念 · 手绘 · 建模渲染 · 方案评估 · 打样落地', heroBg: 'dark', heroClass: 'lighter', heroNoPadding: true, brief: '掌心大小的极简点火工具',
             /* 图文联动滚动板块(卡片内第一个板块):左图右文共用同一 scrollYProgress,
               图片在 snap 进度卡点一次性弹出切换;wordIndex 绑定文字关键节点;
