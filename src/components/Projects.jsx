@@ -169,7 +169,7 @@ const CATEGORIES = [
           /* ── 夹爪笔(2026-11-12 用户要求:首页笔类第三张卡)──
                图片/文案待用户提供:图片放入 public/images/edc/pen-4/,
                数据补齐后删除 minimal 即可恢复完整板块 */
-          { id: 'pen-4', title: '夹爪笔', year: '2026', duration: '', type: '文具设计', skills: '', heroBg: 'light', brief: '', minimal: true },
+          { id: 'pen-4', title: '夹爪笔', image: OSS + '/images/edc/pen-4/000.png', year: '2026', duration: '', type: '文具设计', skills: '', heroBg: 'light', brief: '', minimal: true },
           { id: 'pen-3', title: '凝翎', image: OSS + '/images/edc/pen-3/羽毛钢笔.784.png', year: '2026', duration: '6 周', type: '文具概念设计', skills: '概念 · 手绘 · 建模', heroBg: 'light', brief: '羽毛灵感，轻盈书写的诗意表达' },
         ],
       },
