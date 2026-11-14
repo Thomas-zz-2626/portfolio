@@ -2939,6 +2939,34 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+/* 图 11(2026-11-15 用户要求):图 10 下方全屏,与图 4 同规——
+   桌面 100dvh cover 铺满无空隙;<1024 完整 16:9 显示页面宽度贴边 */
+.lightbox__pen2-full11 {
+  position: relative;
+  height: 100dvh;
+  background: #1a1b1c;
+  overflow: hidden;
+}
+.lightbox__pen2-full11 img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  background-color: #1a1b1c;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+@media (max-width: 1023px) {
+  .lightbox__pen2-full11 {
+    height: auto;
+  }
+  .lightbox__pen2-full11 img {
+    height: auto;
+    aspect-ratio: 2752 / 1536; /* 11.jpg 原图画幅,防 CLS */
+    object-fit: contain;
+  }
+}
 .lightbox__pen2-closing-video-el {
   display: block;
   width: min(1400px, calc(100vw - 48px));

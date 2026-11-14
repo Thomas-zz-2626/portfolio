@@ -911,6 +911,23 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
                       </section>
                     </>
                   )}
+                  {/* ── 图 10 下方放图 11(2026-11-15 用户要求):全屏
+                      (与图 4 同规:桌面 100dvh cover 铺满,<1024 完整贴边) ── */}
+                  {project.image11 && (
+                    <section className="lightbox__pen2-full11">
+                      <img
+                        src={project.image11}
+                        srcSet={getSrcSet(project.image11)}
+                        sizes={SIZES.full}
+                        alt="棱光钢笔"
+                        loading="lazy"
+                        decoding="async"
+                        style={getLqip(project.image11)
+                          ? { backgroundImage: `url(${getLqip(project.image11)})`, backgroundSize: 'cover' }
+                          : undefined}
+                      />
+                    </section>
+                  )}
                 </>
               )}
             </>

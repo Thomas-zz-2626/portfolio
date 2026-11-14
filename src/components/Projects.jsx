@@ -162,6 +162,9 @@ const CATEGORIES = [
                上方大标题「最终众筹价格」,样式与「钢笔拆解图」一致 ── */
             finalTitle: '最终众筹价格',
             finalImage: OSS + '/images/edc/pen-2/10.png',
+            /* ── 图 10 下方放图 11(2026-11-15 用户要求):全屏
+               (与图 4 同规:桌面 100dvh cover 铺满,<1024 完整贴边) ── */
+            image11: OSS + '/images/edc/pen-2/11.jpg',
           },
           /* ── 夹爪笔(2026-11-12 用户要求:首页笔类第三张卡)──
                图片/文案待用户提供:图片放入 public/images/edc/pen-4/,
