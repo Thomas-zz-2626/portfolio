@@ -2792,7 +2792,7 @@
 .lightbox__pen2-closing-title {
   margin: 0;
   font-family: var(--font);
-  font-size: clamp(26px, 4.5vw, 56px);
+  font-size: var(--fs-title); /* 全站大标题统一钢笔式毛笔同款(2026-11-15 用户要求) */
   font-weight: var(--fw-title);
   line-height: 1.3;
   letter-spacing: 0.02em;
@@ -2839,7 +2839,7 @@
 }
 .lightbox__pen2-mid-img {
   display: block;
-  width: clamp(65px, 11.25vw, 140px);
+  width: clamp(35px, 7vw, 90px); /* 2.5em 跟随 --fs-title(2026-11-15 字号统一) */
   height: auto;
   aspect-ratio: 2400 / 1792; /* 6-0 原图画幅,防 CLS */
 }
@@ -2875,7 +2875,7 @@
   padding: clamp(48px, 8vh, 96px) clamp(24px, 6vw, 64px) 8px;
   text-align: center;
   font-family: var(--font);
-  font-size: clamp(26px, 4.5vw, 56px);
+  font-size: var(--fs-title); /* 全站大标题统一钢笔式毛笔同款(2026-11-15 用户要求) */
   font-weight: var(--fw-title);
   line-height: 1.3;
   letter-spacing: 0.02em;
@@ -2908,25 +2908,40 @@
   padding-top: clamp(24px, 4vh, 48px);
   padding-bottom: clamp(24px, 4vh, 48px);
 }
-/* 大标题「最终众筹价格」(2026-11-15 用户要求):与「钢笔拆解图」同款样式;
-   上间距 = 标准图文间距(前为图 9 黑延续区),下 8px 紧接图 10 */
+/* 大标题「最终众筹价格」(2026-11-15 用户要求):与图 10 同一白色板块
+   (2026-11-15 用户再改:标题在白底内,非黑底);
+   2026-11-15 用户三改:与钢笔式毛笔「最终众筹价格」标题同款——
+   下方加居中橙色小横线(36×3 圆角,var(--accent)) */
 .lightbox__pen2-final-title {
+  position: relative;
   margin: 0;
-  background: #000;
-  padding: clamp(24px, 4vh, 48px) clamp(24px, 6vw, 64px) 8px;
+  background: var(--surface, #fff);
+  padding: 0 clamp(24px, 6vw, 64px) 16px;
   text-align: center;
   font-family: var(--font);
-  font-size: clamp(26px, 4.5vw, 56px);
+  font-size: var(--fs-title); /* 全站大标题统一钢笔式毛笔同款(2026-11-15 用户要求) */
   font-weight: var(--fw-title);
   line-height: 1.3;
   letter-spacing: 0.02em;
-  color: #f5f5f5;
+  color: var(--text-primary);
 }
-/* 图 10(2026-11-15 用户要求):白色背景,卡片最后一块;
-   标题正下方紧挨(8px),版心宽 min(1400,vw−48) 居中、圆角 8px,
-   底部留白延续到卡片结束 */
+.lightbox__pen2-final-title::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+/* 图 10(2026-11-15 用户要求):白色背景,卡片最后一块,标题同板块;
+   板块上间距(前为图 9 黑延续区)、版心宽 min(1400,vw−48) 居中、
+   圆角 8px,底部留白延续到卡片结束 */
 .lightbox__pen2-final-sec {
   background: var(--surface, #fff);
+  padding-top: clamp(24px, 4vh, 48px);
   padding-bottom: clamp(24px, 4vh, 48px);
 }
 .lightbox__pen2-final-img {

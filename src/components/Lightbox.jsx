@@ -787,7 +787,7 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
                     className="lightbox__pen2-mid-img"
                     src={project.midImage}
                     srcSet={getSrcSet(project.midImage)}
-                    sizes="clamp(65px, 11.25vw, 140px)"
+                    sizes="clamp(35px, 7vw, 90px)"
                     alt="棱光"
                     loading="lazy"
                     decoding="async"
@@ -893,23 +893,21 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
                       上方大标题「最终众筹价格」与「钢笔拆解图」同款样式,
                       标题与图紧挨(8px) ── */}
                   {project.finalTitle && project.finalImage && (
-                    <>
+                    <section className="lightbox__pen2-final-sec">
                       <h2 className="lightbox__pen2-final-title">{project.finalTitle}</h2>
-                      <section className="lightbox__pen2-final-sec">
-                        <img
-                          className="lightbox__pen2-final-img"
-                          src={project.finalImage}
-                          srcSet={getSrcSet(project.finalImage)}
-                          sizes={SIZES.board}
-                          alt="最终众筹价格"
-                          loading="lazy"
-                          decoding="async"
-                          style={getLqip(project.finalImage)
-                            ? { backgroundImage: `url(${getLqip(project.finalImage)})`, backgroundSize: 'cover' }
-                            : undefined}
-                        />
-                      </section>
-                    </>
+                      <img
+                        className="lightbox__pen2-final-img"
+                        src={project.finalImage}
+                        srcSet={getSrcSet(project.finalImage)}
+                        sizes={SIZES.board}
+                        alt="最终众筹价格"
+                        loading="lazy"
+                        decoding="async"
+                        style={getLqip(project.finalImage)
+                          ? { backgroundImage: `url(${getLqip(project.finalImage)})`, backgroundSize: 'cover' }
+                          : undefined}
+                      />
+                    </section>
                   )}
                   {/* ── 图 10 下方放图 11(2026-11-15 用户要求):全屏
                       (与图 4 同规:桌面 100dvh cover 铺满,<1024 完整贴边) ── */}

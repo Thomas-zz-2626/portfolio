@@ -263,7 +263,7 @@
   transform: translateY(-50%);
   margin: 0;
   font-family: var(--font);
-  font-size: clamp(28px, 5vw, 64px);
+  font-size: var(--fs-title); /* 全站大标题统一钢笔式毛笔同款(2026-11-15) */
   font-weight: var(--fw-title);
   letter-spacing: 0.02em;
   color: #ffffff;
