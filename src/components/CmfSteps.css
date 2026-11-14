@@ -312,4 +312,5 @@
 .cmfsteps--narrow .cmfsteps__row-desc {
   padding: clamp(20px, 4vh, 36px) clamp(24px, 6vw, 48px) 0; /* 图下方随流 */
   text-align: center; /* 小字在图片下方居中(2026-11-14 用户) */
+  color: #fff; /* 2026-11-14 用户:黑底上小字改纯白,深灰与背景融合不可读 */
 }
