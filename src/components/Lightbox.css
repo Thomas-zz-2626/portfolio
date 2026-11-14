@@ -2901,9 +2901,43 @@
 .lightbox__pen2-explode-img-sec--8 {
   padding-top: clamp(24px, 4vh, 48px);
 }
-/* 图 9(2026-11-15 用户要求):图 8 下方继续放,同款 */
+/* 图 9(2026-11-15 用户要求):图 8 下方继续放,同款;
+   下方再加黑底延续(2026-11-15 用户要求):图 9 底部不是内容的边,
+   黑色背景再往下延伸一段 */
 .lightbox__pen2-explode-img-sec--9 {
   padding-top: clamp(24px, 4vh, 48px);
+  padding-bottom: clamp(24px, 4vh, 48px);
+}
+/* 大标题「最终众筹价格」(2026-11-15 用户要求):与「钢笔拆解图」同款样式;
+   上间距 = 标准图文间距(前为图 9 黑延续区),下 8px 紧接图 10 */
+.lightbox__pen2-final-title {
+  margin: 0;
+  background: #000;
+  padding: clamp(24px, 4vh, 48px) clamp(24px, 6vw, 64px) 8px;
+  text-align: center;
+  font-family: var(--font);
+  font-size: clamp(26px, 4.5vw, 56px);
+  font-weight: var(--fw-title);
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  color: #f5f5f5;
+}
+/* 图 10(2026-11-15 用户要求):白色背景,卡片最后一块;
+   标题正下方紧挨(8px),版心宽 min(1400,vw−48) 居中、圆角 8px,
+   底部留白延续到卡片结束 */
+.lightbox__pen2-final-sec {
+  background: var(--surface, #fff);
+  padding-bottom: clamp(24px, 4vh, 48px);
+}
+.lightbox__pen2-final-img {
+  display: block;
+  width: min(1400px, calc(100vw - 48px));
+  margin: 0 auto;
+  aspect-ratio: 1301 / 960; /* 10.png 原图画幅,防 CLS */
+  border-radius: 8px;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .lightbox__pen2-closing-video-el {
   display: block;

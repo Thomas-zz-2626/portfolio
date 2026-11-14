@@ -2369,5 +2369,26 @@
    }
   ],
   "lqip": "/images/derived/edc/pen-2/9.lqip.webp"
+ },
+ "images/edc/pen-2/10.png": {
+  "candidates": [
+   {
+    "src": "/images/derived/edc/pen-2/10.480w.webp",
+    "w": 480
+   },
+   {
+    "src": "/images/derived/edc/pen-2/10.768w.webp",
+    "w": 768
+   },
+   {
+    "src": "/images/derived/edc/pen-2/10.1280w.webp",
+    "w": 1280
+   },
+   {
+    "src": "/images/edc/pen-2/10.png",
+    "w": 1301
+   }
+  ],
+  "lqip": "/images/derived/edc/pen-2/10.lqip.webp"
  }
 }

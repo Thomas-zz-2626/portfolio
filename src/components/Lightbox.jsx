@@ -889,6 +889,28 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
                       />
                     </section>
                   )}
+                  {/* ── 最后放图 10(2026-11-15 用户要求):白色背景;
+                      上方大标题「最终众筹价格」与「钢笔拆解图」同款样式,
+                      标题与图紧挨(8px) ── */}
+                  {project.finalTitle && project.finalImage && (
+                    <>
+                      <h2 className="lightbox__pen2-final-title">{project.finalTitle}</h2>
+                      <section className="lightbox__pen2-final-sec">
+                        <img
+                          className="lightbox__pen2-final-img"
+                          src={project.finalImage}
+                          srcSet={getSrcSet(project.finalImage)}
+                          sizes={SIZES.board}
+                          alt="最终众筹价格"
+                          loading="lazy"
+                          decoding="async"
+                          style={getLqip(project.finalImage)
+                            ? { backgroundImage: `url(${getLqip(project.finalImage)})`, backgroundSize: 'cover' }
+                            : undefined}
+                        />
+                      </section>
+                    </>
+                  )}
                 </>
               )}
             </>

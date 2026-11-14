@@ -158,6 +158,10 @@ const CATEGORIES = [
             image8: OSS + '/images/edc/pen-2/8.png',
             /* ── 图 8 下方继续放图 9(2026-11-15 用户要求):同版心宽度 ── */
             image9: OSS + '/images/edc/pen-2/9.png',
+            /* ── 最后放图 10(2026-11-15 用户要求):白色背景;
+               上方大标题「最终众筹价格」,样式与「钢笔拆解图」一致 ── */
+            finalTitle: '最终众筹价格',
+            finalImage: OSS + '/images/edc/pen-2/10.png',
           },
           /* ── 夹爪笔(2026-11-12 用户要求:首页笔类第三张卡)──
                图片/文案待用户提供:图片放入 public/images/edc/pen-4/,
