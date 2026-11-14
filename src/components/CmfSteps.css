@@ -25,10 +25,10 @@
    不透明)——图移出网格,绝对定位铺满 100vh 粘性面板(inset 0 +
    object-fit cover、无圆角);原图框格位改纯占位,文字仍在原位
    (桌面右半边居中、手机下方);动效(两步一阶/交叉渐变/钉住)不变。
-   同日再改:右文拆成 大标题+小字描述 两段(桌面竖排右对齐);
+   同日再改:右文拆成 大标题+小字描述 两段(桌面竖排**左对齐**);
    <1024 静态态每张图完整 16:9 显示(不裁切不压缩)、页面宽度左右
    贴边依次往下展开,大标题叠在图的右侧垂直居中,小字描述放在图
-   下方、居中(.cmfsteps--narrow)。 */
+   下方、居中;同日三改:<1024 文字全部居中对齐(.cmfsteps--narrow)。 */
 .cmfsteps {
   /* 深灰黑底:图片未加载时的兜底底色;cover 铺满后不再露出 */
   background: #1a1b1c;
@@ -129,12 +129,13 @@
      文字盒随之下移 padTop → 上抬同额 padTop,文字中心=视口正中
      (盒顶回到舞台顶、盒底仍在容器底,中心不变) */
   margin-top: calc(clamp(80px, 11vh, 104px) * -1);
-  /* 2026-11-14 用户:右文拆成 大标题+小字描述 竖排两段,右对齐 */
+  /* 2026-11-14 用户:右文拆成 大标题+小字描述 竖排两段;
+     同日再改:≥1024 左对齐(原右对齐) */
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: center;
-  text-align: right;
+  text-align: left;
   padding: 0;
 }
 .cmfsteps__text-title {
@@ -298,7 +299,7 @@
   font-weight: var(--fw-title);
   line-height: 1.3;
   letter-spacing: 0.02em;
-  text-align: right;
+  text-align: center; /* 2026-11-14 用户:<1024 文字居中对齐(原右对齐) */
   color: #f5f5f5;
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55); /* 图上可读性 */
 }
