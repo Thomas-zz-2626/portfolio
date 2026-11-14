@@ -7,9 +7,12 @@
 // 版本号变更即整体失效,无需逐条清理。
 // 2026-11-14:资源路径全部改相对,站点可部署在 /portfolio/ 子路径;
 // 缓存判定改用注册 scope 前缀(根路径 scope='/' → 前缀为空,行为不变)。
-const VERSION = 'v21' // 2026-11-14:图片/视频/字体改由 SW 代理到 OSS(myportfolio26,需 Bucket CORS 已开)
+const VERSION = 'v22' // 2026-11-14:OSS 欠费期间关闭 /images 代理,本地/原站直读;部署恢复 OSS 时 OSS_ENABLED 改回 true 并再升版本
 
 const OSS_BASE = 'https://myportfolio26.oss-cn-hangzhou.aliyuncs.com'
+// OSS 欠费期间 = false:/images/* 直接原站(本地预览/局域网/GitHub Pages);
+// 部署上线(OSS 已恢复付费)时改回 true:代理到 OSS 直连(国内快),失败退回原站
+const OSS_ENABLED = false
 
 const scopePath = new URL(self.registration.scope).pathname.replace(/\/$/, '')
 const ASSETS_PREFIX = scopePath + '/assets/'
@@ -58,8 +61,15 @@ self.addEventListener('fetch', (event) => {
     return
   }
 
-  // 图片/视频/字体:代理到 OSS 取文件(比 GitHub 快),stale-while-revalidate
+  // 图片/视频/字体
   if (url.pathname.startsWith(IMAGES_PREFIX)) {
+    // OSS 欠费期间(2026-11-14 用户):不代理,直接原站读取(本地预览/局域网/
+    // GitHub Pages);不缓存媒体,避免占满存储。恢复 OSS 后走下方代理分支。
+    if (!OSS_ENABLED) {
+      event.respondWith(fetch(request))
+      return
+    }
+    // 代理到 OSS 取文件(比 GitHub 快),stale-while-revalidate
     event.respondWith(
       caches.open('media-' + VERSION).then(async (cache) => {
         const cached = await cache.match(request)
