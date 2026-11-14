@@ -78,7 +78,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(32px, 5vw, 64px);
-  align-items: stretch; /* 右半满高:说明文字锚定容器右下角(2026-11-14) */
+  align-items: stretch; /* 右半满高:说明文字锚定容器右半边上下居中 */
 }
 /* ≥640:图/字向中间收拢(2026-11-12 用户要求,两侧留白加大) */
 @media (min-width: 640px) {
@@ -114,19 +114,22 @@
 }
 .cmfsteps__textbox {
   position: relative;
-  min-height: 0; /* 满高由 grid stretch 提供(右下角锚定,2026-11-14) */
+  min-height: 0; /* 满高由 grid stretch 提供(右半边上下居中锚定) */
 }
 .cmfsteps__text {
   position: absolute;
   inset: 0;
-  margin: 0;
-  /* 右下角说明文字(2026-11-14 用户要求):绝对定位在容器内跟随容器
-     (非 fixed,不溢出),底部留白自动适配 */
+  /* 说明文字(2026-11-14 定稿:右半边相对页面上下居中,同日由
+     右下角改):绝对定位在容器内跟随容器(非 fixed,不溢出)。
+     舞台顶部让开钉住标题留白 padTop(clamp(80px,11vh,104px)),
+     文字盒随之下移 padTop → 上抬同额 padTop,文字中心=视口正中
+     (盒顶回到舞台顶、盒底仍在容器底,中心不变) */
+  margin-top: calc(clamp(80px, 11vh, 104px) * -1);
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: flex-end;
   text-align: right;
-  padding: 0 0 clamp(48px, 10vh, 96px);
+  padding: 0;
   font-family: var(--font);
   font-size: clamp(17px, 1.4vw, 19px);
   font-weight: var(--fw-small);
