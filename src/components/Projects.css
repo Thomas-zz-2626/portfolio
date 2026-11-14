@@ -253,14 +253,9 @@
 }
 
 /* ── Responsive ── */
-/* <1280:卡片列表从整行横排切换为自适应网格，列数随宽度变化（≈3列→2列→1列）。
-   ≥1280 保持现状（2 列整行卡，图左文右），规则不变。 */
-@media (max-width: 1279px) {
-  .projects__subgroup-items {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  }
-}
+/* 2026-11-14 用户要求:卡片始终一行一个,不再随宽度变列数
+   (.projects__subgroup-items 基类已是 flex column 单列,
+   删除原 <1280 的 auto-fit 网格即可,所有宽度一列到底)。 */
 
 @media (max-width: 1024px) {
   .projects {
