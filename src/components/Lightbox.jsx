@@ -727,8 +727,9 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
 
           {/* ── 台阶滚动之后的整页大图(pen-2 专属,2026-11-13 用户要求:
               3-6 滚完后下一页面放图 4,页面大小=占满一屏)──
-              黑底衔接上方黑板块;静态无动效,reduced-motion 无需处理;
-              四档同布局:100svh 占满一页 + object-fit cover。 ── */}
+              深灰黑底衔接上方黑板块;静态无动效,reduced-motion 无需处理;
+              四档同布局:100dvh 占满一页 + object-fit contain(方案 A
+              整图完整显示不裁切,2026-11-14 用户要求)。 ── */}
           {project.id === 'pen-2' && project.pageImage && (
             <section className="lightbox__page-image">
               <img
@@ -739,7 +740,7 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
                 loading="lazy"
                 decoding="async"
                 style={getLqip(project.pageImage)
-                  ? { backgroundImage: `url(${getLqip(project.pageImage)})`, backgroundSize: 'cover' }
+                  ? { backgroundImage: `url(${getLqip(project.pageImage)})`, backgroundSize: 'contain' }
                   : undefined}
               />
             </section>

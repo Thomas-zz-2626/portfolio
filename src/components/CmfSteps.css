@@ -26,17 +26,22 @@
    object-fit cover、无圆角);原图框格位改纯占位,文字仍在原位
    (桌面右半边居中、手机下方);动效(两步一阶/交叉渐变/钉住)不变。 */
 .cmfsteps {
-  background: #000000;
+  /* 深灰黑底(2026-11-14 用户要求):与 3-1..3-6 原图暗岩石底色一致,
+     object-contain 留白时四周同色;原 #000 纯黑 */
+  background: #1a1b1c;
+  /* 方案 A(当前,用户要的):object-contain——产品完整全部可见,
+     屏幕比例不同时留深灰黑边;方案 B 全屏铺满:改 cover(长边裁切) */
+  --cmf-img-fit: contain;
 }
 .cmfsteps__band-title {
   position: sticky;
-  top: calc(64px - 12.5vh); /* 钉住时文本中心在距视口顶 64px(2026-11-12 下移) */
+  top: calc(64px - 12.5dvh); /* 钉住时文本中心在距视口顶 64px(2026-11-12 下移);dvh(2026-11-14) */
   z-index: 2; /* 浮于粘性面板之上 */
   /* 盒高 = 视口高 − sticky top:钉住时盒底恰在视口底,
      释放点与板块结束(p=1)重合 → 标题与面板一起随页面滑出 */
-  height: calc(100vh - 64px + 12.5vh);
+  height: calc(100dvh - 64px + 12.5dvh);
   margin: 0;
-  margin-top: -100vh; /* 拉回面板上方:盒顶 = 板块顶 */
+  margin-top: -100dvh; /* 拉回面板上方:盒顶 = 板块顶 */
   font-family: var(--font);
   font-size: var(--fs-title);
   font-weight: var(--fw-title);
@@ -45,7 +50,7 @@
 }
 .cmfsteps__band-title > span {
   position: absolute;
-  top: 12.5vh; /* 未钉时 = 黑带(25vh)中心;钉住时中心 = 48px */
+  top: 12.5dvh; /* 未钉时 = 黑带(25dvh)中心;钉住时中心 = 48px */
   left: 0;
   right: 0;
   transform: translateY(-50%);
@@ -54,8 +59,9 @@
 .cmfsteps__stage {
   position: sticky;
   top: 0;
-  height: 100vh;
+  height: 100dvh; /* dvh(2026-11-14):移动端浏览器地址栏高度 bug 修正 */
   overflow: hidden;
+  background: #1a1b1c; /* 图片容器深灰黑底,居中图片留白同色 */
   /* 让开钉住的标题文本(标题下移后底 ≈ 86px) */
   padding-top: clamp(80px, 11vh, 104px);
   box-sizing: border-box;
@@ -71,7 +77,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(32px, 5vw, 64px);
-  align-items: center;
+  align-items: stretch; /* 右半满高:说明文字锚定容器右下角(2026-11-14) */
 }
 /* ≥640:图/字向中间收拢(2026-11-12 用户要求,两侧留白加大) */
 @media (min-width: 640px) {
@@ -91,32 +97,43 @@
 }
 .cmfsteps__img {
   position: absolute;
-  inset: 0; /* 相对粘性面板 .cmfsteps__stage(100vh)铺满整页(2026-11-14) */
+  inset: 0; /* 相对粘性面板 .cmfsteps__stage(100dvh)铺满整页(2026-11-14) */
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  /* 方案 A(当前,2026-11-14 用户要求):object-contain 整图完整显示
+     不裁切产品,屏幕比例不同时留深灰黑边;
+     方案 B 全屏铺满:--cmf-img-fit 改 cover(长边裁切,不推荐本页) */
+  object-fit: var(--cmf-img-fit);
+  object-position: center; /* 图片居中 */
+  background-color: #1a1b1c; /* 留白区与容器底色一致 */
+  background-repeat: no-repeat; /* LQIP contain 不重复平铺 */
+  background-position: center; /* LQIP 与 contain 原图同盒居中:加载后被原图盖住,
+                                 留白区只露深灰底色(默认 0% 0% 会染污留白) */
   border-radius: 0; /* 全屏贴边无圆角 */
   z-index: 0;
 }
 .cmfsteps__textbox {
   position: relative;
-  min-height: clamp(96px, 16vh, 180px);
+  min-height: 0; /* 满高由 grid stretch 提供(右下角锚定,2026-11-14) */
 }
 .cmfsteps__text {
   position: absolute;
   inset: 0;
   margin: 0;
-  /* 右半边居中 + 字号放大(2026-11-12 用户要求) */
+  /* 右下角说明文字(2026-11-14 用户要求):绝对定位在容器内跟随容器
+     (非 fixed,不溢出),底部留白自动适配 */
   display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  align-items: flex-end;
+  justify-content: flex-end;
+  text-align: right;
+  padding: 0 0 clamp(48px, 10vh, 96px);
   font-family: var(--font);
   font-size: clamp(17px, 1.4vw, 19px);
   font-weight: var(--fw-small);
   line-height: 1.7;
   letter-spacing: 0.02em;
   color: #e6e6e6;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55); /* 图上可读性 */
 }
 /* 手机 <640:单列;全屏图铺满整页,文字叠在图下方
    (原「图上文下」文字位=视口下半部,2026-11-14 文字位置不变) */
@@ -133,6 +150,11 @@
   .cmfsteps__textbox {
     min-height: clamp(64px, 12vh, 120px);
   }
+  /* 手机:说明文字在图下方底部居中(跟随容器,右对齐改回居中) */
+  .cmfsteps__text {
+    justify-content: center;
+    text-align: center;
+  }
 }
 /* ── 静态降级(reduced-motion / 矮视口 <560px):黑带标题 + 六行图文 ── */
 .cmfsteps--static {
@@ -140,7 +162,7 @@
 }
 .cmfsteps--static .cmfsteps__band-title {
   position: relative; /* span 定位锚点 */
-  height: 25vh;
+  height: 25dvh;
   margin-top: 0;
   top: 0; /* 重置粘性 top:calc(64px−12.5vh)——relative 下 top 会整体上移 48.5px,
             导致静态黑带文字偏离 25vh 带中心(2026-11-14 修) */
@@ -170,13 +192,16 @@
   aspect-ratio: 16 / 9; /* 2026-11-14 新图 16:9(原 1:1) */
   border-radius: 8px;
   overflow: hidden;
-  /* 无底色(同主面板,图透明不垫灰底) */
+  background: #1a1b1c; /* contain 留白同色(2026-11-14) */
 }
 .cmfsteps__row-imgbox img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* 不裁切(2026-11-14,与主面板同规则) */
+  background-color: #1a1b1c;
+  background-repeat: no-repeat;
+  background-position: center; /* LQIP 居中同盒,不染污留白 */
 }
 .cmfsteps__row-text {
   margin: 0;

@@ -93,6 +93,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip; /* 移动端禁止横向滚动(2026-11-14 用户要求);clip 不创建滚动容器,不影响 sticky */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
