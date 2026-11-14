@@ -6,7 +6,7 @@
 // 版本号变更即整体失效,无需逐条清理。
 // 2026-11-14:资源路径全部改相对,站点可部署在 /portfolio/ 子路径;
 // 缓存判定改用注册 scope 前缀(根路径 scope='/' → 前缀为空,行为不变)。
-const VERSION = 'v18' // 2026-11-14:全站资源改相对路径(部署 /portfolio/ 子路径)+SW 自身路径变化,升版整体失效
+const VERSION = 'v19' // 2026-11-14:棱光移动端拦截弹窗构建——清掉各设备缓存的旧 JS/CSS(旧版无弹窗逻辑),升版整体失效
 
 const scopePath = new URL(self.registration.scope).pathname.replace(/\/$/, '')
 const ASSETS_PREFIX = scopePath + '/assets/'
