@@ -2815,6 +2815,17 @@
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 8%);
   mask-image: linear-gradient(to bottom, transparent 0%, #000 8%);
 }
+/* 图 6(2026-11-15 用户要求):与图 5 同规贴边等比完整,画幅不同 */
+.lightbox__pen2-closing-image--6 img {
+  aspect-ratio: 1583 / 1178; /* 图 6 原图画幅,防 CLS */
+}
+/* <768(2026-11-15 用户要求):两个半页上下再缩小一点,手机形态
+   半页太多不协调:50dvh → 34dvh */
+@media (max-width: 767px) {
+  .lightbox__pen2-closing {
+    height: 34dvh;
+  }
+}
 
 /* ── 「页面宽度」规则(2026-11-14 用户规则):页面宽度的单行大图/视频
    在窄设备(≤767)左右贴边通栏、无圆角;≥768 桌面/平板版心不变。

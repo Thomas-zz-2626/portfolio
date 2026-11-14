@@ -136,6 +136,10 @@ const CATEGORIES = [
                图 5 页面宽度左右贴边、响应式缩放、完整显示 ── */
             closingTitle: '藏于方寸，落笔从容',
             pageImage2: OSS + '/images/edc/pen-2/5.png',
+            /* ── 图 5 之后(2026-11-15 用户要求):再来半页大标题「棱光」
+               + 图 6 同规(页面宽度贴边、响应式缩放、完整显示)── */
+            closingTitle2: '棱光',
+            pageImage3: OSS + '/images/edc/pen-2/6.png',
           },
           /* ── 夹爪笔(2026-11-12 用户要求:首页笔类第三张卡)──
                图片/文案待用户提供:图片放入 public/images/edc/pen-4/,
