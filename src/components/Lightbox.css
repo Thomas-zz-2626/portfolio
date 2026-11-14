@@ -2901,6 +2901,10 @@
 .lightbox__pen2-explode-img-sec--8 {
   padding-top: clamp(24px, 4vh, 48px);
 }
+/* 图 9(2026-11-15 用户要求):图 8 下方继续放,同款 */
+.lightbox__pen2-explode-img-sec--9 {
+  padding-top: clamp(24px, 4vh, 48px);
+}
 .lightbox__pen2-closing-video-el {
   display: block;
   width: min(1400px, calc(100vw - 48px));

@@ -871,6 +871,24 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
                       />
                     </section>
                   )}
+                  {/* ── 图 8 下方继续放图 9(2026-11-15 用户要求):
+                      同版心宽度、圆角 8px、与图 8 留 clamp 间隙 ── */}
+                  {project.image9 && (
+                    <section className="lightbox__pen2-explode-img-sec lightbox__pen2-explode-img-sec--9">
+                      <img
+                        className="lightbox__pen2-explode-img lightbox__pen2-explode-img--9"
+                        src={project.image9}
+                        srcSet={getSrcSet(project.image9)}
+                        sizes={SIZES.board}
+                        alt="钢笔拆解图"
+                        loading="lazy"
+                        decoding="async"
+                        style={getLqip(project.image9)
+                          ? { backgroundImage: `url(${getLqip(project.image9)})`, backgroundSize: 'cover' }
+                          : undefined}
+                      />
+                    </section>
+                  )}
                 </>
               )}
             </>
