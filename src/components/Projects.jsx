@@ -121,12 +121,12 @@ const CATEGORIES = [
             cmf: {
               title: '色彩・材质・工艺',
               steps: [
-                { image: OSS + '/images/edc/pen-2/3-1.png', title: '标题 3-1', text: '图 3-1 的小字描述,占位待替换。' },
-                { image: OSS + '/images/edc/pen-2/3-2.png', title: '标题 3-2', text: '图 3-2 的小字描述,占位待替换。' },
-                { image: OSS + '/images/edc/pen-2/3-3.png', title: '标题 3-3', text: '图 3-3 的小字描述,占位待替换。' },
-                { image: OSS + '/images/edc/pen-2/3-4.png', title: '标题 3-4', text: '图 3-4 的小字描述,占位待替换。' },
-                { image: OSS + '/images/edc/pen-2/3-5.png', title: '标题 3-5', text: '图 3-5 的小字描述,占位待替换。' },
-                { image: OSS + '/images/edc/pen-2/3-6.png', title: '标题 3-6', text: '图 3-6 的小字描述,占位待替换。' },
+                { image: OSS + '/images/edc/pen-2/3-1.png', title: '钛黑石洗', text: '滚筒石洗研磨，时长 4–12h，Ra1.2–2.5μm，物理无镀层。\n雾面哑光，抗指纹、耐磕碰，掩盖划痕，适合偏爱器物随使用形成专属包浆质感的硬核人群。' },
+                { image: OSS + '/images/edc/pen-2/3-2.png', title: '钛拉丝', text: '定向砂带 / 砂轮拉丝，纹理单向连续，Ra0.4–1.2μm，物理打磨，无镀层。\n规整定向线性纹理，精致利落、柔和低反光，现代工业感，适配偏爱整洁细腻、简约科技风城市通勤和实用的用户。' },
+                { image: OSS + '/images/edc/pen-2/3-3.png', title: '钛合金闪电纹', text: '脉冲阳极氧化，局部高压放电，电压 40–100V，纳米级氧化膜，Ra0.8–1.6μm。\n枝状闪电独纹，随光幻彩，辨识度极强；适合追求限量、个性视觉效果的EDC收藏玩家' },
+                { image: OSS + '/images/edc/pen-2/3-4.png', title: '钛冰花', text: '高温金相结晶 + 阳极氧化，控温 800℃左右，Ra0.6–1.4μm，晶斑大小可控。\n冰晶状细碎晶纹，柔光幻彩，肌理温润细腻，艺术氛围感强，适合偏爱雅致独特、收藏向EDC玩家' },
+                { image: OSS + '/images/edc/pen-2/3-5.png', title: '锆合金抛光', text: '多级精抛 + 电解抛光，Ra0.05–0.1μm。\n手感顺滑，极易留指纹、怕划痕，轻奢高级金属质感，适合追求镜面精致感、收藏向EDC玩家' },
+                { image: OSS + '/images/edc/pen-2/3-6.png', title: 'PEI', text: '数控机加工，Ra0.8–3.2μm。\n半透琥珀质感，轻质高强、耐温抗腐，低金属感，轻量化稳定耐用，适合偏爱轻量化、户外通勤、无金属EDC的玩家。' },
               ],
             },
             /* ── 台阶滚动之后的整页大图(2026-11-13 用户要求:3-6 滚完后

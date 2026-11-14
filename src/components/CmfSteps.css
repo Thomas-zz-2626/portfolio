@@ -156,6 +156,7 @@
   letter-spacing: 0.02em;
   color: #e6e6e6;
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55); /* 图上可读性 */
+  white-space: pre-line; /* 文案两段(2026-11-14 用户定稿):规格行 + 质感描述行 */
 }
 /* 手机 <640:单列;全屏图铺满整页,文字叠在图下方
    (原「图上文下」文字位=视口下半部,2026-11-14 文字位置不变) */
@@ -249,6 +250,7 @@
   font-size: clamp(15px, 1.4vw, 17px); /* 小字描述(2026-11-14) */
   font-weight: var(--fw-small);
   line-height: 1.7;
+  white-space: pre-line; /* 文案两段(2026-11-14 用户定稿) */
 }
 @media (max-width: 767px) {
   .cmfsteps__row {
