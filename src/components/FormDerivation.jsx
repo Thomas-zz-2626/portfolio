@@ -1,3 +1,4 @@
+import { OSS } from '../assetBase.js'
 // ── 「形态推演」:展开区块内、2-1 通栏图正下方
 //    (2026-10-21 用户要求:属展开内容,点击展开后才显示;
 //    2026-10-22 用户要求:标题由英文 Form Derivation 改为中文「形态推演」)──
@@ -17,10 +18,10 @@ import { getSrcSet, getLqip, SIZES } from '../imageSrc'
 import './FormDerivation.css'
 
 const IMAGES = {
-  overview: { src: 'images/edc/pendant-1/2-2.png', cls: 'formder__img-22', alt: '形态推导过程总览' },
-  topL: { src: 'images/edc/pendant-1/2-3.png', cls: 'formder__img-23', alt: '形态推导过程图二' },
-  topR: { src: 'images/edc/pendant-1/2-4.png', cls: 'formder__img-24', alt: '形态推导过程图三' },
-  bottom: { src: 'images/edc/pendant-1/2-5.png', cls: 'formder__img-25', alt: '形态推导过程图四' },
+  overview: { src: OSS + '/images/edc/pendant-1/2-2.png', cls: 'formder__img-22', alt: '形态推导过程总览' },
+  topL: { src: OSS + '/images/edc/pendant-1/2-3.png', cls: 'formder__img-23', alt: '形态推导过程图二' },
+  topR: { src: OSS + '/images/edc/pendant-1/2-4.png', cls: 'formder__img-24', alt: '形态推导过程图三' },
+  bottom: { src: OSS + '/images/edc/pendant-1/2-5.png', cls: 'formder__img-25', alt: '形态推导过程图四' },
 }
 
 // 文字箭头链:从上到下,箭头在文字正下方(最后一项无箭头)

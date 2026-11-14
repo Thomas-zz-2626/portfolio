@@ -1,3 +1,4 @@
+import { OSS } from '../assetBase.js'
 import { useState, useCallback, useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -278,13 +279,13 @@ function About() {
             <div className="about__avatar" data-reveal="scale">
               {!imgError ? (
                 <img
-                  src="images/avatar.png"
+                  src={OSS + '/images/avatar.png'}
                   alt="Portrait"
                   className="about__avatar-img"
                   loading="lazy"
                   decoding="async"
                   onError={() => setImgError(true)}
-                  srcSet={getSrcSet('images/avatar.png')}
+                  srcSet={getSrcSet(OSS + '/images/avatar.png')}
                   sizes={SIZES.avatar}
                 />
               ) : (

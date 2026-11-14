@@ -3,11 +3,12 @@
 // ≥1280 桌面始终加载原图（sizes 首条把桌面槽位拉满，浏览器必然选
 // 候选中最大的一张 = 原图）。原图文件本身从不被修改或压缩。
 import manifest from './derivedImages.json'
+import { OSS } from './assetBase.js'
 
-// 2026-11-14:数据里的 src 已统一为相对路径(images/...)以便同一构建
-// 同时服务根路径(localhost)与 /portfolio/ 子路径(GitHub Pages);
-// manifest 内部仍是绝对路径,返回时剥掉前导斜杠。
-const rel = (s) => (s || '').replace(/^\//, '')
+// 2026-11-14:数据里的 src 统一为相对路径(images/...);返回的 srcset/LQIP
+// 一律加 OSS 前缀直连阿里云(比 GitHub 快几十倍)。rel() 同时剥掉前导
+// 斜杠与 OSS 前缀,调用方传相对路径或 OSS 绝对地址都能查到 manifest。
+const rel = (s) => (s || '').replace(/^\//, '').replace(OSS + '/', '')
 
 const lookup = (src) => {
   const key = rel(src)
@@ -19,13 +20,13 @@ const lookup = (src) => {
 export const getSrcSet = (src) => {
   const entry = lookup(src)
   if (!entry || entry.candidates.length < 2) return undefined
-  return entry.candidates.map((c) => `${rel(c.src)} ${c.w}w`).join(', ')
+  return entry.candidates.map((c) => `${OSS}/${rel(c.src)} ${c.w}w`).join(', ')
 }
 
 /** 返回该图对应的 LQIP(24px 模糊 webp)URL,用作加载前的低清占位背景。 */
 export const getLqip = (src) => {
   const entry = lookup(src)
-  return entry?.lqip ? rel(entry.lqip) : null
+  return entry?.lqip ? `${OSS}/${rel(entry.lqip)}` : null
 }
 
 /** 各上下文的 sizes 表达式。首条 (min-width: 1280px) calc(100vw + 1px)

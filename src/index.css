@@ -7,31 +7,31 @@
    /images/* 走 SW stale-while-revalidate,首次加载后长期缓存。 */
 @font-face {
   font-family: 'PingFang';
-  src: url('/images/fronts/PingFang Light.woff2') format('woff2'), url('/images/fronts/PingFang Light.ttf') format('truetype');
+  src: url('https://myportfolio26.oss-cn-hangzhou.aliyuncs.com/images/fronts/PingFang Light.woff2') format('woff2'), url('https://myportfolio26.oss-cn-hangzhou.aliyuncs.com/images/fronts/PingFang Light.ttf') format('truetype');
   font-weight: 300;
   font-display: swap;
 }
 @font-face {
   font-family: 'PingFang';
-  src: url('/images/fronts/PingFang Regular.woff2') format('woff2'), url('/images/fronts/PingFang Regular.ttf') format('truetype');
+  src: url('https://myportfolio26.oss-cn-hangzhou.aliyuncs.com/images/fronts/PingFang Regular.woff2') format('woff2'), url('https://myportfolio26.oss-cn-hangzhou.aliyuncs.com/images/fronts/PingFang Regular.ttf') format('truetype');
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
   font-family: 'PingFang';
-  src: url('/images/fronts/PingFang Heavy.woff2') format('woff2'), url('/images/fronts/PingFang Heavy.ttf') format('truetype');
+  src: url('https://myportfolio26.oss-cn-hangzhou.aliyuncs.com/images/fronts/PingFang Heavy.woff2') format('woff2'), url('https://myportfolio26.oss-cn-hangzhou.aliyuncs.com/images/fronts/PingFang Heavy.ttf') format('truetype');
   font-weight: 900;
   font-display: swap;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('/images/fronts/Montserrat-VariableFont_wght.ttf') format('truetype');
+  src: url('https://myportfolio26.oss-cn-hangzhou.aliyuncs.com/images/fronts/Montserrat-VariableFont_wght.ttf') format('truetype');
   font-weight: 100 900;
   font-display: swap;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('/images/fronts/Montserrat-Italic-VariableFont_wght.ttf') format('truetype');
+  src: url('https://myportfolio26.oss-cn-hangzhou.aliyuncs.com/images/fronts/Montserrat-Italic-VariableFont_wght.ttf') format('truetype');
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;

@@ -1,3 +1,4 @@
+import { OSS } from '../assetBase.js'
 // ── 「工程推演」:展开区块内、「形态推演」版面正下方
 //    (2026-10-22 用户要求:四张形态推演图下面加标题「工程推演」,
 //    下面一行放三张图 3-1/3-2/3-3 横向排列,每张图有圆角矩形方框框住;
@@ -13,9 +14,9 @@ import { getSrcSet, getLqip, SIZES } from '../imageSrc'
 import './EngineeringDerivation.css'
 
 const IMAGES = [
-  { src: 'images/edc/pendant-1/3-1.png', cls: 'engder__img-31', alt: '工程推演过程图一' },
-  { src: 'images/edc/pendant-1/3-2.png', cls: 'engder__img-32', alt: '工程推演过程图二' },
-  { src: 'images/edc/pendant-1/3-3.png', cls: 'engder__img-33', alt: '工程推演过程图三' },
+  { src: OSS + '/images/edc/pendant-1/3-1.png', cls: 'engder__img-31', alt: '工程推演过程图一' },
+  { src: OSS + '/images/edc/pendant-1/3-2.png', cls: 'engder__img-32', alt: '工程推演过程图二' },
+  { src: OSS + '/images/edc/pendant-1/3-3.png', cls: 'engder__img-33', alt: '工程推演过程图三' },
 ]
 
 // 三图下方整行图(2026-10-22 用户要求):版心全宽,圆角 8px;
@@ -24,8 +25,8 @@ const IMAGES = [
 // 2026-11-07 用户调整:上槽换 3-5.png(2752×736 宽幅横图,原 3-4.png
 // 改名而来,全不透明可挂 LQIP),3-5 下方再放一张 3-4.jpg
 // (2752×1536),两张均版心宽度
-const FULL_TOP = { src: 'images/edc/pendant-1/3-5.png', cls: 'engder__img-35', alt: '工程推演总览图' }
-const FULL_BOTTOM = { src: 'images/edc/pendant-1/3-4.jpg', cls: 'engder__img-34', alt: '工程推演总览图二' }
+const FULL_TOP = { src: OSS + '/images/edc/pendant-1/3-5.png', cls: 'engder__img-35', alt: '工程推演总览图' }
+const FULL_BOTTOM = { src: OSS + '/images/edc/pendant-1/3-4.jpg', cls: 'engder__img-34', alt: '工程推演总览图二' }
 
 export default function EngineeringDerivation() {
   const fullTopLqip = getLqip(FULL_TOP.src)

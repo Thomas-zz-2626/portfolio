@@ -1,3 +1,4 @@
+import { OSS } from '../assetBase.js'
 // ── 叙事尾段:外壳页(静态标题 + 居中产品图)+「设计目的」──
 // 挂在 BrightnessCharts 的 Fragment 之后,只随 pendant-1 挂载:
 // 图表区(黑)→ 外壳页(白)→「设计目的」(白)。
@@ -20,7 +21,7 @@ import FinalPresentation from './FinalPresentation'
 import { getSrcSet, getLqip, SIZES } from '../imageSrc'
 import './DesignPurpose.css'
 
-const SHELL_IMAGE = 'images/edc/pendant-1/1-1.png'
+const SHELL_IMAGE = OSS + '/images/edc/pendant-1/1-1.png'
 
 function ShellScene() {
   const lqip = getLqip(SHELL_IMAGE)
@@ -88,7 +89,7 @@ function PurposeHalfPage() {
 // 展开是点击驱动的一次性交互(与墨水揭秘同类),非滚动动效;
 // 过渡只有 opacity + max-height;reduced-motion 由 index.css
 // 全局 0.01ms 规则兜底(箭头弹跳停、展开瞬时)。
-const PROCESS_HERO = 'images/edc/pendant-1/2-1.png'
+const PROCESS_HERO = OSS + '/images/edc/pendant-1/2-1.png'
 
 // expanded 状态提升到 DesignPurpose:「最终呈现」黑页在展开区块之外,
 // 需要知道展开与否来决定顶部渐变(收起态渐变、展开态黑带直连);

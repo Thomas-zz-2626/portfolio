@@ -1,3 +1,4 @@
+import { OSS } from '../assetBase.js'
 // ── 「最终呈现」(2026-10-22 用户要求):展开区块之外、展开按钮下方的黑页。
 //    黑底 + 顶部居中标题「最终呈现」+ 第一张图 4.png 全屏贴边(通栏无圆角)。
 //    顶部白→黑渐变接住上方白底(收起态按钮区 / 展开态白色 3-4 带)。
@@ -12,25 +13,25 @@ import { useEffect, useRef } from 'react'
 import { getSrcSet, getLqip, SIZES } from '../imageSrc'
 import './FinalPresentation.css'
 
-const FINAL_IMAGE = 'images/edc/pendant-1/4.png'
-const FINAL_IMAGE_5 = 'images/edc/pendant-1/5.png'
+const FINAL_IMAGE = OSS + '/images/edc/pendant-1/4.png'
+const FINAL_IMAGE_5 = OSS + '/images/edc/pendant-1/5.png'
 /* Generation 2 收尾大图(2026-11-02 用户要求):卡片最底部、全屏贴边 */
-const GEN2_IMAGE = 'images/edc/pendant-1/6.jpg'
+const GEN2_IMAGE = OSS + '/images/edc/pendant-1/6.jpg'
 /* 图 7/图 8(2026-11-02 用户要求):7.png 在 6.jpg 上方、8.png 在
    6.jpg 下方,均版心宽。7.png 仍为浅灰虚线占位(用户稍后替换);
    8.png 已于 2026-11-05 被用户替换为真实图 2752×1700(白底、
    全不透明,LQIP 安全)——衍生图 + manifest 已补,SW v12 清旧占位缓存 */
-const PLACEHOLDER_IMAGE = 'images/edc/pendant-1/7.png'
-const PLACEHOLDER_IMAGE_8 = 'images/edc/pendant-1/8.png'
+const PLACEHOLDER_IMAGE = OSS + '/images/edc/pendant-1/7.png'
+const PLACEHOLDER_IMAGE_8 = OSS + '/images/edc/pendant-1/8.png'
 /* 图 9-1/9-2(2026-11-07 用户要求):8.png 下方两图并行——左图贴页面
    左缘、右图贴页面右缘、中间相接,各占页面半宽;两图同 2752×1536、
    全不透明(LQIP 安全) */
-const PAIR_IMAGE_LEFT = 'images/edc/pendant-1/9-1.png'
-const PAIR_IMAGE_RIGHT = 'images/edc/pendant-1/9-2.png'
+const PAIR_IMAGE_LEFT = OSS + '/images/edc/pendant-1/9-1.png'
+const PAIR_IMAGE_RIGHT = OSS + '/images/edc/pendant-1/9-2.png'
 /* 图 9-3/9-4(2026-11-07 用户追加):行二,贴住行一底缘(无行距);
    两图同 2048×2048、全不透明(LQIP 安全) */
-const PAIR2_IMAGE_LEFT = 'images/edc/pendant-1/9-3.png'
-const PAIR2_IMAGE_RIGHT = 'images/edc/pendant-1/9-4.png'
+const PAIR2_IMAGE_LEFT = OSS + '/images/edc/pendant-1/9-3.png'
+const PAIR2_IMAGE_RIGHT = OSS + '/images/edc/pendant-1/9-4.png'
 /* 5 小字下四宫格(2026-10-27 用户要求):上二下二,每格 16:9 */
 const FINAL_GRID = ['5-1.jpg', '5-2.jpg', '5-3.jpg', '5-4.png'].map(
   (name) => `images/edc/pendant-1/${name}`
@@ -41,12 +42,12 @@ const FINAL_GRID = ['5-1.jpg', '5-2.jpg', '5-3.jpg', '5-4.png'].map(
    用户 2026-11-07 提供并修改定稿 */
 const SHOWCASE_VIDEOS = [
   {
-    src: 'images/edc/pendant-1/12.mp4',
+    src: OSS + '/images/edc/pendant-1/12.mp4',
     title: '微光配饰',
     text: '氚管恒定自发光，暗光下透出内敛微光，融入穿搭细节，低调小众，彰显独特审美与个人气质。',
   },
   {
-    src: 'images/edc/pendant-1/13.mp4',
+    src: OSS + '/images/edc/pendant-1/13.mp4',
     title: '微光工具',
     text: '氚管长效自发光，无需电源，暗光环境快速定位、应急示位，兼顾把玩收藏属性，硬核别致。',
   },
@@ -59,11 +60,11 @@ const FINAL_GRID_14 = ['14-1.png', '14-2.png', '14-3.png', '14-4.png'].map(
 )
 /* 图 15(2026-11-07 用户要求):卡片最下面、页面宽度(通栏贴边,
    同 4.png/8.png 先例,无圆角);2752×1536 全不透明(LQIP 安全) */
-const FINAL_IMAGE_15 = 'images/edc/pendant-1/15.png'
+const FINAL_IMAGE_15 = OSS + '/images/edc/pendant-1/15.png'
 /* 图 16(2026-11-11 用户要求):「color」图(7.png)下方、6.jpg 上方,
    版心宽 min(1400,vw−48) 圆角 8px;上方大标题「最终众筹价格」;
    1940×814 全不透明(LQIP 安全) */
-const FINAL_IMAGE_16 = 'images/edc/pendant-1/16.png'
+const FINAL_IMAGE_16 = OSS + '/images/edc/pendant-1/16.png'
 
 export default function FinalPresentation() {
   const showcaseRef = useRef(null)
@@ -274,8 +275,8 @@ export default function FinalPresentation() {
             下方小字说明居中对齐视频(复用 finalpres__caption 样式) */}
         <figure className="finalpres__video">
           <video
-            src="images/edc/pendant-1/9-5.mp4"
-            poster="images/edc/pendant-1/9-5-poster.jpg"
+            src={OSS + '/images/edc/pendant-1/9-5.mp4'}
+            poster={OSS + '/images/edc/pendant-1/9-5-poster.jpg'}
             controls
             muted
             loop

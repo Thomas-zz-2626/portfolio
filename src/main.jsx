@@ -18,6 +18,6 @@ createRoot(document.getElementById('root')).render(
 // 导航 network-first。开发模式下不注册,避免干扰热更新。
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {})
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(() => {})
   })
 }
