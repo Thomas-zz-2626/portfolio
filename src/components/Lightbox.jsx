@@ -834,6 +834,27 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
                   />
                 </section>
               )}
+              {/* ── 视频 11 下方(2026-11-15 用户要求):大标题「钢笔拆解图」+
+                  图 7;标题与图紧挨(8px),标题与视频留 clamp 间隙 ── */}
+              {project.explodedImage && (
+                <>
+                  <h2 className="lightbox__pen2-explode-title">{project.explodedTitle}</h2>
+                  <section className="lightbox__pen2-explode-img-sec">
+                    <img
+                      className="lightbox__pen2-explode-img"
+                      src={project.explodedImage}
+                      srcSet={getSrcSet(project.explodedImage)}
+                      sizes={SIZES.board}
+                      alt="钢笔拆解图"
+                      loading="lazy"
+                      decoding="async"
+                      style={getLqip(project.explodedImage)
+                        ? { backgroundImage: `url(${getLqip(project.explodedImage)})`, backgroundSize: 'cover' }
+                        : undefined}
+                    />
+                  </section>
+                </>
+              )}
             </>
           )}
 
