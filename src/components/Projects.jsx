@@ -153,6 +153,9 @@ const CATEGORIES = [
                + 图 7,标题与图紧挨,标题与视频留间隙 ── */
             explodedTitle: '钢笔拆解图',
             explodedImage: OSS + '/images/edc/pen-2/7.png',
+            /* ── 图 7 下方继续放图 8(2026-11-15 用户要求):版心宽度,
+               与图 7 留 clamp 间隙 ── */
+            image8: OSS + '/images/edc/pen-2/8.png',
           },
           /* ── 夹爪笔(2026-11-12 用户要求:首页笔类第三张卡)──
                图片/文案待用户提供:图片放入 public/images/edc/pen-4/,

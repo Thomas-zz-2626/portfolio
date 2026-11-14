@@ -2890,11 +2890,16 @@
   display: block;
   width: min(1400px, calc(100vw - 48px));
   margin: 0 auto;
-  aspect-ratio: 2752 / 1536; /* 7.png 原图画幅,防 CLS */
+  aspect-ratio: 2752 / 1536; /* 7.png/8.png 原图画幅,防 CLS */
   border-radius: 8px;
   background-color: #000;
   background-repeat: no-repeat;
   background-position: center;
+}
+/* 图 8(2026-11-15 用户要求):图 7 下方继续放,版心宽度同款;
+   与图 7 的间隔由本 section padding-top 承担(与图内其他板块间距一致) */
+.lightbox__pen2-explode-img-sec--8 {
+  padding-top: clamp(24px, 4vh, 48px);
 }
 .lightbox__pen2-closing-video-el {
   display: block;

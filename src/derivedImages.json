@@ -2327,5 +2327,26 @@
    }
   ],
   "lqip": "/images/derived/edc/pen-2/7.lqip.webp"
+ },
+ "images/edc/pen-2/8.png": {
+  "candidates": [
+   {
+    "src": "/images/derived/edc/pen-2/8.480w.webp",
+    "w": 480
+   },
+   {
+    "src": "/images/derived/edc/pen-2/8.768w.webp",
+    "w": 768
+   },
+   {
+    "src": "/images/derived/edc/pen-2/8.1280w.webp",
+    "w": 1280
+   },
+   {
+    "src": "/images/edc/pen-2/8.png",
+    "w": 2752
+   }
+  ],
+  "lqip": "/images/derived/edc/pen-2/8.lqip.webp"
  }
 }
