@@ -157,12 +157,13 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
   const [reducedMotion, setReducedMotion] = useState(
     () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
   )
-  // ── 移动端拦截弹窗(2026-11-14 用户要求,pen-2 棱光专属):宽度 <768px
-  //    整页只显示提示弹窗,隐藏图片/标题/图注等全部页面内容;window resize
-  //    实时监听(useEffect + JS 判断,用户指定不用 CSS 媒体查询替代),
-  //    拉大 ≥768px 弹窗自动消失、恢复页面正常内容;右上角叉号可关闭
-  //    (仅当次,拉大到 ≥768 后重置,再缩回时重新提示)。 ──
-  const [isNarrow, setIsNarrow] = useState(() => window.innerWidth < 768)
+  // ── 移动端拦截弹窗(2026-11-14 用户要求,pen-2 棱光专属):宽度 <1024px
+  //    (2026-11-14 用户改:断点 768→1024)整页只显示提示弹窗,隐藏图片/
+  //    标题/图注等全部页面内容;window resize 实时监听(useEffect + JS
+  //    判断,用户指定不用 CSS 媒体查询替代),拉大 ≥1024px 弹窗自动消失、
+  //    恢复页面正常内容;右上角叉号可关闭(仅当次,拉大到 ≥1024 后重置,
+  //    再缩回时重新提示)。 ──
+  const [isNarrow, setIsNarrow] = useState(() => window.innerWidth < 1024)
   const [blockDismissed, setBlockDismissed] = useState(false)
   // 展开显示完整过程(2026-11-07 用户要求):背景.png 衔接处下方的居中箭头,
   // 点击一次性展开其后的两张图(占位待替换);现有内容不收起;
@@ -172,7 +173,7 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
 
   useEffect(() => {
     const check = () => {
-      const narrow = window.innerWidth < 768
+      const narrow = window.innerWidth < 1024
       setIsNarrow(narrow)
       if (!narrow) setBlockDismissed(false) // 拉大后重置,再缩回时重新提示
     }
@@ -537,11 +538,11 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
         </svg>
       </button>
 
-      {/* ── 移动端拦截弹窗(2026-11-14 用户要求,pen-2 棱光专属):<768px
+      {/* ── 移动端拦截弹窗(2026-11-14 用户要求,pen-2 棱光专属):<1024px
           只保留提示弹窗——黑色半透明遮罩铺满全屏、白色文字居中、层级
           最高 z-50 语义;原本的图片/标题/图注等全部页面内容由 CSS
           display:none 隐藏(lightbox--mobile-blocked),只保留提示弹窗。
-          叉号右上角可关闭(仅当次),resize ≥768 自动消失恢复内容。 ── */}
+          叉号右上角可关闭(仅当次),resize ≥1024 自动消失恢复内容。 ── */}
       {mobileBlocked && (
         <div
           className="lightbox__mobile-block"
@@ -778,7 +779,7 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
               深灰黑底衔接上方黑板块;静态无动效,reduced-motion 无需处理;
               2026-11-14 用户要求:回到最开始网页全屏的样子,移动端不再
               适配查看——所有宽度统一 100dvh 占满一页,object-fit
-              cover 上下左右铺满无空隙(用户定稿方案 B),<768 由移动端
+              cover 上下左右铺满无空隙(用户定稿方案 B),<1024 由移动端
               拦截弹窗隐藏全部页面内容(见 mobileBlocked)。 ── */}
           {project.id === 'pen-2' && project.pageImage && (
             <section className="lightbox__page-image">

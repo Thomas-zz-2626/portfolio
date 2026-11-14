@@ -48,7 +48,7 @@
 // 响应式:手机 <640 单列(图上文下);矮视口(<560px)/reduced-motion
 //       退化为静态:紧凑标题 + 六行图文纵向排列,内容完整呈现。
 // 2026-11-14 用户要求:这几张图回到最开始网页全屏的样子,移动端
-//       (<768)不再适配查看——所有宽度统一全屏台阶滚动,棱光页移动端
+//       (<1024)不再适配查看——所有宽度统一全屏台阶滚动,棱光页移动端
 //       由 Lightbox 的拦截弹窗接管(见 Lightbox.jsx mobileBlock)。
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react'

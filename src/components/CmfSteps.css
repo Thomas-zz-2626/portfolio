@@ -158,7 +158,7 @@
 }
 /* ── 静态降级(reduced-motion / 矮视口 <560px):紧凑标题 + 六行图文 ──
    2026-11-14 用户要求:标题不再单独占 25vh 黑带一页,紧凑放在图组上方;
-   手机竖屏已恢复全屏模式,<768 由 Lightbox 拦截弹窗接管(见 Lightbox.css)。 */
+   手机竖屏已恢复全屏模式,<1024 由 Lightbox 拦截弹窗接管(见 Lightbox.css)。 */
 .cmfsteps--static {
   padding-bottom: clamp(48px, 8vh, 96px);
 }
