@@ -2810,6 +2810,10 @@
   background-color: #000;
   background-repeat: no-repeat;
   background-position: center; /* LQIP 居中同盒 */
+  /* 顶部一点点渐变透明,越上越透明,与上方大标题黑底融合(2026-11-15
+     用户要求);-webkit- 在前防压缩器吞标准声明(gradual-blur 教训) */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 8%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 8%);
 }
 
 /* ── 「页面宽度」规则(2026-11-14 用户规则):页面宽度的单行大图/视频
