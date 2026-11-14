@@ -30,14 +30,13 @@
     will-change: auto !important;
   }
 
-  /* 2) 取消 100vh 强制全屏区块(内容自然随流) */
-  .hero {
-    height: auto;
-    min-height: 0;
-  }
+  /* 2) 首页 hero 与最底部联系方式页各自单独占一页
+     (2026-11-14 用户:<768 时两者均占满一屏);其余 100vh 强制全屏
+     区块取消(内容自然随流)。dvh 随移动端地址栏收放,不会跳动 */
+  .hero,
   .footer {
+    min-height: 100dvh;
     height: auto;
-    min-height: 0;
   }
 
   /* 3) 容器:版心 1400 上限 + 左右 16px,内容不贴边 */

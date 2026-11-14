@@ -831,8 +831,8 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
                   />
                 </figure>
               )}
-              {/* 图 3 下方中号字(2026-10-23)+其下版心宽图 4:黑底白字居中;
-                  图 4 与图 3 同款版心/圆角处理 */}
+              {/* 图 3 下方中号字(2026-10-23)+其下图 4:黑底白字居中;
+                  图 4 任何设备都左右贴边(2026-11-14 用户改),无圆角 */}
               {project.scrollReveal.followUp.quote && (
                 <p className="lightbox__light-demo-quote">{project.scrollReveal.followUp.quote}</p>
               )}
@@ -841,7 +841,7 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
                   <img
                     src={project.scrollReveal.followUp.image3}
                     srcSet={getSrcSet(project.scrollReveal.followUp.image3)}
-                    sizes={SIZES.board}
+                    sizes={SIZES.full}
                     alt=""
                     className="lightbox__light-demo-img3 lqip-img"
                     style={lqStyle(project.scrollReveal.followUp.image3)}

@@ -2690,15 +2690,14 @@
 /* 图 4(2026-10-23,中号字下方):与图 3 同款——版心宽 min(1400,vw−48) 居中、
    圆角 8px、aspect-ratio 预留防 CLS */
 .lightbox__light-demo-figure3 {
-  margin: clamp(24px, 4vh, 48px) 0 0;
+  margin: clamp(24px, 4vh, 48px) 0 0; /* 左右必须 0,否则默认 40px 破坏通栏 */
 }
 .lightbox__light-demo-img3 {
   display: block;
-  width: min(1400px, calc(100vw - 48px));
+  width: 100%;
   height: auto;
-  margin: 0 auto;
   aspect-ratio: 2752 / 1536; /* 原图 2752×1536 */
-  border-radius: 8px;
+  border-radius: 0; /* 2026-11-14 用户要求:图 4 任何设备都左右贴边,无圆角 */
   background: #000;
 }
 
@@ -2791,7 +2790,6 @@
     border-radius: 0;
   }
   .lightbox__light-demo-img2,
-  .lightbox__light-demo-img3,
   .lightbox__light-demo-img4,
   .lightbox__finalstack-trailing-img {
     width: 100vw;
