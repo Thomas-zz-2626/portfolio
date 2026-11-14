@@ -2828,6 +2828,20 @@
   -webkit-mask-image: none;
   mask-image: none;
 }
+/* 图 6 下方视频 11(2026-11-15 用户要求):版心宽度 min(1400,vw−48) 居中、
+   与图 6 间隔同卡内图文间距 clamp(24,4vh,48)、圆角 8px、黑底延续收尾区 */
+.lightbox__pen2-closing-video {
+  background: #000;
+  margin-top: clamp(24px, 4vh, 48px);
+}
+.lightbox__pen2-closing-video-el {
+  display: block;
+  width: min(1400px, calc(100vw - 48px));
+  margin: 0 auto;
+  aspect-ratio: 1928 / 1080; /* 11.mp4 原画幅,防 CLS */
+  border-radius: 8px;
+  background: #000;
+}
 /* <768(2026-11-15 用户要求):两个半页上下再缩小一点,手机形态
    半页太多不协调:50dvh → 34dvh */
 @media (max-width: 767px) {

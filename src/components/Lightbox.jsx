@@ -792,6 +792,22 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
                     : undefined}
                 />
               </section>
+              {/* ── 图 6 下方视频 11(2026-11-15 用户要求):版心宽度、
+                  与图 6 有间隔;黑底延续收尾区;reduced-motion 不自动播 ── */}
+              {project.closingVideo && (
+                <section className="lightbox__pen2-closing-video">
+                  <video
+                    className="lightbox__pen2-closing-video-el"
+                    src={project.closingVideo}
+                    autoPlay={!reducedMotion}
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    aria-label="棱光钢笔视频"
+                  />
+                </section>
+              )}
             </>
           )}
 
