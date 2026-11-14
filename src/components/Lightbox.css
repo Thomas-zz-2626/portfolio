@@ -2812,24 +2812,25 @@
    3-6 滚完后下一页面放图 4,页面大小=占满一屏)──
    深灰黑底衔接上方黑板块;静态无动效(无需 reduced-motion 处理);
    2026-11-14 用户要求:移动端(<768)不再适配查看——所有宽度统一
-   整页 100dvh + object-fit contain(方案 A 整图完整显示不裁切,
-   留深灰黑边;方案 B 铺满改 cover),手机竖屏由 Lightbox 拦截弹窗
-   接管(隐藏全部页面内容,见 .lightbox__mobile-block)── */
+   整页 100dvh;2026-11-14 用户定稿(方案 B):object-fit cover 上下
+   左右铺满无空隙、无留白色块(方案 A contain 留深灰黑边已否决),
+   居中裁切多余边;手机竖屏由 Lightbox 拦截弹窗接管(隐藏全部
+   页面内容,见 .lightbox__mobile-block)── */
 .lightbox__page-image {
   position: relative;
   height: 100dvh; /* dvh 移动端地址栏不引起高度抖动 */
-  background: #1a1b1c; /* 与 CMF 台阶页同色,留白同色 */
+  background: #1a1b1c; /* 图片未加载时兜底;cover 铺满后不露出 */
   overflow: hidden;
 }
 .lightbox__page-image img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover; /* 上下左右无空隙(2026-11-14 用户定稿) */
   object-position: center;
   background-color: #1a1b1c;
   background-repeat: no-repeat;
-  background-position: center; /* LQIP 居中同盒,不染污留白 */
+  background-position: center; /* LQIP 居中同盒 */
 }
 
 /* ── 「页面宽度」规则(2026-11-14 用户规则):页面宽度的单行大图/视频

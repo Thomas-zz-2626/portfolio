@@ -777,9 +777,9 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
               3-6 滚完后下一页面放图 4,页面大小=占满一屏)──
               深灰黑底衔接上方黑板块;静态无动效,reduced-motion 无需处理;
               2026-11-14 用户要求:回到最开始网页全屏的样子,移动端不再
-              适配查看——所有宽度统一 100dvh 占满一页 + object-fit
-              contain(方案 A 整图完整显示不裁切),<768 由移动端拦截
-              弹窗隐藏全部页面内容(见 mobileBlocked)。 ── */}
+              适配查看——所有宽度统一 100dvh 占满一页,object-fit
+              cover 上下左右铺满无空隙(用户定稿方案 B),<768 由移动端
+              拦截弹窗隐藏全部页面内容(见 mobileBlocked)。 ── */}
           {project.id === 'pen-2' && project.pageImage && (
             <section className="lightbox__page-image">
               <img
@@ -790,7 +790,7 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
                 loading="lazy"
                 decoding="async"
                 style={getLqip(project.pageImage)
-                  ? { backgroundImage: `url(${getLqip(project.pageImage)})`, backgroundSize: 'contain' }
+                  ? { backgroundImage: `url(${getLqip(project.pageImage)})`, backgroundSize: 'cover' }
                   : undefined}
               />
             </section>

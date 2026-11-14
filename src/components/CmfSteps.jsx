@@ -251,8 +251,9 @@ export default function CmfSteps({ title, steps = [], scrollContainerRef }) {
         {/* ── 整页全屏图(2026-11-14 用户要求:每张图页面全屏,
             文字位置不变、动效不变):图从网格移出,绝对定位铺满
             100dvh 粘性面板;object-fit 由 CSS --cmf-img-fit 控制
-            (方案 A contain 整图完整显示=当前;方案 B cover 铺满)。
-            2026-11-14 再改:说明文字锚定容器右下角(见 CSS)。 ── */}
+            (2026-11-14 用户定稿方案 B:cover 铺满,上下左右无空隙、
+            无留白色块;方案 A contain 已否决)。
+            说明文字锚定容器右下角(见 CSS)。 ── */}
         <AnimatePresence initial={false}>
           <motion.img
             key={step}
@@ -263,7 +264,7 @@ export default function CmfSteps({ title, steps = [], scrollContainerRef }) {
             className="cmfsteps__img"
             decoding="async"
             style={getLqip(cur.image)
-              ? { backgroundImage: `url(${getLqip(cur.image)})`, backgroundSize: 'contain' }
+              ? { backgroundImage: `url(${getLqip(cur.image)})`, backgroundSize: 'cover' }
               : undefined}
             initial={{ opacity: 0 }}
             animate={{ opacity: shown ? 1 : 0 }}
