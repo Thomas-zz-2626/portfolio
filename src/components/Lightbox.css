@@ -2744,11 +2744,10 @@
 /* ── 台阶滚动之后的整页大图(pen-2 图 4,2026-11-13 用户要求:
    3-6 滚完后下一页面放图 4,页面大小=占满一屏)──
    深灰黑底衔接上方黑板块;静态无动效(无需 reduced-motion 处理);
-   2026-11-14 用户要求:移动端(<1024)不再适配查看——所有宽度统一
-   整页 100dvh;2026-11-14 用户定稿(方案 B):object-fit cover 上下
+   2026-11-14 用户定稿(方案 B):桌面 ≥1024 整页 100dvh cover 上下
    左右铺满无空隙、无留白色块(方案 A contain 留深灰黑边已否决),
-   居中裁切多余边;手机竖屏由 Lightbox 拦截弹窗接管(隐藏全部
-   页面内容,见 .lightbox__mobile-block)── */
+   居中裁切多余边;同日再改:<1024 与台阶图同规——完整 16:9 显示
+   (不裁切不压缩)、页面宽度左右贴边,见下媒体查询。── */
 .lightbox__page-image {
   position: relative;
   height: 100dvh; /* dvh 移动端地址栏不引起高度抖动 */
@@ -2764,6 +2763,18 @@
   background-color: #1a1b1c;
   background-repeat: no-repeat;
   background-position: center; /* LQIP 居中同盒 */
+}
+/* <1024(2026-11-14 用户再改):图 4 完整 16:9 显示、页面宽度左右
+   贴边、不裁切不压缩(与 .cmfsteps--narrow 台阶图同规) */
+@media (max-width: 1023px) {
+  .lightbox__page-image {
+    height: auto; /* 包裹图片:随图片高度 */
+  }
+  .lightbox__page-image img {
+    height: auto;
+    aspect-ratio: 2702 / 1536; /* 图 4 原图画幅,防 CLS */
+    object-fit: contain; /* 完整显示 */
+  }
 }
 
 /* ── 「页面宽度」规则(2026-11-14 用户规则):页面宽度的单行大图/视频

@@ -67,9 +67,12 @@ export default function CmfSteps({ title, steps = [], scrollContainerRef }) {
   const targetRef = useRef(null)
   const stepRef = useRef(0)
   const reducedMotion = useReducedMotion()
-  // 矮视口(横屏手机等):与 reduced-motion 同样退化为静态展示
+  // 矮视口(横屏手机等):与 reduced-motion 同样退化为静态展示。
+  // 2026-11-14 用户报桌面动效丢失(正常电脑网页端无滚动切换):
+  // 加宽度上限——只有 <1024 的矮视口(横屏手机)才走静态;桌面开
+  // DevTools 底栏/矮窗口(高 <560 但宽 ≥1024)不再误伤滚动动效
   const [shortViewport, setShortViewport] = useState(
-    () => window.matchMedia('(max-height: 560px)').matches
+    () => window.matchMedia('(max-height: 560px) and (max-width: 1023px)').matches
   )
   // 2026-11-14 用户:全站响应式——<1024px 关闭 sticky 定格滚动动效,
   // 图片区块正常随流滚动(平板横向行、手机竖向堆叠,见 CmfSteps.css)
@@ -82,7 +85,8 @@ export default function CmfSteps({ title, steps = [], scrollContainerRef }) {
   const staticMode = !!reducedMotion || shortViewport || isNarrow
 
   useEffect(() => {
-    const mq = window.matchMedia('(max-height: 560px)')
+    // 与上方同:仅 <1024 的矮视口(横屏手机)走静态(2026-11-14)
+    const mq = window.matchMedia('(max-height: 560px) and (max-width: 1023px)')
     const onChange = () => setShortViewport(mq.matches)
     mq.addEventListener('change', onChange)
     return () => mq.removeEventListener('change', onChange)

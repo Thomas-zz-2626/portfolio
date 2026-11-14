@@ -728,10 +728,9 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
           {/* ── 台阶滚动之后的整页大图(pen-2 专属,2026-11-13 用户要求:
               3-6 滚完后下一页面放图 4,页面大小=占满一屏)──
               深灰黑底衔接上方黑板块;静态无动效,reduced-motion 无需处理;
-              2026-11-14 用户要求:回到最开始网页全屏的样子,移动端不再
-              适配查看——所有宽度统一 100dvh 占满一页,object-fit
-              cover 上下左右铺满无空隙(用户定稿方案 B),<1024 由移动端
-              拦截弹窗隐藏全部页面内容(见 mobileBlocked)。 ── */}
+              2026-11-14 用户定稿:桌面 ≥1024 整页 100dvh cover 铺满;
+              同日再改:<1024 完整 16:9 显示、页面宽度左右贴边、不裁切
+              不压缩(见 Lightbox.css 媒体查询)。 ── */}
           {project.id === 'pen-2' && project.pageImage && (
             <section className="lightbox__page-image">
               <img

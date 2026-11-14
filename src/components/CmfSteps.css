@@ -26,9 +26,9 @@
    object-fit cover、无圆角);原图框格位改纯占位,文字仍在原位
    (桌面右半边居中、手机下方);动效(两步一阶/交叉渐变/钉住)不变。
    同日再改:右文拆成 大标题+小字描述 两段(桌面竖排右对齐);
-   <1024 静态态每张图全屏铺满(100dvh cover 贴边)依次往下展开,
-   大标题叠在图的右侧垂直居中,小字描述放在图下方、居中
-   (.cmfsteps--narrow;图贴边=响应式贴当前页面边)。 */
+   <1024 静态态每张图完整 16:9 显示(不裁切不压缩)、页面宽度左右
+   贴边依次往下展开,大标题叠在图的右侧垂直居中,小字描述放在图
+   下方、居中(.cmfsteps--narrow)。 */
 .cmfsteps {
   /* 深灰黑底:图片未加载时的兜底底色;cover 铺满后不再露出 */
   background: #1a1b1c;
@@ -257,9 +257,9 @@
   }
 }
 
-/* ── <1024 全屏静态(2026-11-14 用户):每张图全屏铺满(100dvh cover
-   贴边)依次往下展开;大标题叠在全屏图右侧垂直居中,小字描述放在
-   图片下方随流、居中(2026-11-14 用户再改)。── */
+/* ── <1024 静态(2026-11-14 用户):每张图完整 16:9 显示(不裁切不
+   压缩)、页面宽度左右贴边,依次往下展开;大标题叠在图右侧垂直居中,
+   小字描述放在图片下方随流、居中(2026-11-14 用户定稿)。── */
 .cmfsteps--narrow .cmfsteps__rows {
   padding: 0; /* 全屏图左右贴边,去掉行容器侧留白 */
   gap: clamp(48px, 8vh, 96px);
@@ -270,19 +270,19 @@
 .cmfsteps__row-stage {
   position: relative;
   width: 100%;
-  height: 100dvh; /* 每张图占满一屏 */
+  height: auto; /* 包裹图片:完整显示不裁切(2026-11-14 用户再改,
+                   原 100dvh cover 裁切已否决) */
   overflow: hidden;
   background: #1a1b1c; /* 图片未加载时兜底底色 */
 }
 .cmfsteps__row-img {
   display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+  width: 100%; /* 页面宽度:左右贴住当前页面两边(响应式贴边) */
+  height: auto; /* 完整 16:9 显示,不裁切、不压缩 */
+  aspect-ratio: 16 / 9; /* 与图片同画幅,防 CLS */
   background-color: #1a1b1c;
   background-repeat: no-repeat;
-  background-position: center; /* LQIP cover 同盒 */
+  background-position: center; /* LQIP 同盒 */
 }
 .cmfsteps__row-title {
   position: absolute;
