@@ -116,16 +116,17 @@ const CATEGORIES = [
           { id: 'pen-2', title: '棱光', image: OSS + '/images/edc/pen-2/2.png', heroVideo: OSS + '/images/edc/pen-2/hero.mp4', tagline: ['棱面折射光影', '几何铸就锋芒'], year: '2026', duration: '12 周', type: '文具设计', skills: 'CMF，结构优化', heroBg: '#e6e6e6', heroClass: 'prism', brief: '几何棱面切割，光与金属的视觉交响', metaImage: OSS + '/images/edc/pen-2/meta.png', metaLink: 'https://www.kickstarter.com/projects/1516711080/lumink-ti-pen-pocket-to-full-size-transforming-in-seconds?ref=discover_saved_projects&category_',
             /* ── 色彩・材质・工艺 图文台阶滚动(2026-11-11 用户要求) ──
                标题钉住,每滚动一页切换一组左图右文(3-1..3-6 与文字
-               一一对应);text 为占位文案,用户后续自行替换 */
+               一一对应);2026-11-14 用户:右文拆成 大标题(title)+
+               小字描述(text)两部分;title/text 均为占位文案,后续替换 */
             cmf: {
               title: '色彩・材质・工艺',
               steps: [
-                { image: OSS + '/images/edc/pen-2/3-1.png', text: '图 3-1 的说明文字,占位待替换。' },
-                { image: OSS + '/images/edc/pen-2/3-2.png', text: '图 3-2 的说明文字,占位待替换。' },
-                { image: OSS + '/images/edc/pen-2/3-3.png', text: '图 3-3 的说明文字,占位待替换。' },
-                { image: OSS + '/images/edc/pen-2/3-4.png', text: '图 3-4 的说明文字,占位待替换。' },
-                { image: OSS + '/images/edc/pen-2/3-5.png', text: '图 3-5 的说明文字,占位待替换。' },
-                { image: OSS + '/images/edc/pen-2/3-6.png', text: '图 3-6 的说明文字,占位待替换。' },
+                { image: OSS + '/images/edc/pen-2/3-1.png', title: '标题 3-1', text: '图 3-1 的小字描述,占位待替换。' },
+                { image: OSS + '/images/edc/pen-2/3-2.png', title: '标题 3-2', text: '图 3-2 的小字描述,占位待替换。' },
+                { image: OSS + '/images/edc/pen-2/3-3.png', title: '标题 3-3', text: '图 3-3 的小字描述,占位待替换。' },
+                { image: OSS + '/images/edc/pen-2/3-4.png', title: '标题 3-4', text: '图 3-4 的小字描述,占位待替换。' },
+                { image: OSS + '/images/edc/pen-2/3-5.png', title: '标题 3-5', text: '图 3-5 的小字描述,占位待替换。' },
+                { image: OSS + '/images/edc/pen-2/3-6.png', title: '标题 3-6', text: '图 3-6 的小字描述,占位待替换。' },
               ],
             },
             /* ── 台阶滚动之后的整页大图(2026-11-13 用户要求:3-6 滚完后

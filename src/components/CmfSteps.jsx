@@ -45,11 +45,12 @@
 //       不齐两格=卡死。步进锁本身已把阶变后 LOCK_MS 内的余格全部
 //       吞掉(快甩一甩最多一阶、刻意两格一阶),无需再按速度吞格,
 //       故删除快滚抑制。
-// 响应式:手机 <640 单列(图上文下);矮视口(<560px)/reduced-motion
-//       退化为静态:紧凑标题 + 六行图文纵向排列,内容完整呈现。
-// 2026-11-14 用户要求:这几张图回到最开始网页全屏的样子,移动端
-//       (<1024)不再适配查看——所有宽度统一全屏台阶滚动,棱光页移动端
-//       由 Lightbox 的拦截弹窗接管(见 Lightbox.jsx mobileBlock)。
+// 响应式(2026-11-14 全站响应式定版):≥1024 保留全部动效;768–1023
+//       平板静态横向行、<768 手机竖向堆叠——同日用户再改:<1024 时
+//       每张图全屏铺满(100dvh cover 贴边)依次往下展开,大标题叠在
+//       全屏图右侧垂直居中,小字描述放在图片下方随流(CSS
+//       .cmfsteps--narrow);矮视口(<560px)/reduced-motion 在桌面
+//       仍退化为旧六行图文网格(图上文旁)。
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react'
 import { getLqip, getSrcSet, SIZES } from '../imageSrc'
@@ -222,6 +223,38 @@ export default function CmfSteps({ title, steps = [], scrollContainerRef }) {
   if (!steps.length) return null
 
   if (staticMode) {
+    // 2026-11-14 用户:<1024 时每张图全屏铺满(100dvh cover 贴边)
+    // 依次往下展开,大标题叠在全屏图右侧垂直居中,小字描述放在图
+    // 下方随流;桌面 reduced-motion/矮视口仍走旧六行图文网格
+    if (isNarrow) {
+      return (
+        <section className="cmfsteps cmfsteps--static cmfsteps--narrow">
+          <h2 className="cmfsteps__band-title"><span>{title}</span></h2>
+          <div className="cmfsteps__rows">
+            {steps.map((s, i) => (
+              <div className="cmfsteps__row" key={i}>
+                <div className="cmfsteps__row-stage">
+                  <img
+                    className="cmfsteps__row-img"
+                    src={s.image}
+                    srcSet={getSrcSet(s.image)}
+                    sizes={SIZES.full}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    style={getLqip(s.image)
+                      ? { backgroundImage: `url(${getLqip(s.image)})`, backgroundSize: 'cover' }
+                      : undefined}
+                  />
+                  <h3 className="cmfsteps__row-title">{s.title}</h3>
+                </div>
+                <p className="cmfsteps__row-desc">{s.text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )
+    }
     return (
       <section className="cmfsteps cmfsteps--static">
         <h2 className="cmfsteps__band-title"><span>{title}</span></h2>
@@ -241,7 +274,10 @@ export default function CmfSteps({ title, steps = [], scrollContainerRef }) {
                     : undefined}
                 />
               </figure>
-              <p className="cmfsteps__row-text">{s.text}</p>
+              <div className="cmfsteps__row-text">
+                <h3 className="cmfsteps__row-heading">{s.title}</h3>
+                <p className="cmfsteps__row-desc">{s.text}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -286,8 +322,9 @@ export default function CmfSteps({ title, steps = [], scrollContainerRef }) {
           {/* 网格占位:占住左半边格位,文字保持右半边原位 */}
           <div className="cmfsteps__imgbox" aria-hidden="true" />
           <div className="cmfsteps__textbox">
+            {/* 右文拆两部分(2026-11-14 用户):大标题 + 其下小字描述 */}
             <AnimatePresence initial={false}>
-              <motion.p
+              <motion.div
                 key={step}
                 className="cmfsteps__text"
                 initial={{ opacity: 0 }}
@@ -297,8 +334,9 @@ export default function CmfSteps({ title, steps = [], scrollContainerRef }) {
                 }}
                 exit={{ opacity: 0, transition: { duration: 0.3, ease: 'easeOut' } }}
               >
-                {cur.text}
-              </motion.p>
+                <h3 className="cmfsteps__text-title">{cur.title}</h3>
+                <p className="cmfsteps__text-desc">{cur.text}</p>
+              </motion.div>
             </AnimatePresence>
           </div>
         </div>
