@@ -2871,7 +2871,8 @@
 .lightbox__pen2-explode-title {
   margin: 0;
   background: #000;
-  padding: clamp(24px, 4vh, 48px) clamp(24px, 6vw, 64px) 8px;
+  /* 上间距加大(2026-11-15 用户要求):视频→大标题间隙双倍 clamp(48,8vh,96) */
+  padding: clamp(48px, 8vh, 96px) clamp(24px, 6vw, 64px) 8px;
   text-align: center;
   font-family: var(--font);
   font-size: clamp(26px, 4.5vw, 56px);
