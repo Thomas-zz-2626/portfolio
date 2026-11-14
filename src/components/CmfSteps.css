@@ -192,6 +192,8 @@
   margin-top: 0;
   top: 0;
   padding: clamp(40px, 10vw, 72px) 0 clamp(24px, 6vw, 40px);
+  text-align: center; /* 2026-11-14 用户:<1024 大标题居中对齐页面
+                        (桌面 reduced-motion 静态态同款居中) */
 }
 .cmfsteps--static .cmfsteps__band-title > span {
   position: static; /* 随流排版,不再是绝对定位在带中心 */
@@ -262,7 +264,11 @@
 
 /* ── <1024 静态(2026-11-14 用户):每张图完整 16:9 显示(不裁切不
    压缩)、页面宽度左右贴边,依次往下展开;大标题叠在图右侧垂直居中,
-   小字描述放在图片下方随流、居中(2026-11-14 用户定稿)。── */
+   小字描述放在图片下方随流、居中(2026-11-14 用户定稿);
+   小字区域纯黑底(2026-11-14 用户再改,桌面仍 #1a1b1c)。── */
+.cmfsteps--narrow {
+  background: #000; /* 小字所在区域(图下方、行间隙)纯黑 */
+}
 .cmfsteps--narrow .cmfsteps__rows {
   padding: 0; /* 全屏图左右贴边,去掉行容器侧留白 */
   gap: clamp(48px, 8vh, 96px);
