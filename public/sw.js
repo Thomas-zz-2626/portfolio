@@ -66,7 +66,22 @@ self.addEventListener('fetch', (event) => {
     // OSS 欠费期间(2026-11-14 用户):不代理,直接原站读取(本地预览/局域网/
     // GitHub Pages);不缓存媒体,避免占满存储。恢复 OSS 后走下方代理分支。
     if (!OSS_ENABLED) {
-      event.respondWith(fetch(request))
+      // 2026-11-15:github.io 经 GFW 的连接会"半死"——请求发出后响应头
+      // 永不抵达且不报错,浏览器 img 请求无超时机制 → 图片无限期挂起
+      // (时好时坏的根因)。这里加 12s 熔断:响应头未到即中止并回 504,
+      // img 收到 error 事件后由页面层带缓存穿透参数重试(新连接大概率
+      // 能通)。视频流不受影响:响应头到达后计时器即清除,流照常播放。
+      event.respondWith((async () => {
+        const ac = new AbortController()
+        const timer = setTimeout(() => ac.abort(), 12000)
+        try {
+          return await fetch(request, { signal: ac.signal })
+        } catch (e) {
+          return new Response('', { status: 504, statusText: 'stall-timeout' })
+        } finally {
+          clearTimeout(timer)
+        }
+      })())
       return
     }
     // 代理到 OSS 取文件(比 GitHub 快),stale-while-revalidate
