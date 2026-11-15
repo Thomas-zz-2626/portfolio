@@ -690,14 +690,17 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
                       <div className="lightbox__meta-image">
                         {project.metaLink ? (
                           <a href={project.metaLink} target="_blank" rel="noopener noreferrer" className="lightbox__meta-image-link">
-                            <img src={project.metaImage} alt="" loading="lazy" decoding="async" srcSet={getSrcSet(project.metaImage)} sizes={SIZES.meta} />
+                            {/* 2026-11-15:meta 缩略图仅 max-width/max-height,加载前固有
+                                尺寸 0×0,若开灯箱时在折叠线下 lazy 永不触发→永久不可见;
+                                改 eager(灯箱首屏元素,480w webp 仅 ~11KB)。 */}
+                            <img src={project.metaImage} alt="" decoding="async" srcSet={getSrcSet(project.metaImage)} sizes={SIZES.meta} />
                             <svg className="lightbox__meta-image-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                               <polyline points="9 6 15 12 9 18" />
                             </svg>
                           </a>
                         ) : (
                           <>
-                            <img src={project.metaImage} alt="" loading="lazy" decoding="async" srcSet={getSrcSet(project.metaImage)} sizes={SIZES.meta} />
+                            <img src={project.metaImage} alt="" decoding="async" srcSet={getSrcSet(project.metaImage)} sizes={SIZES.meta} />
                             <svg className="lightbox__meta-image-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                               <polyline points="9 6 15 12 9 18" />
                             </svg>
