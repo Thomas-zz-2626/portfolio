@@ -44,8 +44,11 @@ export const getLqip = (src) => {
 const DESKTOP_FORCE_ORIGINAL = '(min-width: 1280px) calc(100vw + 1px)'
 
 export const SIZES = {
-  /** 项目卡片：≥1280 整行卡 ≈600px；1024 三列；768 两列；手机单列 */
-  card: `${DESKTOP_FORCE_ORIGINAL}, (max-width: 640px) calc(100vw - 48px), (max-width: 768px) calc(50vw - 40px), calc(33vw - 30px)`,
+  /** 项目卡片:桌面槽位声明 640px(实际显示 ~600-800px),使浏览器取
+      768w webp(DPR1)/1280w webp(DPR2)而非 1-6MB 原图——2026-11-15
+      用户报告首页图片加载极慢(github.io 国内 ~150KB/s,原图 5MB 需
+      30s+),卡片封面改用衍生 webp 后单图 <1s;灯箱内部图仍原图不变。 */
+  card: '(max-width: 640px) calc(100vw - 48px), (max-width: 768px) calc(50vw - 40px), 640px',
   /** About 头像：440px(桌面) / 340px / 300px */
   avatar: `${DESKTOP_FORCE_ORIGINAL}, (max-width: 1024px) 300px, 340px`,
   /** Lightbox 首屏大图 / 全幅大图：整屏宽 */
