@@ -163,30 +163,6 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
   const [processExpanded, setProcessExpanded] = useState(false)
   useEffect(() => { setProcessExpanded(false) }, [project.id])
 
-  // 2026-11-15:github.io 图片请求会无限期挂起(无报错无超时);sw.js 熔断后
-  // 会以 504 触发 error 事件——此处全局捕获,带缓存穿透参数重试至多 2 次,
-  // 新 URL 强制新连接,大概率恢复加载。LQIP 底图在重试期间保持显示。
-  useEffect(() => {
-    const onImgError = (e) => {
-      const im = e.target
-      if (!(im instanceof HTMLImageElement)) return
-      const tries = parseInt(im.dataset.imgRetry || '0', 10)
-      if (tries >= 2) return
-      im.dataset.imgRetry = String(tries + 1)
-      const b = '?r=' + Math.random().toString(36).slice(2)
-      if (im.srcset) {
-        im.srcset = im.srcset.split(',').map((s) => {
-          const parts = s.trim().split(' ')
-          return parts[0] + b + ' ' + parts.slice(1).join(' ')
-        }).join(', ')
-      } else if (!im.src.includes('?r=')) {
-        im.src += b
-      }
-    }
-    document.addEventListener('error', onImgError, true)
-    return () => document.removeEventListener('error', onImgError, true)
-  }, [])
-
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 639px)')
     const rmq = window.matchMedia('(prefers-reduced-motion: reduce)')
