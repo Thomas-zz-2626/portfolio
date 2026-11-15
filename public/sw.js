@@ -7,7 +7,7 @@
 // 版本号变更即整体失效,无需逐条清理。
 // 2026-11-14:资源路径全部改相对,站点可部署在 /portfolio/ 子路径;
 // 缓存判定改用注册 scope 前缀(根路径 scope='/' → 前缀为空,行为不变)。
-const VERSION = 'v22' // 2026-11-14:OSS 欠费期间关闭 /images 代理,本地/原站直读;部署恢复 OSS 时 OSS_ENABLED 改回 true 并再升版本
+const VERSION = 'v23' // 2026-11-15:升版强制清除旧缓存(OSS 已删除,清理旧 OSS 缓存/旧应用壳),本地直读不变
 
 const OSS_BASE = 'https://myportfolio26.oss-cn-hangzhou.aliyuncs.com'
 // OSS 欠费期间 = false:/images/* 直接原站(本地预览/局域网/GitHub Pages);
