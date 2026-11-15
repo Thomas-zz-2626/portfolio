@@ -14,8 +14,12 @@
     "w": 1280
    },
    {
-    "src": "/images/appliances/app-1/card.png",
-    "w": 3840
+    "src": "/images/derived/appliances/app-1/card.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/appliances/app-1/card.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/appliances/app-1/card.lqip.webp"
@@ -35,8 +39,12 @@
     "w": 1280
    },
    {
-    "src": "/images/appliances/app-1/hero.png",
-    "w": 7680
+    "src": "/images/derived/appliances/app-1/hero.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/appliances/app-1/hero.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/appliances/app-1/hero.lqip.webp"
@@ -56,8 +64,12 @@
     "w": 1280
    },
    {
-    "src": "/images/appliances/app-2/card.png",
-    "w": 5000
+    "src": "/images/derived/appliances/app-2/card.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/appliances/app-2/card.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/appliances/app-2/card.lqip.webp"
@@ -77,8 +89,12 @@
     "w": 1280
    },
    {
-    "src": "/images/appliances/app-3/card.jpg",
-    "w": 5000
+    "src": "/images/derived/appliances/app-3/card.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/appliances/app-3/card.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/appliances/app-3/card.lqip.webp"
@@ -98,8 +114,12 @@
     "w": 1280
    },
    {
-    "src": "/images/appliances/app-4/card.png",
-    "w": 5000
+    "src": "/images/derived/appliances/app-4/card.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/appliances/app-4/card.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/appliances/app-4/card.lqip.webp"
@@ -119,8 +139,12 @@
     "w": 1280
    },
    {
-    "src": "/images/appliances/app-5/2.png",
-    "w": 2848
+    "src": "/images/derived/appliances/app-5/2.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/appliances/app-5/2.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/appliances/app-5/2.lqip.webp"
@@ -140,8 +164,12 @@
     "w": 1280
    },
    {
-    "src": "/images/appliances/app-5/3.png",
-    "w": 2848
+    "src": "/images/derived/appliances/app-5/3.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/appliances/app-5/3.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/appliances/app-5/3.lqip.webp"
@@ -161,7 +189,11 @@
     "w": 1280
    },
    {
-    "src": "/images/appliances/app-5/背景.png",
+    "src": "/images/derived/appliances/app-5/背景.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/appliances/app-5/背景.2309w.webp",
     "w": 2309
    }
   ],
@@ -182,8 +214,12 @@
     "w": 1280
    },
    {
-    "src": "/images/appliances/app-5/card.png",
-    "w": 3840
+    "src": "/images/derived/appliances/app-5/card.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/appliances/app-5/card.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/appliances/app-5/card.lqip.webp"
@@ -203,7 +239,11 @@
     "w": 1280
    },
    {
-    "src": "/images/avatar.png",
+    "src": "/images/derived/avatar.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/avatar.1792w.webp",
     "w": 1792
    }
   ],
@@ -224,7 +264,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/knife-1/1.png",
+    "src": "/images/derived/edc/knife-1/1.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/knife-1/1.2560w.webp",
     "w": 2560
    }
   ],
@@ -245,8 +289,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/knife-1/card.jpg",
-    "w": 3840
+    "src": "/images/derived/edc/knife-1/card.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/knife-1/card.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/knife-1/card.lqip.webp"
@@ -266,8 +314,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/knife-2/卡片图.780.png",
-    "w": 3840
+    "src": "/images/derived/edc/knife-2/卡片图.780.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/knife-2/卡片图.780.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/knife-2/卡片图.780.lqip.webp"
@@ -287,7 +339,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/knife-3/影刃.793.jpg",
+    "src": "/images/derived/edc/knife-3/影刃.793.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/knife-3/影刃.793.2560w.webp",
     "w": 2560
    }
   ],
@@ -304,7 +360,7 @@
     "w": 768
    },
    {
-    "src": "/images/edc/knife-3/meta.png",
+    "src": "/images/derived/edc/knife-3/meta.1150w.webp",
     "w": 1150
    }
   ],
@@ -325,8 +381,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/1.png",
-    "w": 3840
+    "src": "/images/derived/edc/pen-1/1.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/1.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-1/1.lqip.webp"
@@ -346,7 +406,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/11-hd.webp",
+    "src": "/images/derived/edc/pen-1/11-hd.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/11-hd.2560w.webp",
     "w": 2560
    }
   ],
@@ -367,7 +431,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/11.jpg",
+    "src": "/images/derived/edc/pen-1/11.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/11.1706w.webp",
     "w": 1706
    }
   ],
@@ -384,7 +452,7 @@
     "w": 768
    },
    {
-    "src": "/images/edc/pen-1/2.png",
+    "src": "/images/derived/edc/pen-1/2.1150w.webp",
     "w": 1150
    }
   ],
@@ -405,7 +473,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/22.jpg",
+    "src": "/images/derived/edc/pen-1/22.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/22.1706w.webp",
     "w": 1706
    }
   ],
@@ -426,8 +498,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/3.png",
-    "w": 3800
+    "src": "/images/derived/edc/pen-1/3.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/3.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-1/3.lqip.webp"
@@ -447,7 +523,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/33.jpg",
+    "src": "/images/derived/edc/pen-1/33.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/33.1706w.webp",
     "w": 1706
    }
   ],
@@ -468,8 +548,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/4.png",
-    "w": 4500
+    "src": "/images/derived/edc/pen-1/4.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/4.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-1/4.lqip.webp"
@@ -489,7 +573,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/44.jpg",
+    "src": "/images/derived/edc/pen-1/44.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/44.1706w.webp",
     "w": 1706
    }
   ],
@@ -510,8 +598,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/5.png",
-    "w": 4500
+    "src": "/images/derived/edc/pen-1/5.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/5.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-1/5.lqip.webp"
@@ -531,8 +623,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/6.png",
-    "w": 2752
+    "src": "/images/derived/edc/pen-1/6.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/6.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-1/6.lqip.webp"
@@ -552,7 +648,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/笔搁-poster.jpg",
+    "src": "/images/derived/edc/pen-1/笔搁-poster.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/笔搁-poster.1832w.webp",
     "w": 1832
    }
   ],
@@ -573,7 +673,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/呈现1.png",
+    "src": "/images/derived/edc/pen-1/呈现1.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/呈现1.1706w.webp",
     "w": 1706
    }
   ],
@@ -594,7 +698,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/呈现2.png",
+    "src": "/images/derived/edc/pen-1/呈现2.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/呈现2.1706w.webp",
     "w": 1706
    }
   ],
@@ -615,7 +723,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/呈现3.png",
+    "src": "/images/derived/edc/pen-1/呈现3.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/呈现3.1706w.webp",
     "w": 1706
    }
   ],
@@ -636,7 +748,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/呈现4.png",
+    "src": "/images/derived/edc/pen-1/呈现4.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/呈现4.1706w.webp",
     "w": 1706
    }
   ],
@@ -657,7 +773,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/粗细-poster.jpg",
+    "src": "/images/derived/edc/pen-1/粗细-poster.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/粗细-poster.1920w.webp",
     "w": 1920
    }
   ],
@@ -678,7 +798,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/防滚-poster.jpg",
+    "src": "/images/derived/edc/pen-1/防滚-poster.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/防滚-poster.1921w.webp",
     "w": 1921
    }
   ],
@@ -699,7 +823,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/画画写字-poster.jpg",
+    "src": "/images/derived/edc/pen-1/画画写字-poster.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/画画写字-poster.1920w.webp",
     "w": 1920
    }
   ],
@@ -720,8 +848,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/hero-poster.jpg",
-    "w": 3256
+    "src": "/images/derived/edc/pen-1/hero-poster.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/hero-poster.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-1/hero-poster.lqip.webp"
@@ -741,7 +873,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/2.png",
+    "src": "/images/derived/edc/pen-2/2.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-2/2.2560w.webp",
     "w": 2560
    }
   ],
@@ -762,7 +898,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/hero-poster.jpg",
+    "src": "/images/derived/edc/pen-2/hero-poster.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-2/hero-poster.2560w.webp",
     "w": 2560
    }
   ],
@@ -779,7 +919,7 @@
     "w": 768
    },
    {
-    "src": "/images/edc/pen-2/meta.png",
+    "src": "/images/derived/edc/pen-2/meta.1150w.webp",
     "w": 1150
    }
   ],
@@ -800,8 +940,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/1.png",
-    "w": 3100
+    "src": "/images/derived/edc/pen-2/1.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-2/1.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-2/1.lqip.webp"
@@ -821,7 +965,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-3/羽毛钢笔.784.png",
+    "src": "/images/derived/edc/pen-3/羽毛钢笔.784.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-3/羽毛钢笔.784.2560w.webp",
     "w": 2560
    }
   ],
@@ -842,8 +990,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/1-1.png",
-    "w": 3600
+    "src": "/images/derived/edc/pendant-1/1-1.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/1-1.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/1-1.lqip.webp"
@@ -861,10 +1013,6 @@
    {
     "src": "/images/derived/edc/pendant-1/1-2.1280w.webp",
     "w": 1280
-   },
-   {
-    "src": "/images/edc/pendant-1/1-2.png",
-    "w": 3584
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/1-2.lqip.webp"
@@ -882,10 +1030,6 @@
    {
     "src": "/images/derived/edc/pendant-1/1-3.1280w.webp",
     "w": 1280
-   },
-   {
-    "src": "/images/edc/pendant-1/1-3.png",
-    "w": 3584
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/1-3.lqip.webp"
@@ -905,8 +1049,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/1.jpg",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/1.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/1.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/1.lqip.webp"
@@ -926,8 +1074,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/2-1.png",
-    "w": 3840
+    "src": "/images/derived/edc/pendant-1/2-1.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/2-1.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/2-1.lqip.webp"
@@ -947,7 +1099,7 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/2-2.png",
+    "src": "/images/derived/edc/pendant-1/2-2.1364w.webp",
     "w": 1364
    }
   ],
@@ -964,7 +1116,7 @@
     "w": 768
    },
    {
-    "src": "/images/edc/pendant-1/2-3.png",
+    "src": "/images/derived/edc/pendant-1/2-3.896w.webp",
     "w": 896
    }
   ],
@@ -981,7 +1133,7 @@
     "w": 768
    },
    {
-    "src": "/images/edc/pendant-1/2-4.png",
+    "src": "/images/derived/edc/pendant-1/2-4.896w.webp",
     "w": 896
    }
   ],
@@ -1002,7 +1154,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/2-5.png",
+    "src": "/images/derived/edc/pendant-1/2-5.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/2-5.1691w.webp",
     "w": 1691
    }
   ],
@@ -1019,7 +1175,7 @@
     "w": 768
    },
    {
-    "src": "/images/edc/pendant-1/2.png",
+    "src": "/images/derived/edc/pendant-1/2.1150w.webp",
     "w": 1150
    }
   ],
@@ -1040,7 +1196,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/3-1.png",
+    "src": "/images/derived/edc/pendant-1/3-1.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/3-1.1700w.webp",
     "w": 1700
    }
   ],
@@ -1061,7 +1221,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/3-2.png",
+    "src": "/images/derived/edc/pendant-1/3-2.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/3-2.1700w.webp",
     "w": 1700
    }
   ],
@@ -1082,7 +1246,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/3-3.png",
+    "src": "/images/derived/edc/pendant-1/3-3.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/3-3.1700w.webp",
     "w": 1700
    }
   ],
@@ -1103,8 +1271,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/3-4.jpg",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/3-4.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/3-4.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/3-4.lqip.webp"
@@ -1124,8 +1296,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/3-5.png",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/3-5.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/3-5.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/3-5.lqip.webp"
@@ -1145,8 +1321,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/4.png",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/4.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/4.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/4.lqip.webp"
@@ -1166,8 +1346,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/5.png",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/5.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/5.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/5.lqip.webp"
@@ -1187,8 +1371,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/三根氚管卡片图.781.png",
-    "w": 3840
+    "src": "/images/derived/edc/pendant-1/三根氚管卡片图.781.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/三根氚管卡片图.781.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/三根氚管卡片图.781.lqip.webp"
@@ -1208,8 +1396,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/hero-poster.jpg",
-    "w": 3840
+    "src": "/images/derived/edc/pendant-1/hero-poster.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/hero-poster.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/hero-poster.lqip.webp"
@@ -1229,7 +1421,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-2/1.jpg",
+    "src": "/images/derived/edc/pendant-2/1.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-2/1.2560w.webp",
     "w": 2560
    }
   ],
@@ -1250,8 +1446,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-2/card.png",
-    "w": 3840
+    "src": "/images/derived/edc/pendant-2/card.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-2/card.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-2/card.lqip.webp"
@@ -1271,8 +1471,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-3/1.jpg",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-3/1.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-3/1.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-3/1.lqip.webp"
@@ -1288,7 +1492,7 @@
     "w": 768
    },
    {
-    "src": "/images/edc/pendant-3/10.png",
+    "src": "/images/derived/edc/pendant-3/10.1021w.webp",
     "w": 1021
    }
   ],
@@ -1305,7 +1509,7 @@
     "w": 768
    },
    {
-    "src": "/images/edc/pendant-3/11.png",
+    "src": "/images/derived/edc/pendant-3/11.1021w.webp",
     "w": 1021
    }
   ],
@@ -1322,7 +1526,7 @@
     "w": 768
    },
    {
-    "src": "/images/edc/pendant-3/12.png",
+    "src": "/images/derived/edc/pendant-3/12.1021w.webp",
     "w": 1021
    }
   ],
@@ -1339,7 +1543,7 @@
     "w": 768
    },
    {
-    "src": "/images/edc/pendant-3/13.png",
+    "src": "/images/derived/edc/pendant-3/13.1021w.webp",
     "w": 1021
    }
   ],
@@ -1360,8 +1564,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-3/14.png",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-3/14.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-3/14.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-3/14.lqip.webp"
@@ -1381,8 +1589,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-3/15.png",
-    "w": 3507
+    "src": "/images/derived/edc/pendant-3/15.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-3/15.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-3/15.lqip.webp"
@@ -1402,7 +1614,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-3/16.png",
+    "src": "/images/derived/edc/pendant-3/16.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-3/16.1953w.webp",
     "w": 1953
    }
   ],
@@ -1423,8 +1639,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-3/2.png",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-3/2.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-3/2.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-3/2.lqip.webp"
@@ -1444,7 +1664,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-3/3.png",
+    "src": "/images/derived/edc/pendant-3/3.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-3/3.2300w.webp",
     "w": 2300
    }
   ],
@@ -1465,8 +1689,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-3/4.jpg",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-3/4.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-3/4.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-3/4.lqip.webp"
@@ -1486,8 +1714,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-3/5.png",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-3/5.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-3/5.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-3/5.lqip.webp"
@@ -1507,8 +1739,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-3/6.png",
-    "w": 3508
+    "src": "/images/derived/edc/pendant-3/6.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-3/6.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-3/6.lqip.webp"
@@ -1528,7 +1764,7 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-3/7.jpg",
+    "src": "/images/derived/edc/pendant-3/7.1536w.webp",
     "w": 1536
    }
   ],
@@ -1549,7 +1785,7 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-3/8.jpg",
+    "src": "/images/derived/edc/pendant-3/8.1536w.webp",
     "w": 1536
    }
   ],
@@ -1570,8 +1806,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-3/9.jpg",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-3/9.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-3/9.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-3/9.lqip.webp"
@@ -1591,8 +1831,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-3/卡片图.780.png",
-    "w": 3840
+    "src": "/images/derived/edc/pendant-3/卡片图.780.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-3/卡片图.780.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-3/卡片图.780.lqip.webp"
@@ -1608,7 +1852,7 @@
     "w": 768
    },
    {
-    "src": "/images/edc/pendant-3/meta.png",
+    "src": "/images/derived/edc/pendant-3/meta.1150w.webp",
     "w": 1150
    }
   ],
@@ -1629,8 +1873,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/toy-1/1.png",
-    "w": 3840
+    "src": "/images/derived/edc/toy-1/1.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/toy-1/1.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/toy-1/1.lqip.webp"
@@ -1650,7 +1898,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/toy-1/card.png",
+    "src": "/images/derived/edc/toy-1/card.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/toy-1/card.1920w.webp",
     "w": 1920
    }
   ],
@@ -1671,7 +1923,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/toy-2/戒指1.789.jpg",
+    "src": "/images/derived/edc/toy-2/戒指1.789.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/toy-2/戒指1.789.2560w.webp",
     "w": 2560
    }
   ],
@@ -1692,7 +1948,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/toy-2/hero-poster.jpg",
+    "src": "/images/derived/edc/toy-2/hero-poster.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/toy-2/hero-poster.2560w.webp",
     "w": 2560
    }
   ],
@@ -1713,8 +1973,12 @@
     "w": 1280
    },
    {
-    "src": "/images/furniture/furn-1/card.png",
-    "w": 3840
+    "src": "/images/derived/furniture/furn-1/card.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/furniture/furn-1/card.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/furniture/furn-1/card.lqip.webp"
@@ -1734,8 +1998,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/5-1.jpg",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/5-1.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/5-1.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/5-1.lqip.webp"
@@ -1755,8 +2023,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/5-2.jpg",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/5-2.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/5-2.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/5-2.lqip.webp"
@@ -1776,8 +2048,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/5-3.jpg",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/5-3.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/5-3.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/5-3.lqip.webp"
@@ -1797,8 +2073,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/5-4.png",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/5-4.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/5-4.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/5-4.lqip.webp"
@@ -1818,8 +2098,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/6.jpg",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/6.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/6.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/6.lqip.webp"
@@ -1839,8 +2123,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/8.png",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/8.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/8.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/8.lqip.webp"
@@ -1860,8 +2148,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/9-1.png",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/9-1.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/9-1.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/9-1.lqip.webp"
@@ -1881,8 +2173,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/9-2.png",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/9-2.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/9-2.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/9-2.lqip.webp"
@@ -1902,7 +2198,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/9-3.png",
+    "src": "/images/derived/edc/pendant-1/9-3.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/9-3.2048w.webp",
     "w": 2048
    }
   ],
@@ -1923,7 +2223,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/9-4.png",
+    "src": "/images/derived/edc/pendant-1/9-4.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/9-4.2048w.webp",
     "w": 2048
    }
   ],
@@ -1944,8 +2248,12 @@
     "w": 1280
    },
    {
-    "src": "/images/appliances/app-5/1.png",
-    "w": 3840
+    "src": "/images/derived/appliances/app-5/1.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/appliances/app-5/1.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/appliances/app-5/1.lqip.webp"
@@ -1965,8 +2273,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/14-1.png",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/14-1.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/14-1.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/14-1.lqip.webp"
@@ -1986,8 +2298,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/14-2.png",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/14-2.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/14-2.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/14-2.lqip.webp"
@@ -2007,8 +2323,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/14-3.png",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/14-3.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/14-3.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/14-3.lqip.webp"
@@ -2028,8 +2348,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/14-4.png",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/14-4.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/14-4.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/14-4.lqip.webp"
@@ -2049,8 +2373,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/15.png",
-    "w": 2752
+    "src": "/images/derived/edc/pendant-1/15.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/15.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pendant-1/15.lqip.webp"
@@ -2070,7 +2398,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pendant-1/16.png",
+    "src": "/images/derived/edc/pendant-1/16.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/16.1940w.webp",
     "w": 1940
    }
   ],
@@ -2091,7 +2423,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-1/7.png",
+    "src": "/images/derived/edc/pen-1/7.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-1/7.1951w.webp",
     "w": 1951
    }
   ],
@@ -2112,8 +2448,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/3-1.png",
-    "w": 2752
+    "src": "/images/derived/edc/pen-2/3-1.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-2/3-1.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-2/3-1.lqip.webp"
@@ -2133,8 +2473,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/3-2.png",
-    "w": 2752
+    "src": "/images/derived/edc/pen-2/3-2.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-2/3-2.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-2/3-2.lqip.webp"
@@ -2154,8 +2498,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/3-3.png",
-    "w": 2752
+    "src": "/images/derived/edc/pen-2/3-3.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-2/3-3.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-2/3-3.lqip.webp"
@@ -2175,8 +2523,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/3-4.png",
-    "w": 2752
+    "src": "/images/derived/edc/pen-2/3-4.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-2/3-4.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-2/3-4.lqip.webp"
@@ -2196,8 +2548,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/3-5.png",
-    "w": 2752
+    "src": "/images/derived/edc/pen-2/3-5.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-2/3-5.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-2/3-5.lqip.webp"
@@ -2217,8 +2573,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/3-6.png",
-    "w": 2752
+    "src": "/images/derived/edc/pen-2/3-6.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-2/3-6.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-2/3-6.lqip.webp"
@@ -2238,8 +2598,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/4.png",
-    "w": 2702
+    "src": "/images/derived/edc/pen-2/4.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-2/4.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-2/4.lqip.webp"
@@ -2259,8 +2623,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/5.png",
-    "w": 2752
+    "src": "/images/derived/edc/pen-2/5.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-2/5.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-2/5.lqip.webp"
@@ -2280,7 +2648,7 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/6.png",
+    "src": "/images/derived/edc/pen-2/6.1583w.webp",
     "w": 1583
    }
   ],
@@ -2301,7 +2669,11 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/6-0.png",
+    "src": "/images/derived/edc/pen-2/6-0.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-2/6-0.2400w.webp",
     "w": 2400
    }
   ],
@@ -2322,8 +2694,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/7.png",
-    "w": 2752
+    "src": "/images/derived/edc/pen-2/7.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-2/7.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-2/7.lqip.webp"
@@ -2343,8 +2719,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/8.png",
-    "w": 2752
+    "src": "/images/derived/edc/pen-2/8.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-2/8.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-2/8.lqip.webp"
@@ -2364,8 +2744,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/9.png",
-    "w": 2752
+    "src": "/images/derived/edc/pen-2/9.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-2/9.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-2/9.lqip.webp"
@@ -2385,7 +2769,7 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/10.png",
+    "src": "/images/derived/edc/pen-2/10.1301w.webp",
     "w": 1301
    }
   ],
@@ -2406,8 +2790,12 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-2/11.jpg",
-    "w": 2752
+    "src": "/images/derived/edc/pen-2/11.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-2/11.2560w.webp",
+    "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-2/11.lqip.webp"
@@ -2427,10 +2815,35 @@
     "w": 1280
    },
    {
-    "src": "/images/edc/pen-4/000.png",
+    "src": "/images/derived/edc/pen-4/000.1600w.webp",
+    "w": 1600
+   },
+   {
+    "src": "/images/derived/edc/pen-4/000.2560w.webp",
     "w": 2560
    }
   ],
   "lqip": "/images/derived/edc/pen-4/000.lqip.webp"
+ },
+ "images/edc/pendant-1/7.png": {
+  "candidates": [
+   {
+    "src": "/images/derived/edc/pendant-1/7.480w.webp",
+    "w": 480
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/7.768w.webp",
+    "w": 768
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/7.1280w.webp",
+    "w": 1280
+   },
+   {
+    "src": "/images/derived/edc/pendant-1/7.1600w.webp",
+    "w": 1600
+   }
+  ],
+  "lqip": null
  }
 }

@@ -39,7 +39,7 @@ function ShellScene() {
         <img
           src={SHELL_IMAGE}
           srcSet={getSrcSet(SHELL_IMAGE)}
-          sizes={SIZES.full}
+          sizes={SIZES.stack}
           alt="承托光源的外壳——氚管吊坠"
           loading="lazy"
           decoding="async"

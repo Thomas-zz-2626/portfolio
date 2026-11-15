@@ -1157,7 +1157,7 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
                             onError={markLoaded}
                             ref={loadedRef}
                             srcSet={getSrcSet(img.src)}
-                            sizes={SIZES.half}
+                            sizes={SIZES.wide}
                             {...(img.w && img.h ? { width: img.w, height: img.h } : {})}
                           />
                         </div>
@@ -1204,7 +1204,7 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
                 {/* 背景图(图 11):只图滚入触发,灰色板块背景固定静止
                     (2026-11-07 用户要求,全局规则);展开按钮不参与动效 */}
                 <div className="lightbox__process-img-wrap" data-reveal>
-                  <img src={project.processImage} alt="" className="lightbox__img" loading="lazy" decoding="async" srcSet={getSrcSet(project.processImage)} sizes={SIZES.half} />
+                  <img src={project.processImage} alt="" className="lightbox__img" loading="lazy" decoding="async" srcSet={getSrcSet(project.processImage)} sizes={SIZES.wide} />
                 </div>
               </div>
               {/* ── 展开显示完整过程(2026-11-07 用户要求,当天两改):按钮
@@ -1327,7 +1327,7 @@ function Lightbox({ project, relatedProjects, relatedCenterIdx, onNavigate, onCl
                     if (item?.src) {
                       return (
                         <div key={i} className="lightbox__showcase-img">
-                          <img src={item.src} alt="" className="lightbox__img lqip-img" style={lqStyle(item.src)} loading="lazy" decoding="async" onLoad={markLoaded} onError={markLoaded} ref={loadedRef} srcSet={getSrcSet(item.src)} sizes={SIZES.half} />
+                          <img src={item.src} alt="" className="lightbox__img lqip-img" style={lqStyle(item.src)} loading="lazy" decoding="async" onLoad={markLoaded} onError={markLoaded} ref={loadedRef} srcSet={getSrcSet(item.src)} sizes={SIZES.wide} />
                         </div>
                       )
                     }

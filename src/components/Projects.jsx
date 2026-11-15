@@ -186,10 +186,10 @@ const CATEGORIES = [
               kicker: '滚动阅读',
               text: '在 铸造 与 机床 加工 技术 诞生 之前， 人类 想要 将 一整块 金属 塑造成 可用的 器物， 几乎 只能 依靠 反复 锤打 的 方式。 将 熔炼 得到 的 铜锭、 金坯、 银片 置于 砧上， 工匠 手持 锤子， 一下 接 一下 敲打 延展， 让 金属 慢慢 延展、 弯曲、 起形， 最终 敲打出 碗、 盘、 壶、 各类 装饰 饰片。 这项 依靠 外力 锻打 延展 金属 的 技法， 便是 古老 而 质朴 的 金属 成型 工艺 —— 锤揲。\n\n而 我们 所见 的 锤纹， 正是 这套 手工 成型 过程 里 无法 彻底 抹去 的 天然 副产品。 工匠 每 一次 落锤， 都会 在 柔韧 的 金属 表层 留下 一处 深浅 不一 的 凹坑。 器物 轮廓 逐渐 成型 的 同时， 层层 叠叠 的 锤痕 也 随之 铺满 表面。 这些 错落 的 印记 不是 刻意 附加 的 装饰， 是 锤揲 这个 工艺 动作 最 直观 的 留存， 是 锻造 的 全过程 刻印 在 器物 之上 的 指纹， 把 工匠 劳作 的 节奏、 力道 与 时间， 永久 封存 在 金属 表面。',
               images: [
-                { wordIndex: 0, snap: 0, src: 'https://images.unsplash.com/photo-1519219788971-8d9797e0928e?q=80&w=1200&auto=format&fit=crop', alt: '铸造之前的金属——锤打的起点' },
-                { wordIndex: 71, snap: 0.357, src: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=1200&auto=format&fit=crop', alt: '锤揲工艺——落锤与砧' },
-                { wordIndex: 114, snap: 0.574, src: 'https://images.unsplash.com/photo-1524429656589-6633a470097c?q=80&w=1200&auto=format&fit=crop', alt: '层层锤痕——铺满表面的印记' },
-                { wordIndex: 155, snap: 0.78, src: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1200&auto=format&fit=crop', alt: '锤纹封存——器物上的指纹' },
+                { wordIndex: 0, snap: 0, src: OSS + '/images/edc/pendant-3/swr-1.jpg', alt: '铸造之前的金属——锤打的起点' },
+                { wordIndex: 71, snap: 0.357, src: OSS + '/images/edc/pendant-3/swr-2.jpg', alt: '锤揲工艺——落锤与砧' },
+                { wordIndex: 114, snap: 0.574, src: OSS + '/images/edc/pendant-3/swr-3.jpg', alt: '层层锤痕——铺满表面的印记' },
+                { wordIndex: 155, snap: 0.78, src: OSS + '/images/edc/pendant-3/swr-4.jpg', alt: '锤纹封存——器物上的指纹' },
               ],
               /* 光视频板块(滚动文字板块之后,2026-10-22):黑底,标题+循环视频
                  铺满版心宽度+居中小字(三段) */

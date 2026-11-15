@@ -44,7 +44,7 @@ export default function EngineeringDerivation() {
                   className={f.cls}
                   src={f.src}
                   srcSet={getSrcSet(f.src)}
-                  sizes={SIZES.board}
+                  sizes={SIZES.third}
                   alt={f.alt}
                   loading="lazy"
                   decoding="async"
